@@ -113,6 +113,8 @@ public class MemoryApi implements IApi {
 	@Override
 	public void desactivarUsuario(String usuario) {
 		// TODO: desactivar usuario
+		Usuario user = this.buscarUsuario(usuario);
+		user.desactivar();
 	}
 
 	private Rol buscarRol(Integer codigo) {

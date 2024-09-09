@@ -26,7 +26,7 @@ public class VentanaPrincipal extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					IApi api = new MemoryApi();
+					IApi api = new MemoryApi(); //polimorfismo
 					VentanaPrincipal frame = new VentanaPrincipal(api);
 					frame.setLocationRelativeTo(null);
 					frame.setVisible(true);
@@ -84,6 +84,16 @@ public class VentanaPrincipal extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
-	}
+		
+		salirMenuItem.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.exit(0);
+			}
+			
+		});
+				}
 
 }
