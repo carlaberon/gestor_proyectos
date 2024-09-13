@@ -30,15 +30,18 @@ public class InvitarMiembro extends JFrame {
 	private JComboBox rolesComboBox;
 
 	/*
-	private List<ProyectoDTO> proyectos = new ArrayList<>(); //crear el proyectoDTO, crear el proyecto
+	private List<RolDTO> roles = new ArrayList<>(); //crear el RolDTO, crear entidad Rol
+
+	private List<UsuarioDTO> usuarios = new ArrayList<>(); //crear el UsuarioDTO, crear entidad usuario
 	*/
 	/**
 	 * Create the frame.
 	 */
 	public InvitarMiembro(/* IApi api */) {
 		/*
-		// Obtengo los proyecto 
-		this.proyectos = api.obtenerProyectos(); 
+		// Obtengo los usuarios
+		this.usuarios = api.obtenerUsuarios(); 
+		this.roles = api.obtenerRoles();
 	*/
 		setTitle("");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -67,20 +70,23 @@ public class InvitarMiembro extends JFrame {
 		aceptarButton.setForeground(new Color(229, 212, 237));
 		aceptarButton.setBackground(new Color(89, 65, 169));
 		aceptarButton.setFont(new Font("Segoe UI", Font.BOLD, 14));
-		/*
+	
 		aceptarButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				 Registrar un proyecto
-				ProyectoDTO proyecto = proyectos.get(proyectoComboBox.getSelectedIndex()); 
+			/*
+				 Agregar un miembro 
+				RolDTO rol = roles.get(rolComboBox.getSelectedIndex()); 
+				UsuarioDTO usuario = usuarios.get(usuarioComboBox.getSelectedIndex());
 			
-					api.registrarProyecto(nombreProyectoTextField .getText(), proyecto.getCodigo());
-					JOptionPane.showMessageDialog(null, "Proyecto registrado con exito!", "Info", JOptionPane.INFORMATION_MESSAGE);
+					api.agregarMiembroProyecto(nombreProyectoTextField .getText(), proyecto.getCodigo(), usuario, rol);
+			*/
+					JOptionPane.showMessageDialog(null, "Miembro agregado con exito!", "Info", JOptionPane.INFORMATION_MESSAGE);
 					setVisible(false);
 					dispose();
 				
 			}
 		}); 
-		*/
+
 		aceptarButton.setBounds(514, 279, 147, 27);
 		contentPane.add(aceptarButton);
 
