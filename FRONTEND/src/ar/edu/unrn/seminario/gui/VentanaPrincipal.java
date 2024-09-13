@@ -73,6 +73,7 @@ public class VentanaPrincipal extends JFrame {
 			}
 			
 		});
+		//cambio
 		usuarioMenu.add(listadoUsuarioMenuItem);
 
 		JMenu configuracionMenu = new JMenu("Configuración");
