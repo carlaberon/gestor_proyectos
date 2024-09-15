@@ -111,6 +111,7 @@ public class Inicio extends JFrame {
         
                 // Botones dentro del panel
                 JButton btnUno = new JButton("Botón 1");
+                btnUno.setFont(new Font("Segoe UI", Font.PLAIN, 20));
                 btnUno.setBackground(new Color(89, 65, 169));
                 btnUno.setAlignmentY(Component.BOTTOM_ALIGNMENT);
                 
