@@ -49,7 +49,6 @@ public class VentanaPrincipal extends JFrame {
 	 * Create the frame.
 	 */
 	public VentanaPrincipal(IApi api) {
-		getContentPane().setLayout(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 650);
 		
@@ -111,6 +110,15 @@ public class VentanaPrincipal extends JFrame {
 		btnRegistrarUsuario.setBackground(new Color(229, 212, 237));
 		btnRegistrarUsuario.setFont(new Font("Segoe UI", Font.BOLD, 14));
 		btnRegistrarUsuario.setBounds(512, 449, 147, 27);
+		btnRegistrarUsuario.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				CrearCuenta crearCuenta = new CrearCuenta(api);
+				crearCuenta.setLocationRelativeTo(null);
+				crearCuenta.setVisible(true);
+			}
+		});
 		contentPane.add(btnRegistrarUsuario);
 		
 		JLabel lblNewLabel = new JLabel("LABPROJECT\r\n");
@@ -161,5 +169,5 @@ public class VentanaPrincipal extends JFrame {
 			}
 			
 		});
-				}
+	}
 }
