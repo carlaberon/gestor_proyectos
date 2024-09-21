@@ -124,7 +124,7 @@ public class CrearProyecto extends JFrame {
 		JLabel lblNewLabel = new JLabel("Nuevo Proyecto");
 		lblNewLabel.setForeground(new Color(29, 17, 40));
 		lblNewLabel.setFont(new Font("Segoe UI", Font.PLAIN, 35));
-		lblNewLabel.setBounds(35, 47, 291, 73);
+		lblNewLabel.setBounds(39, 49, 291, 73);
 		contentPane.add(lblNewLabel);
 		
 		JLabel lblConfiguracinAvanzada = new JLabel("Configuración avanzada:");
