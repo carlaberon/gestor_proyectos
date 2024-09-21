@@ -35,7 +35,9 @@ public class Inicio {
         accountMenu.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 
         JMenuItem logoutItem = new JMenuItem("Cerrar sesión");
+        JMenuItem confItem = new JMenuItem("Configurar Cuenta");
         accountMenu.add(logoutItem);
+        accountMenu.add(confItem);
         menuBar.add(accountMenu);
 
         frame.setJMenuBar(menuBar);
