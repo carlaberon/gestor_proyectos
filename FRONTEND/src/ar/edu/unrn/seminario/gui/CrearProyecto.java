@@ -44,6 +44,7 @@ public class CrearProyecto extends JFrame {
 		setTitle("");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 650);
+		setSize(900,600);
 		getContentPane().setLayout(null);
 		
 		contentPane = new JPanel();

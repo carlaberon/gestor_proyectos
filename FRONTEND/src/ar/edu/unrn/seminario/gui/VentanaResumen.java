@@ -10,7 +10,7 @@ public class VentanaResumen {
 
     public VentanaResumen() {
         frame = new JFrame("LabProject - Resumen");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE); //OCULTA LA VENTANA PERO NO TERMINA EL PROGRAMA
         frame.setSize(900, 600);
         frame.setLayout(new BorderLayout());
 
@@ -60,14 +60,19 @@ public class VentanaResumen {
         accountMenu.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 
         JMenuItem logoutItem = new JMenuItem("Cerrar sesión");
+        JMenuItem confItem = new JMenuItem("Configurar cuenta");
         accountMenu.add(logoutItem);
+        accountMenu.add(confItem);
+        /*
         rightPanel.add(new JLabel(new ImageIcon("notification-icon.png"))); // Placeholder para ícono de notificación
+        */
         rightPanel.add(accountMenu);
+       
         menuBar.add(rightPanel, BorderLayout.EAST);
 
         frame.setJMenuBar(menuBar);
 
-        // Panel lateral (Menú)
+        // Panel lateral (Menú)-----------------------------------------------------------------------------
         JPanel menuPanel = new JPanel();
         menuPanel.setLayout(new GridLayout(7, 1, 10, 10)); // Espacio entre botones
         menuPanel.setPreferredSize(new Dimension(200, 0));
