@@ -3,16 +3,16 @@ package ar.edu.unrn.seminario.gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.FlowLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.management.Descriptor;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -20,28 +20,15 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.JProgressBar;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-public class VentanaProgreso extends JFrame {
+public class Tareas extends JFrame {
 
-    private static final long serialVersionUID = 1L;
     private JPanel contentPane;
-    JProgressBar progressBar;
-    /*
-    private List<TareaDTO> tareas = new ArrayList<>(); //
-	
-	String 
 
-	*/
-    
-    public VentanaProgreso() {
-        /*
-         
-    	this.tareas = api.obtenerTareas();
-    	*/
-       
+    public Tareas() {
+
         setTitle("");
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         setBounds(100, 100, 900, 600);
@@ -84,7 +71,6 @@ public class VentanaProgreso extends JFrame {
 
         JMenuItem logoutItem = new JMenuItem("Cerrar sesión");
         JMenuItem confItem = new JMenuItem("Configurar cuenta");
-       
         accountMenu.add(confItem);
         accountMenu.add(logoutItem);
         
@@ -99,15 +85,16 @@ public class VentanaProgreso extends JFrame {
         });
 
         menuBar.add(accountMenu);
-
+        
         this.setJMenuBar(menuBar);
-        // Panel lateral (Menú)
+        
+     // Panel lateral (Menú)-----------------------------------------------------------------------------
         JPanel menuPanel = new JPanel();
         menuPanel.setLayout(new GridLayout(7, 1, 10, 10)); // Espacio entre botones
         menuPanel.setPreferredSize(new Dimension(200, 0));
         menuPanel.setBackground(new Color(65, 62, 77));
 
-        String[] menuItems = {"Progreso", "Volver"};
+        String[] menuItems = {"Tareas", "Volver"};
         for (String item : menuItems) {
             JButton menuButton = new JButton(item);
             menuButton.setForeground(Color.WHITE);
@@ -115,31 +102,67 @@ public class VentanaProgreso extends JFrame {
             menuButton.setFont(new Font("Segoe UI", Font.PLAIN, 14));
             menuButton.setBorderPainted(false);
             menuButton.setFocusPainted(false);
-            menuButton.setHorizontalAlignment(SwingConstants.CENTER);
-            menuButton.setMargin(new Insets(10, 10, 10, 10)); 
+            menuButton.setHorizontalAlignment(SwingConstants.LEFT); // Alineación izquierda
+            menuButton.setMargin(new Insets(10, 10, 10, 10)); // Margen interno
             menuPanel.add(menuButton);
         }
-
+    
         contentPane.add(menuPanel, BorderLayout.WEST);
         
-        // Panel central para la barra de progreso
         JPanel centerPanel1 = new JPanel();
-        centerPanel1.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10)); // Cambio a FlowLayout para ajustar tamaño
+        centerPanel1.setLayout(new GridLayout(1, 1, 10, 10));
         centerPanel1.setBackground(new Color(45, 44, 50));
-        centerPanel1.setBorder(new EmptyBorder(20, 20, 20, 20)); // Márgenes
-        
-        // Barra de progreso con tamaño ajustable
-        progressBar = new JProgressBar(0, 100);
-        progressBar.setValue(0);
-        progressBar.setStringPainted(true);
-        progressBar.setPreferredSize(new Dimension(400, 30)); // Cambiar tamaño de la barra de progreso
-        centerPanel1.add(progressBar);
-        
+        centerPanel1.setBorder(new EmptyBorder(20, 20, 20, 20)); // Margen alrededor del contenido
         contentPane.add(centerPanel1, BorderLayout.CENTER);
+    
+        JPanel descPanel = createPanel("","");
+        descPanel.setLayout(new BorderLayout());
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        buttonPanel.setOpaque(false);
+        
+        JButton btnTarea = createButton("Tarea +", new Color(138, 102, 204));
+        buttonPanel.add(btnTarea);
+        
+        descPanel.add(buttonPanel, BorderLayout.NORTH);
+        centerPanel1.add(descPanel);
+    }
+    
+ // Método auxiliar para crear paneles con título y diseño consistente
+    private JPanel createPanel(String title, String subtitle) {
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setBackground(new Color(53, 52, 60));
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Margen interno
+
+        JLabel label = new JLabel(title);
+        label.setForeground(Color.WHITE);
+        label.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        panel.add(label);
+
+        if (subtitle != null) {
+            JLabel subLabel = new JLabel(subtitle);
+            subLabel.setForeground(Color.GRAY);
+            subLabel.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+            panel.add(subLabel);
+        }
+
+        return panel;
+    }
+    
+    // Método para crear botones con estilo
+    private JButton createButton(String text, Color backgroundColor) {
+        JButton button = new JButton(text);
+        button.setForeground(Color.WHITE);
+        button.setBackground(backgroundColor);
+        button.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        button.setBorderPainted(false);
+        button.setFocusPainted(false);
+        button.setPreferredSize(new Dimension(120, 40));
+        return button;
     }
 
     public static void main(String[] args) {
-        VentanaProgreso frame = new VentanaProgreso();
-        frame.setVisible(true);
+        Tareas ventanaTareas = new Tareas();
+        ventanaTareas.setVisible(true);
     }
 }

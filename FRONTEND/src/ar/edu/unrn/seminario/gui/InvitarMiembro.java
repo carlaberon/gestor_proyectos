@@ -30,9 +30,9 @@ public class InvitarMiembro extends JFrame {
 	private JComboBox rolesComboBox;
 
 	/*
-	private List<RolDTO> roles = new ArrayList<>(); //crear el RolDTO, crear entidad Rol
+	private List<RolDTO> roles = new ArrayList<>(); //crear el RolDTO, crear clase Rol
 
-	private List<UsuarioDTO> usuarios = new ArrayList<>(); //crear el UsuarioDTO, crear entidad usuario
+	private List<UsuarioDTO> usuarios = new ArrayList<>(); //crear el UsuarioDTO, crear clase usuario
 	*/
 	/**
 	 * Create the frame.

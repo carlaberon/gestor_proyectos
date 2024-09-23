@@ -16,12 +16,12 @@ public class Inicio {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 600);
         
-        // Barra de navegación superior
+      
         JMenuBar menuBar = new JMenuBar();
-        menuBar.setBackground(new Color(138, 102, 204)); // Color morado
+        menuBar.setBackground(new Color(138, 102, 204));
         menuBar.setPreferredSize(new Dimension(100, 50));
 
-        // Nombre del proyecto en el centro de la barra
+     
         JLabel projectName = new JLabel("LabProject");
         projectName.setForeground(Color.WHITE);
         projectName.setFont(new Font("Segoe UI", Font.PLAIN, 18));
@@ -29,16 +29,27 @@ public class Inicio {
         menuBar.add(projectName);
         menuBar.add(Box.createHorizontalGlue());
 
-        // Botón "nombreCuenta" a la derecha de la barra
+        
         JMenu accountMenu = new JMenu("nombreCuenta");
         accountMenu.setForeground(Color.WHITE);
         accountMenu.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 
         JMenuItem logoutItem = new JMenuItem("Cerrar sesión");
         JMenuItem confItem = new JMenuItem("Configurar Cuenta");
-        accountMenu.add(logoutItem);
+        
         accountMenu.add(confItem);
+        accountMenu.add(logoutItem);
         menuBar.add(accountMenu);
+        
+        logoutItem.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.exit(0);
+			}
+        	
+        });
 
         frame.setJMenuBar(menuBar);
         

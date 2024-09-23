@@ -3,29 +3,32 @@ package ar.edu.unrn.seminario.gui;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class VentanaResumen {
+public class VentanaResumen extends JFrame {
 
-    private JFrame frame;
+    private JPanel contentPane;
 
-    public VentanaResumen() {
-        frame = new JFrame("LabProject - Resumen");
-        frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE); //OCULTA LA VENTANA PERO NO TERMINA EL PROGRAMA
-        frame.setSize(900, 600);
-        frame.setLayout(new BorderLayout());
+    public VentanaResumen(/* IApi api */) {
 
-        // Barra de navegación superior (JMenuBar)
+        setTitle("");
+        setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        setBounds(100, 100, 900, 600);
+
+        
+        contentPane = new JPanel();
+        contentPane.setLayout(new BorderLayout());
+        setContentPane(contentPane);
+
         JMenuBar menuBar = new JMenuBar();
-        menuBar.setBackground(new Color(138, 102, 204)); // Color morado
+        menuBar.setBackground(new Color(138, 102, 204));
         menuBar.setPreferredSize(new Dimension(100, 50));
-        menuBar.setLayout(new BorderLayout());
 
-        // Panel izquierdo de la barra superior (nombre del proyecto como menú desplegable)
         JMenu menuProyecto = new JMenu("nombreProyecto");
         menuProyecto.setForeground(Color.WHITE);
         menuProyecto.setFont(new Font("Segoe UI", Font.PLAIN, 18));
 
-        // Items del menú desplegable (todavía no definidos)
         JMenuItem item1 = new JMenuItem("Opción 1");
         JMenuItem item2 = new JMenuItem("Opción 2");
         JMenuItem item3 = new JMenuItem("Opción 3");
@@ -33,27 +36,16 @@ public class VentanaResumen {
         menuProyecto.add(item2);
         menuProyecto.add(item3);
 
-        JMenuBar leftMenuBar = new JMenuBar();
-        leftMenuBar.setOpaque(false); // Fondo transparente
-        leftMenuBar.add(new JLabel(new ImageIcon("menu-icon.png"))); // Ícono del menú (opcional)
-        leftMenuBar.add(menuProyecto); // Agregar el menú "nombreProyecto"
-        leftMenuBar.setBorder(BorderFactory.createEmptyBorder());
-        leftMenuBar.setBackground(new Color(138, 102, 204)); // Fondo morado
+        menuBar.add(menuProyecto);
 
-        menuBar.add(leftMenuBar, BorderLayout.WEST);
-
-        // Panel central de la barra (nombre de la aplicación)
         JLabel appName = new JLabel("LabProject");
         appName.setForeground(Color.WHITE);
         appName.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+
         JPanel centerPanel = new JPanel();
         centerPanel.setOpaque(false);
         centerPanel.add(appName);
-        menuBar.add(centerPanel, BorderLayout.CENTER);
-
-        // Botón "nombreCuenta" a la derecha de la barra
-        JPanel rightPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        rightPanel.setOpaque(false);
+        menuBar.add(centerPanel);
 
         JMenu accountMenu = new JMenu("nombreCuenta");
         accountMenu.setForeground(Color.WHITE);
@@ -61,16 +53,25 @@ public class VentanaResumen {
 
         JMenuItem logoutItem = new JMenuItem("Cerrar sesión");
         JMenuItem confItem = new JMenuItem("Configurar cuenta");
-        accountMenu.add(logoutItem);
+        
         accountMenu.add(confItem);
-        /*
-        rightPanel.add(new JLabel(new ImageIcon("notification-icon.png"))); // Placeholder para ícono de notificación
-        */
-        rightPanel.add(accountMenu);
-       
-        menuBar.add(rightPanel, BorderLayout.EAST);
+        accountMenu.add(logoutItem);
+        
+        
+        logoutItem.addActionListener(new ActionListener() {
 
-        frame.setJMenuBar(menuBar);
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.exit(0);
+			}
+        	
+        });
+
+        menuBar.add(accountMenu);
+
+       
+        this.setJMenuBar(menuBar);
 
         // Panel lateral (Menú)-----------------------------------------------------------------------------
         JPanel menuPanel = new JPanel();
@@ -91,14 +92,15 @@ public class VentanaResumen {
             menuPanel.add(menuButton);
         }
 
-        frame.add(menuPanel, BorderLayout.WEST);
+        // Agregar el panel lateral al contentPane
+        contentPane.add(menuPanel, BorderLayout.WEST);
 
         // Panel principal (Centro)
         JPanel centerPanel1 = new JPanel();
         centerPanel1.setLayout(new GridLayout(3, 2, 10, 10));
         centerPanel1.setBackground(new Color(45, 44, 50));
         centerPanel1.setBorder(new EmptyBorder(20, 20, 20, 20)); // Margen alrededor del contenido
-        
+
         // Descripción del proyecto
         JPanel descPanel = createPanel("Descripción del proyecto", "Estado no definido");
         centerPanel1.add(descPanel);
@@ -131,9 +133,8 @@ public class VentanaResumen {
         tareasPanel.add(btnVerTareas);
         centerPanel1.add(tareasPanel);
 
-        frame.add(centerPanel1, BorderLayout.CENTER);
-
-        frame.setVisible(true);
+        // Agregar el panel principal al contentPane
+        contentPane.add(centerPanel1, BorderLayout.CENTER);
     }
 
     // Método auxiliar para crear paneles con título y diseño consistente
@@ -171,6 +172,7 @@ public class VentanaResumen {
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new VentanaResumen());
+        VentanaResumen resumen = new VentanaResumen();
+        resumen.setVisible(true);
     }
 }
