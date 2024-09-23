@@ -85,7 +85,7 @@ public class Calendario extends JFrame {
         });
 
         menuBar.add(accountMenu);
-        
+        //comentario
         this.setJMenuBar(menuBar);
         
      // Panel lateral (Menú)-----------------------------------------------------------------------------
