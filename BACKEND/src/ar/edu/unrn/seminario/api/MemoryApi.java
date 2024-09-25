@@ -42,15 +42,23 @@ public class MemoryApi implements IApi {
 	public List<UsuarioDTO> obtenerUsuarios() {
 		List<UsuarioDTO> dtos = new ArrayList<>();
 		for (Usuario u : this.usuarios) {
-			dtos.add(new UsuarioDTO(u.getUsuario(), u.getContrasena(), u.getNombre(), u.getEmail(),
-					u.getRol().getNombre(), u.isActivo(), u.obtenerEstado()));
+			dtos.add(new UsuarioDTO(u.getUsuario(),u.getContrasena(), u.getNombre(), u.getEmail(), u.getRol(), u.isActivo()));
 		}
 		return dtos;
 	}
 
 	@Override
 	public UsuarioDTO obtenerUsuario(String username) {
-		// TODO Auto-generated method stub
+		UsuarioDTO user;
+		for(Usuario u: this.usuarios) {
+			if (u.getNombre() == username) {
+				
+				user = new UsuarioDTO(u.getUsuario(),u.getContrasena(), u.getNombre(), u.getEmail(), u.getRol(), u.isActivo());
+				
+				return user;
+			}
+		}
+		
 		return null;
 	}
 
