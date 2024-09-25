@@ -10,8 +10,8 @@ import ar.edu.unrn.seminario.modelo.Usuario;
 
 public class MemoryApi implements IApi {
 
-	private ArrayList<Rol> roles = new ArrayList();
-	private ArrayList<Usuario> usuarios = new ArrayList<>();
+	private List<Rol> roles = new ArrayList();
+	private List<Usuario> usuarios = new ArrayList<>();
 
 	public MemoryApi() {
 
