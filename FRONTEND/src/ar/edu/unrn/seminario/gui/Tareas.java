@@ -23,11 +23,14 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import ar.edu.unrn.seminario.api.IApi;
+import ar.edu.unrn.seminario.api.MemoryApi;
+
 public class Tareas extends JFrame {
 
     private JPanel contentPane;
 
-    public Tareas() {
+    public Tareas(IApi api) {
 
         setTitle("");
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
@@ -121,8 +124,16 @@ public class Tareas extends JFrame {
         buttonPanel.setOpaque(false);
         
         JButton btnTarea = createButton("Tarea +", new Color(138, 102, 204));
-        buttonPanel.add(btnTarea);
+        btnTarea.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent arg0) {
+				CrearTarea crearTarea = new CrearTarea(api);
+				crearTarea.setLocationRelativeTo(null);
+				crearTarea.setVisible(true);
+			}}); 
         
+		
+		buttonPanel.add(btnTarea);
         descPanel.add(buttonPanel, BorderLayout.NORTH);
         centerPanel1.add(descPanel);
     }
@@ -162,7 +173,9 @@ public class Tareas extends JFrame {
     }
 
     public static void main(String[] args) {
-        Tareas ventanaTareas = new Tareas();
+    	//prueba
+    	IApi api = new MemoryApi(); //polimorfismo
+        Tareas ventanaTareas = new Tareas(api);
         ventanaTareas.setVisible(true);
     }
 }

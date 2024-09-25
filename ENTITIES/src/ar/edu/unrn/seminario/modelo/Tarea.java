@@ -13,10 +13,16 @@ public class Tarea {
     private LocalDateTime inicio; 
     private LocalDateTime fin;
 
-    public Tarea(String nombretarea, boolean estado, Usuario usuario) {
+    public Tarea(String nombretarea, Proyecto proyecto, String prioridad, Usuario usuario, boolean estado, String descripcion, LocalDateTime inicio, LocalDateTime fin)
+    {
         this.nombre = nombretarea;
-        this.estado = estado;
+        this.proyecto = proyecto;
+        this.prioridad = prioridad;
         this.usuario = usuario;
+        this.estado = estado;
+        this.descripcion = descripcion; 
+        this.inicio = inicio;
+        this.fin = fin; 
     }
 
     // Getters

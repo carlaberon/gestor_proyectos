@@ -1,17 +1,24 @@
 package ar.edu.unrn.seminario.api;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import ar.edu.unrn.seminario.dto.RolDTO;
 import ar.edu.unrn.seminario.dto.UsuarioDTO;
+import ar.edu.unrn.seminario.modelo.Proyecto;
 import ar.edu.unrn.seminario.modelo.Rol;
+import ar.edu.unrn.seminario.modelo.Tarea;
 import ar.edu.unrn.seminario.modelo.Usuario;
 
 public class MemoryApi implements IApi {
 
-	private List<Rol> roles = new ArrayList();
-	private List<Usuario> usuarios = new ArrayList<>();
+	private Set<Rol> roles = new HashSet();
+	private Set<Usuario> usuarios = new HashSet();
+	private List<Tarea> tareas = new ArrayList();
+	
 
 	public MemoryApi() {
 
@@ -37,6 +44,8 @@ public class MemoryApi implements IApi {
 		this.usuarios.add(usuario);
 
 	}
+	
+
 
 	@Override
 	public List<UsuarioDTO> obtenerUsuarios() {
@@ -139,5 +148,13 @@ public class MemoryApi implements IApi {
 				return user;
 		}
 		return null;
+	}
+
+	@Override
+	public void registrarTarea(String name, Proyecto project, String priority, Usuario user, boolean estado,
+			String descripcion, LocalDateTime inicio, LocalDateTime fin) {
+	
+		Tarea tarea = new Tarea(name, project, priority, user, estado, descripcion, inicio, fin );
+		this.tareas.add(tarea);
 	}
 }
