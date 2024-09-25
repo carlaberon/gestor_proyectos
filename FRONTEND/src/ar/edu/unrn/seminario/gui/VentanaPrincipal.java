@@ -49,7 +49,6 @@ public class VentanaPrincipal extends JFrame {
 	 * Create the frame.
 	 */
 	public VentanaPrincipal(IApi api) {
-		getContentPane().setLayout(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 650);
 		
@@ -81,6 +80,7 @@ public class VentanaPrincipal extends JFrame {
 			}
 			
 		});
+		//cambio
 		usuarioMenu.add(listadoUsuarioMenuItem);
 
 		JMenu configuracionMenu = new JMenu("Configuración");
@@ -96,7 +96,7 @@ public class VentanaPrincipal extends JFrame {
 		
 		JButton btnNewButton = new JButton("Iniciar sesion");
 		btnNewButton.setForeground(new Color(255, 255, 255));
-		btnNewButton.setBackground(new Color(89, 65, 169));
+		btnNewButton.setBackground(new Color(138, 102, 204));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
@@ -107,9 +107,18 @@ public class VentanaPrincipal extends JFrame {
 		
 		JButton btnRegistrarUsuario = new JButton("Crear cuenta");
 		btnRegistrarUsuario.setForeground(new Color(29, 17, 40));
-		btnRegistrarUsuario.setBackground(new Color(229, 212, 237));
+		btnRegistrarUsuario.setBackground(new Color(83, 82, 90));
 		btnRegistrarUsuario.setFont(new Font("Segoe UI", Font.BOLD, 14));
 		btnRegistrarUsuario.setBounds(512, 449, 147, 27);
+		btnRegistrarUsuario.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				CrearCuenta crearCuenta = new CrearCuenta(api);
+				crearCuenta.setLocationRelativeTo(null);
+				crearCuenta.setVisible(true);
+			}
+		});
 		contentPane.add(btnRegistrarUsuario);
 		
 		JLabel lblNewLabel = new JLabel("LABPROJECT\r\n");
@@ -119,7 +128,7 @@ public class VentanaPrincipal extends JFrame {
 		lblNewLabel.setBounds(26, 212, 206, 39);
 		contentPane.add(lblNewLabel);
 		
-		JLabel lblTrabajarDeManera = new JLabel("y trabajar en equipo");
+		JLabel lblTrabajarDeManera = new JLabel("y a trabajar en equipo");
 		lblTrabajarDeManera.setForeground(new Color(255, 255, 255));
 		lblTrabajarDeManera.setFont(new Font("Segoe UI", Font.PLAIN, 25));
 		lblTrabajarDeManera.setBounds(26, 336, 369, 39);
@@ -160,5 +169,5 @@ public class VentanaPrincipal extends JFrame {
 			}
 			
 		});
-				}
+	}
 }

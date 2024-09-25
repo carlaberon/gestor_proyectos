@@ -17,7 +17,7 @@ import javax.swing.border.EmptyBorder;
 import ar.edu.unrn.seminario.api.IApi;
 import ar.edu.unrn.seminario.dto.RolDTO;
 
-public class AltaUsuario extends JFrame {
+public class CrearTarea extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField usuarioTextField;
@@ -31,13 +31,13 @@ public class AltaUsuario extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public AltaUsuario(IApi api) {
+	public CrearTarea(IApi api) {
 
 		// Obtengo los roles
 		this.roles = api.obtenerRoles();
 
 		setTitle("Alta Usuario");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 
 		contentPane = new JPanel();

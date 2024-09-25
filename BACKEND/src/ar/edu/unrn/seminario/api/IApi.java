@@ -1,9 +1,12 @@
 package ar.edu.unrn.seminario.api;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import ar.edu.unrn.seminario.dto.RolDTO;
 import ar.edu.unrn.seminario.dto.UsuarioDTO;
+import ar.edu.unrn.seminario.modelo.Proyecto;
+import ar.edu.unrn.seminario.modelo.Usuario;
 
 public interface IApi {
 
@@ -30,4 +33,6 @@ public interface IApi {
 	void activarUsuario(String username); // recuperar el objeto Usuario, implementar el comportamiento de estado.
 
 	void desactivarUsuario(String username); // recuperar el objeto Usuario, implementar el comportamiento de estado.
+	
+	void registrarTarea(String name, Proyecto project, String priority, Usuario user, boolean estado, String descripcion, LocalDateTime inicio, LocalDateTime fin);
 }

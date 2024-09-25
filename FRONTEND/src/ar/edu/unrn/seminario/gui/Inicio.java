@@ -1,126 +1,134 @@
 package ar.edu.unrn.seminario.gui;
 
-import java.awt.EventQueue;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import javax.swing.BoxLayout;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JButton;
-import javax.swing.JToolBar;
-import javax.swing.JLabel;
-import java.awt.Component;
-import java.awt.Font;
-import java.awt.SystemColor;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class Inicio extends JFrame {
+public class Inicio {
+	
+	//Revisar//
+    
+    private JFrame frame;
 
-    private static final long serialVersionUID = 1L;
-    private JPanel contentPane;
+    public Inicio() {
+        frame = new JFrame("LabProject");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(800, 600);
+        
+      
+        JMenuBar menuBar = new JMenuBar();
+        menuBar.setBackground(new Color(138, 102, 204));
+        menuBar.setPreferredSize(new Dimension(100, 50));
 
-    /**
-     * Launch the application.
-     */
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    Inicio frame = new Inicio();
-                    frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
+     
+        JLabel projectName = new JLabel("LabProject");
+        projectName.setForeground(Color.WHITE);
+        projectName.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+        menuBar.add(Box.createHorizontalGlue());
+        menuBar.add(projectName);
+        menuBar.add(Box.createHorizontalGlue());
+
+        
+        JMenu accountMenu = new JMenu("nombreCuenta");
+        accountMenu.setForeground(Color.WHITE);
+        accountMenu.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+
+        JMenuItem logoutItem = new JMenuItem("Cerrar sesión");
+        JMenuItem confItem = new JMenuItem("Configurar Cuenta");
+        
+        accountMenu.add(confItem);
+        accountMenu.add(logoutItem);
+        menuBar.add(accountMenu);
+        
+        logoutItem.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.exit(0);
+			}
+        	
         });
+
+        frame.setJMenuBar(menuBar);
+        
+        // Panel principal con BorderLayout
+        JPanel mainPanel = new JPanel(new BorderLayout());
+        mainPanel.setBackground(Color.DARK_GRAY);
+        
+
+        // Panel lateral (Menú)
+        JPanel menuPanel = new JPanel();
+        menuPanel.setLayout(new GridLayout(7, 1, 10, 10)); // Espacio entre botones
+        menuPanel.setPreferredSize(new Dimension(200, 0));
+        menuPanel.setBackground(new Color(65, 62, 77));
+
+        String[] menuItems = {"Proyectos", "Actividad", "Calendario"};
+        for (String item : menuItems) {
+            JButton menuButton = new JButton(item + " →");
+            menuButton.setForeground(Color.WHITE);
+            menuButton.setBackground(new Color(83, 82, 90));
+            menuButton.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+            menuButton.setBorderPainted(false);
+            menuButton.setFocusPainted(false);
+            menuButton.setHorizontalAlignment(SwingConstants.LEFT); // Alineación izquierda
+            menuButton.setMargin(new Insets(10, 10, 10, 10)); // Margen interno
+            menuPanel.add(menuButton);
+        }
+        frame.add(menuPanel, BorderLayout.WEST);
+        
+        
+        // Panel central (contenido principal)
+        JPanel contentPanel = new JPanel();
+        contentPanel.setBackground(new Color(45, 45, 45));
+        JLabel welcomeLabel = new JLabel("¡Bienvenido a LabProject!");
+        welcomeLabel.setForeground(Color.WHITE);
+        welcomeLabel.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+        contentPanel.add(welcomeLabel);
+        
+        // Panel derecho (Proyectos)
+        JPanel rightPanel = new JPanel(new BorderLayout());
+        rightPanel.setBackground(new Color(30, 30, 30));
+
+        JLabel proyectosLabel = new JLabel("Proyectos");
+        proyectosLabel.setForeground(Color.GRAY);
+        proyectosLabel.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        
+        JPanel proyectosButtonsPanel = new JPanel();
+        proyectosButtonsPanel.setBackground(new Color(30, 30, 30));
+        
+        JButton btnNuevoProyecto = new JButton("Proyecto +");
+        JButton btnVerProyectos = new JButton("Ver todos los proyectos");
+        formatButton(btnNuevoProyecto);
+        formatButton(btnVerProyectos);
+        
+        proyectosButtonsPanel.add(btnNuevoProyecto);
+        proyectosButtonsPanel.add(btnVerProyectos);
+
+        rightPanel.add(proyectosLabel, BorderLayout.NORTH);
+        rightPanel.add(proyectosButtonsPanel, BorderLayout.SOUTH);
+        
+        // Añadir paneles al panel principal
+
+        mainPanel.add(contentPanel, BorderLayout.CENTER);
+        mainPanel.add(rightPanel, BorderLayout.EAST);
+        
+        // Añadir el panel principal al frame
+        frame.add(mainPanel);
+        
+        frame.setVisible(true);
+    }
+    
+    // Método para dar formato a los botones
+    private void formatButton(JButton button) {
+        button.setForeground(Color.WHITE);
+        button.setBackground(new Color(80, 80, 80));
+        button.setFocusPainted(false);
+        button.setFont(new Font("Segoe UI", Font.PLAIN, 14));
     }
 
-    /**
-     * Create the frame.
-     */
-    public Inicio() {
-        // Configuración básica de la ventana
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 950, 800);
-
-        // Panel principal de contenido
-        contentPane = new JPanel();
-        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-        contentPane.setLayout(new BorderLayout(0, 0));
-        setContentPane(contentPane);
-
-        // =======================
-        // Panel que contendrá las barras
-        // =======================
-        JPanel panelBarras = new JPanel();
-        panelBarras.setBackground(new Color(109, 114, 195));
-        panelBarras.setLayout(new FlowLayout(FlowLayout.RIGHT, 10, 0)); // Alinear a la derecha con espaciado de 10px
-
-        // Segunda barra con notificaciones (JToolBar)
-        JToolBar toolBarNotificaciones = new JToolBar();
-        toolBarNotificaciones.setFloatable(false);  // Evitar que se mueva
-
-        // Botón de notificaciones
-        JButton btnNotificaciones = new JButton("Notificaciones");
-        btnNotificaciones.setBackground(new Color(109, 114, 195));
-        toolBarNotificaciones.add(btnNotificaciones);
-
-        // Añadir la barra de herramientas
-        panelBarras.add(toolBarNotificaciones);
-
-        // Primera barra de menú (JMenuBar)
-        JMenuBar menuBar = new JMenuBar();
-        menuBar.setBackground(new Color(109, 114, 195));
-
-        // Menú "Usuario"
-        JMenu menuUsuario = new JMenu("Usuario");
-        JMenuItem menuItemSalir = new JMenuItem("Salir");
-        JMenuItem menuItemConfiguracion = new JMenuItem("Configuración");
-        menuUsuario.add(menuItemSalir);
-        menuUsuario.add(menuItemConfiguracion);
-        menuBar.add(menuUsuario);
-
-        // Añadir la barra de menú
-        panelBarras.add(menuBar);
-
-        // Añadir panelBarras a la parte superior
-        contentPane.add(panelBarras, BorderLayout.NORTH);
-
-        // =======================
-        // Panel transparente en el lado derecho
-        // =======================
-        JPanel panelDerecho = new JPanel();
-        panelDerecho.setLayout(new BoxLayout(panelDerecho, BoxLayout.Y_AXIS)); // Layout vertical
-        panelDerecho.setOpaque(false); // Hacer el panel transparente
-        
-        // Establecer tamaño preferido para que sea más ancho
-        panelDerecho.setPreferredSize(new Dimension(200, 100));
-        
-        // Mensajes dentro del panel
-        JLabel labelMensaje1 = new JLabel("Proyectos");
-        labelMensaje1.setFont(new Font("Segoe UI", Font.PLAIN, 20));
-        panelDerecho.add(labelMensaje1);
-
-        // Añadir el panel transparente al lado derecho
-        contentPane.add(panelDerecho, BorderLayout.EAST);
-        
-                // Botones dentro del panel
-                JButton btnUno = new JButton("Botón 1");
-                btnUno.setFont(new Font("Segoe UI", Font.PLAIN, 20));
-                btnUno.setBackground(new Color(89, 65, 169));
-                btnUno.setAlignmentY(Component.BOTTOM_ALIGNMENT);
-                
-                        // Añadir componentes al panel
-                        panelDerecho.add(btnUno);
-                        JButton btnDos = new JButton("Botón 2");
-                        panelDerecho.add(btnDos);
-                        JLabel labelMensaje2 = new JLabel("Mensaje 2");
-                        panelDerecho.add(labelMensaje2);
+    public static void main(String[] args) {
+        new Inicio();
     }
 }
-
