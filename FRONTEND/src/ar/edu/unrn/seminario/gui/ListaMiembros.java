@@ -115,6 +115,7 @@ public class ListaMiembros extends JFrame {
     }
 
     public static void main(String[] args) {
-        new ListaMiembros();
+        ListaMiembros listamiembros = new ListaMiembros();
+        listamiembros.setVisible(true);
     }
 }
