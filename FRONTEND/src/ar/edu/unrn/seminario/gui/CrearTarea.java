@@ -3,10 +3,7 @@ package ar.edu.unrn.seminario.gui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -15,114 +12,143 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
-
 import ar.edu.unrn.seminario.api.IApi;
-import ar.edu.unrn.seminario.dto.RolDTO;
-import ar.edu.unrn.seminario.dto.TareaDTO;
+import ar.edu.unrn.seminario.dto.ProyectoDTO;
+import ar.edu.unrn.seminario.dto.UsuarioDTO;
+import ar.edu.unrn.seminario.modelo.Rol;
 
 public class CrearTarea extends JFrame {
 
-	private JPanel contentPane;
-	private JTextField usuarioTextField;
-	private JTextField contrasenaTextField;
-	private JTextField nombreTextField;
-	private JTextField emailTextField;
-	private JComboBox rolComboBox;
+    private JPanel contentPane;
+    private JTextField nombreTareaTextField;
+    private JTextField prioridadTareaTextField;
+    private JTextField proyectoNombreTextField; // New text field for project name
 
-	
-	private Set<TareaDTO> tareas = new HashSet();
+    private JComboBox<String> proyectoTareaComboBox;
+    private JComboBox<String> asignarUsuarioComboBox;
 
-	
-	public CrearTarea(IApi api) {
+    private List<ProyectoDTO> proyectos = new ArrayList<>();
+    private List<UsuarioDTO> usuarios = new ArrayList<>();
 
-		// Obtengo las tareas
-		this.roles = api.obtenerRoles();
+    public CrearTarea(IApi api) {
+        // agregar proyectos y usuarios a las listas
+    	
+        proyectos.add(new ProyectoDTO("Proyecto1", "UsuarioPropietario", "alta", false));
+        proyectos.add(new ProyectoDTO("Proyecto2","UsuarioPropietario", "alta", false));
+        
+        Rol unRol = new Rol();
+   
+        usuarios.add(new UsuarioDTO("usuario1", "password","nombre","email",unRol, true));
+        usuarios.add(new UsuarioDTO("usuario2", "password","nombre","email",unRol, true));
+        // Uncomment to use actual API calls
+        // this.proyectos = api.obtenerProyectos();
+        // this.usuarios = api.obtenerUsuarios();
 
-		this.tareas = api.obtenerTareas();
+        setTitle("Crear Tarea");
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setBounds(100, 100, 450, 300);
+        contentPane = new JPanel();
+        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        contentPane.setLayout(null);
+        setContentPane(contentPane);
 
-		setTitle("Crear Tarea");
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+        JLabel nombreTareaLabel = new JLabel("Nombre:");
+        nombreTareaLabel.setBounds(43, 20, 93, 16);
+        contentPane.add(nombreTareaLabel);
 
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(null);
-		setContentPane(contentPane);
+        nombreTareaTextField = new JTextField();
+        nombreTareaTextField.setBounds(148, 20, 160, 22);
+        contentPane.add(nombreTareaTextField);
+        nombreTareaTextField.setColumns(10);
 
-		JLabel usuarioLabel = new JLabel("Nombre:");
-		usuarioLabel.setBounds(43, 16, 76, 16);
-		contentPane.add(usuarioLabel);
+        JLabel proyectoTareaLabel = new JLabel("Proyecto:");
+        proyectoTareaLabel.setBounds(43, 60, 93, 16);
+        contentPane.add(proyectoTareaLabel);
 
-		JLabel contrasenaLabel = new JLabel("Proyecto:");
-		contrasenaLabel.setBounds(43, 56, 93, 16);
-		contentPane.add(contrasenaLabel);
+        proyectoTareaComboBox = new JComboBox<>();
+        proyectoTareaComboBox.setBounds(148, 60, 160, 22);
+        for (ProyectoDTO proyecto : this.proyectos) {
+            proyectoTareaComboBox.addItem(proyecto.getNombre());
+        }
+        contentPane.add(proyectoTareaComboBox);
 
-		usuarioTextField = new JTextField();
-		usuarioTextField.setBounds(148, 13, 160, 22);
-		contentPane.add(usuarioTextField);
-		usuarioTextField.setColumns(10);
+        // New text field to show selected project name
+        proyectoNombreTextField = new JTextField();
+        proyectoNombreTextField.setBounds(320, 60, 100, 22);
+        proyectoNombreTextField.setEditable(false); // Make it read-only
+        contentPane.add(proyectoNombreTextField);
 
-		contrasenaTextField = new JTextField();
-		contrasenaTextField.setBounds(148, 152, 160, 22);
-		contentPane.add(contrasenaTextField);
-		contrasenaTextField.setColumns(10);
+        JButton aceptarButton = new JButton("Aceptar");
+        aceptarButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+            	
+                ProyectoDTO proyecto = proyectos.get(proyectoTareaComboBox.getSelectedIndex());
+                UsuarioDTO usuario = usuarios.get(asignarUsuarioComboBox.getSelectedIndex());
 
-		JButton aceptarButton = new JButton("Aceptar");
-		aceptarButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+        
+                api.registrarTarea(nombreTareaTextField.getText(), proyecto.getNombre(), 
+                    prioridadTareaTextField.getText(), usuario.getUsername(), false, "");
 
-				RolDTO rol = roles.get(rolComboBox.getSelectedIndex());
-			
-					api.registrarUsuario(usuarioTextField.getText(), contrasenaTextField.getText(),
-							nombreTextField.getText(), emailTextField.getText(), rol.getCodigo());
-					JOptionPane.showMessageDialog(null, "Usuario registrado con exito!", "Info", JOptionPane.INFORMATION_MESSAGE);
-					setVisible(false);
-					dispose();
+                JOptionPane.showMessageDialog(null, "Tarea creada con éxito!", "Info", JOptionPane.INFORMATION_MESSAGE);
+                setVisible(false);
+                dispose();
+            }
+        });
+        aceptarButton.setBounds(218, 215, 97, 25);
+        contentPane.add(aceptarButton);
 
-			}
-		});
-		aceptarButton.setBounds(218, 215, 97, 25);
-		contentPane.add(aceptarButton);
+        JButton cancelarButton = new JButton("Cancelar");
+        cancelarButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                setVisible(false);
+                dispose();
+            }
+        });
+        cancelarButton.setBounds(323, 215, 97, 25);
+        contentPane.add(cancelarButton);
 
-		JButton cancelarButton = new JButton("Cancelar");
-		cancelarButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				setVisible(false);
-				dispose();
-			}
-		});
-		cancelarButton.setBounds(323, 215, 97, 25);
-		contentPane.add(cancelarButton);
+        JLabel prioridadTareaLabel = new JLabel("Prioridad:");
+        prioridadTareaLabel.setBounds(43, 100, 93, 16);
+        contentPane.add(prioridadTareaLabel);
 
-		JLabel nombreLabel = new JLabel("Prioridad:");
-		nombreLabel.setBounds(43, 88, 56, 16);
-		contentPane.add(nombreLabel);
+        prioridadTareaTextField = new JTextField();
+        prioridadTareaTextField.setBounds(148, 100, 160, 22);
+        contentPane.add(prioridadTareaTextField);
+        prioridadTareaTextField.setColumns(10);
 
-		JLabel emailLabel = new JLabel("Asignar usuario:");
-		emailLabel.setBounds(43, 125, 56, 16);
-		contentPane.add(emailLabel);
+        JLabel asignarUsuarioLabel = new JLabel("Asignar usuario:");
+        asignarUsuarioLabel.setBounds(43, 140, 93, 16);
+        contentPane.add(asignarUsuarioLabel);
 
-		JLabel rolLabel = new JLabel("Descripcion:");
-		rolLabel.setBounds(43, 154, 56, 16);
-		contentPane.add(rolLabel);
+        asignarUsuarioComboBox = new JComboBox<>();
+        asignarUsuarioComboBox.setBounds(148, 140, 160, 22);
+        contentPane.add(asignarUsuarioComboBox);
+        for (UsuarioDTO usuario :  this.usuarios) {
+        	asignarUsuarioComboBox.addItem(usuario.getUsername());
+        }
+     
+        for (ProyectoDTO proyecto : this.proyectos) {
+            proyectoTareaComboBox.addItem(proyecto.getNombre());
+        }
+        
+        asignarUsuarioComboBox.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		String selectUser = (String) asignarUsuarioComboBox.getSelectedItem();
+        		
+        	}
+        });
+        
+        // Update project name field when the selected project changes
+        proyectoTareaComboBox.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String selectedProject = (String) proyectoTareaComboBox.getSelectedItem();
+                proyectoNombreTextField.setText(selectedProject);
+            }
+        });
 
-		nombreTextField = new JTextField();
-		nombreTextField.setBounds(148, 85, 160, 22);
-		contentPane.add(nombreTextField);
-		nombreTextField.setColumns(10);
-
-		emailTextField = new JTextField();
-		emailTextField.setBounds(148, 122, 160, 22);
-		contentPane.add(emailTextField);
-		emailTextField.setColumns(10);
-
-		rolComboBox = new JComboBox();
-		rolComboBox.setBounds(146, 53, 160, 22);
-		contentPane.add(rolComboBox);
-
-		for (RolDTO rol : this.roles) {
-			rolComboBox.addItem(rol.getNombre());
-		}
-
-	}
+        // Initially set the project name field
+        if (!proyectos.isEmpty()) {
+            proyectoNombreTextField.setText(proyectos.get(0).getNombre());
+        }
+    }
 }

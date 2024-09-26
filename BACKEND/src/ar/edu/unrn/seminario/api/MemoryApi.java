@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import ar.edu.unrn.seminario.dto.ProyectoDTO;
 import ar.edu.unrn.seminario.dto.RolDTO;
 import ar.edu.unrn.seminario.dto.TareaDTO;
 import ar.edu.unrn.seminario.dto.UsuarioDTO;
@@ -19,6 +20,7 @@ public class MemoryApi implements IApi {
 	private Set<Rol> roles = new HashSet();
 	private Set<Usuario> usuarios = new HashSet();
 	private List<Tarea> tareas = new ArrayList();
+	private Set<Proyecto> proyectos = new HashSet();
 	
 
 	public MemoryApi() {
@@ -152,10 +154,10 @@ public class MemoryApi implements IApi {
 	}
 
 	@Override
-	public void registrarTarea(String name, Proyecto project, String priority, Usuario user, boolean estado,
-			String descripcion, LocalDateTime inicio, LocalDateTime fin) {
+	public void registrarTarea(String name, String project, String priority, String user, boolean estado,
+			String descripcion) { //falta inicio y fin: estan en null
 	
-		Tarea tarea = new Tarea(name, project, priority, user, estado, descripcion, inicio, fin );
+		Tarea tarea = new Tarea(name, project, priority, user, estado, descripcion, null, null );
 		this.tareas.add(tarea);
 	}
 
@@ -169,6 +171,12 @@ public class MemoryApi implements IApi {
 			
 		}
 		return tareas;
+	}
+
+	@Override
+	public List<ProyectoDTO> obtenerProyectos() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

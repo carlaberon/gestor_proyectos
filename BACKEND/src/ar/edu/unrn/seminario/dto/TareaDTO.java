@@ -8,7 +8,7 @@ import ar.edu.unrn.seminario.modelo.Usuario;
 public class TareaDTO {
 
     private String name;
-    private Proyecto project;
+    private String project_name;
     private String priority;
     private Usuario user;
     private boolean estado; // FINALIZADO: TRUE, NOFINALIZADO: FALSE
@@ -16,10 +16,10 @@ public class TareaDTO {
     private LocalDateTime inicio; 
     private LocalDateTime fin;
     
-    public TareaDTO(String name, Proyecto project, String priority, Usuario user, boolean estado, String descripcion, LocalDateTime inicio, LocalDateTime fin) {
+    public TareaDTO(String name, String project_name, String priority, Usuario user, boolean estado, String descripcion, LocalDateTime inicio, LocalDateTime fin) {
         super();
         this.name = name;
-        this.project = project;
+        this.project_name = project_name;
         this.priority = priority;
         this.user = user;
         this.estado = estado;
@@ -37,12 +37,12 @@ public class TareaDTO {
         this.name = name;
     }
 
-    public Proyecto getProject() {
-        return project;
+    public String getProject() {
+        return project_name;
     }
 
-    public void setProject(Proyecto project) {
-        this.project = project;
+    public void setProject(String project) {
+        this.project_name = project;
     }
 
     public String getPriority() {
