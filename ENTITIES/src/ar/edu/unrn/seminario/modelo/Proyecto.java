@@ -13,7 +13,6 @@ public class Proyecto {
     private String descripcion;
     private Set<Proyecto> proyectos = new HashSet<>();
     private Set<Tarea> tareas = new HashSet<>();
-    private String prioridad;
 
     public Proyecto(String nombre, Usuario usuarioPropietario) {
         this.nombre = nombre; 

@@ -37,4 +37,6 @@ public interface IApi {
 	
 	void registrarTarea(String name, Proyecto project, String priority, Usuario user, boolean estado, String descripcion, LocalDateTime inicio, LocalDateTime fin);
 	List<TareaDTO> obtenerTareas();
+	
+	void crearEvento(LocalDateTime fecha, LocalDateTime inicio, LocalDateTime fin, String descripcion);
 }

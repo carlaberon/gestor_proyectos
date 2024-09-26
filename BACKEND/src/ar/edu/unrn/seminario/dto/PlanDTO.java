@@ -8,6 +8,7 @@ public class PlanDTO {
 	private Set<String> eventos;
 	
 	public PlanDTO(String nombre, String pertenece, Set<String> eventos) {
+		super();
         this.nombre = nombre;
         this.pertenece = pertenece;
         this.eventos = eventos;

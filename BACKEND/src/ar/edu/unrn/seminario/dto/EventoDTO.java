@@ -9,6 +9,7 @@ public class EventoDTO {
     private String descripcion;
     
     public EventoDTO(LocalDateTime fecha, LocalDateTime inicio, LocalDateTime fin, String descripcion) {
+    	super();
         this.fecha = fecha;
         this.inicio = inicio;
         this.fin = fin;
