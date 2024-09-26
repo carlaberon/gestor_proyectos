@@ -6,7 +6,6 @@ public class Tarea {
 
     private String nombre;
     private Proyecto proyecto;
-    private String prioridad;
     private Usuario usuario;
     private boolean estado; // FINALIZADO: TRUE, NOFINALIZADO: FALSE
     private String descripcion;
@@ -17,7 +16,6 @@ public class Tarea {
     {
         this.nombre = nombretarea;
         this.proyecto = proyecto;
-        this.prioridad = prioridad;
         this.usuario = usuario;
         this.estado = estado;
         this.descripcion = descripcion; 
@@ -34,9 +32,6 @@ public class Tarea {
         return proyecto;
     }
 
-    public String getPrioridad() {
-        return prioridad;
-    }
 
     public Usuario getUsuario() {
         return usuario;
@@ -82,9 +77,6 @@ public class Tarea {
         this.proyecto = proyecto;
     }
 
-    public void setPrioridad(String prioridad) {
-        this.prioridad = prioridad;
-    }
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;

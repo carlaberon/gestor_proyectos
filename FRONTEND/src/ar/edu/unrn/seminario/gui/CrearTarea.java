@@ -3,7 +3,9 @@ package ar.edu.unrn.seminario.gui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -16,6 +18,7 @@ import javax.swing.border.EmptyBorder;
 
 import ar.edu.unrn.seminario.api.IApi;
 import ar.edu.unrn.seminario.dto.RolDTO;
+import ar.edu.unrn.seminario.dto.TareaDTO;
 
 public class CrearTarea extends JFrame {
 
@@ -26,17 +29,18 @@ public class CrearTarea extends JFrame {
 	private JTextField emailTextField;
 	private JComboBox rolComboBox;
 
-	private List<RolDTO> roles = new ArrayList<>();
-	//hola
-	/**
-	 * Create the frame.
-	 */
+	
+	private Set<TareaDTO> tareas = new HashSet();
+
+	
 	public CrearTarea(IApi api) {
 
-		// Obtengo los roles
+		// Obtengo las tareas
 		this.roles = api.obtenerRoles();
 
-		setTitle("Alta Usuario");
+		this.tareas = api.obtenerTareas();
+
+		setTitle("Crear Tarea");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 
@@ -45,11 +49,11 @@ public class CrearTarea extends JFrame {
 		contentPane.setLayout(null);
 		setContentPane(contentPane);
 
-		JLabel usuarioLabel = new JLabel("Usuario:");
+		JLabel usuarioLabel = new JLabel("Nombre:");
 		usuarioLabel.setBounds(43, 16, 76, 16);
 		contentPane.add(usuarioLabel);
 
-		JLabel contrasenaLabel = new JLabel("Contrase\u00F1a:");
+		JLabel contrasenaLabel = new JLabel("Proyecto:");
 		contrasenaLabel.setBounds(43, 56, 93, 16);
 		contentPane.add(contrasenaLabel);
 
@@ -59,7 +63,7 @@ public class CrearTarea extends JFrame {
 		usuarioTextField.setColumns(10);
 
 		contrasenaTextField = new JTextField();
-		contrasenaTextField.setBounds(148, 53, 160, 22);
+		contrasenaTextField.setBounds(148, 152, 160, 22);
 		contentPane.add(contrasenaTextField);
 		contrasenaTextField.setColumns(10);
 
@@ -68,7 +72,7 @@ public class CrearTarea extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 
 				RolDTO rol = roles.get(rolComboBox.getSelectedIndex());
-
+			
 					api.registrarUsuario(usuarioTextField.getText(), contrasenaTextField.getText(),
 							nombreTextField.getText(), emailTextField.getText(), rol.getCodigo());
 					JOptionPane.showMessageDialog(null, "Usuario registrado con exito!", "Info", JOptionPane.INFORMATION_MESSAGE);
@@ -90,15 +94,15 @@ public class CrearTarea extends JFrame {
 		cancelarButton.setBounds(323, 215, 97, 25);
 		contentPane.add(cancelarButton);
 
-		JLabel nombreLabel = new JLabel("Nombre:");
+		JLabel nombreLabel = new JLabel("Prioridad:");
 		nombreLabel.setBounds(43, 88, 56, 16);
 		contentPane.add(nombreLabel);
 
-		JLabel emailLabel = new JLabel("Email:");
+		JLabel emailLabel = new JLabel("Asignar usuario:");
 		emailLabel.setBounds(43, 125, 56, 16);
 		contentPane.add(emailLabel);
 
-		JLabel rolLabel = new JLabel("Rol:");
+		JLabel rolLabel = new JLabel("Descripcion:");
 		rolLabel.setBounds(43, 154, 56, 16);
 		contentPane.add(rolLabel);
 
@@ -113,7 +117,7 @@ public class CrearTarea extends JFrame {
 		emailTextField.setColumns(10);
 
 		rolComboBox = new JComboBox();
-		rolComboBox.setBounds(148, 151, 160, 22);
+		rolComboBox.setBounds(146, 53, 160, 22);
 		contentPane.add(rolComboBox);
 
 		for (RolDTO rol : this.roles) {
