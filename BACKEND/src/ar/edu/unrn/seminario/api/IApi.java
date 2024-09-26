@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import ar.edu.unrn.seminario.dto.RolDTO;
+import ar.edu.unrn.seminario.dto.TareaDTO;
 import ar.edu.unrn.seminario.dto.UsuarioDTO;
 import ar.edu.unrn.seminario.modelo.Proyecto;
 import ar.edu.unrn.seminario.modelo.Usuario;
@@ -35,4 +36,5 @@ public interface IApi {
 	void desactivarUsuario(String username); // recuperar el objeto Usuario, implementar el comportamiento de estado.
 	
 	void registrarTarea(String name, Proyecto project, String priority, Usuario user, boolean estado, String descripcion, LocalDateTime inicio, LocalDateTime fin);
+	List<TareaDTO> obtenerTareas();
 }

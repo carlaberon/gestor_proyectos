@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import ar.edu.unrn.seminario.dto.RolDTO;
+import ar.edu.unrn.seminario.dto.TareaDTO;
 import ar.edu.unrn.seminario.dto.UsuarioDTO;
 import ar.edu.unrn.seminario.modelo.Proyecto;
 import ar.edu.unrn.seminario.modelo.Rol;
@@ -157,4 +158,17 @@ public class MemoryApi implements IApi {
 		Tarea tarea = new Tarea(name, project, priority, user, estado, descripcion, inicio, fin );
 		this.tareas.add(tarea);
 	}
+
+	@Override
+	public List<TareaDTO> obtenerTareas() {
+		// TODO Auto-generated method stub
+		List<TareaDTO> tareas = new ArrayList<>();
+		for (Tarea t : this.tareas) {
+			//agregar parametros de la tarea
+			tareas.add(new TareaDTO(null, null, null, null, false, null, null, null));
+			
+		}
+		return tareas;
+	}
+	
 }
