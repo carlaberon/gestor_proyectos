@@ -26,11 +26,11 @@ import javax.swing.border.EmptyBorder;
 import ar.edu.unrn.seminario.api.IApi;
 import ar.edu.unrn.seminario.api.MemoryApi;
 
-public class Tareas extends JFrame {
+public class VentanaTareas extends JFrame {
 
     private JPanel contentPane;
 
-    public Tareas(IApi api) {
+    public VentanaTareas(IApi api) {
 
         setTitle("");
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
@@ -175,7 +175,7 @@ public class Tareas extends JFrame {
     public static void main(String[] args) {
     	//prueba
     	IApi api = new MemoryApi(); //polimorfismo
-        Tareas ventanaTareas = new Tareas(api);
+        VentanaTareas ventanaTareas = new VentanaTareas(api);
         ventanaTareas.setVisible(true);
     }
 }
