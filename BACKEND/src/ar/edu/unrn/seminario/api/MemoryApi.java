@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import ar.edu.unrn.seminario.dto.EventoDTO;
 import ar.edu.unrn.seminario.dto.ProyectoDTO;
 import ar.edu.unrn.seminario.dto.RolDTO;
 import ar.edu.unrn.seminario.dto.TareaDTO;
@@ -18,10 +19,10 @@ import ar.edu.unrn.seminario.modelo.Usuario;
 
 public class MemoryApi implements IApi {
 
-	private Set<Rol> roles = new HashSet();
-	private Set<Usuario> usuarios = new HashSet();
-	private List<Tarea> tareas = new ArrayList();
-	private Set<Proyecto> proyectos = new HashSet();
+	private Set<Rol> roles = new HashSet<>();
+	private Set<Usuario> usuarios = new HashSet<>();
+	private List<Tarea> tareas = new ArrayList<>();
+	private Set<Proyecto> proyectos = new HashSet<>();
 	private Set<Evento> eventos = new HashSet<>();
 	
 
@@ -186,6 +187,23 @@ public class MemoryApi implements IApi {
 		// TODO Auto-generated method stub
 		Evento evento = new Evento(fecha, inicio, fin, descripcion);
 		this.eventos.add(evento);
+	}
+
+	@Override
+	public List<EventoDTO> obtenerEventos() {
+		List<EventoDTO> eventosDTO = new ArrayList<>();
+		for (Evento evento : this.eventos) {
+	        // Convertir cada Evento en EventoDTO
+	        EventoDTO eventoDTO = new EventoDTO(
+	            evento.getFecha(),
+	            evento.getInicio(),
+	            evento.getFin(),
+	            evento.getDescripcion()
+	        );
+	        
+	        eventosDTO.add(eventoDTO); // Agregar a la lista de DTOs
+	    }
+		return eventosDTO;
 	}
 	
 }

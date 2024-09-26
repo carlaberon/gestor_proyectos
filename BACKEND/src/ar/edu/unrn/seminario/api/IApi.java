@@ -3,10 +3,12 @@ package ar.edu.unrn.seminario.api;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import ar.edu.unrn.seminario.dto.EventoDTO;
 import ar.edu.unrn.seminario.dto.ProyectoDTO;
 import ar.edu.unrn.seminario.dto.RolDTO;
 import ar.edu.unrn.seminario.dto.TareaDTO;
 import ar.edu.unrn.seminario.dto.UsuarioDTO;
+import ar.edu.unrn.seminario.modelo.Evento;
 import ar.edu.unrn.seminario.modelo.Proyecto;
 import ar.edu.unrn.seminario.modelo.Usuario;
 
@@ -42,4 +44,5 @@ public interface IApi {
 	List<ProyectoDTO> obtenerProyectos();
 	
 	void crearEvento(LocalDateTime fecha, LocalDateTime inicio, LocalDateTime fin, String descripcion);
+	List<EventoDTO> obtenerEventos();
 }
