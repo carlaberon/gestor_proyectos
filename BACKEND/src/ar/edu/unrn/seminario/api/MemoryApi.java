@@ -10,6 +10,7 @@ import ar.edu.unrn.seminario.dto.ProyectoDTO;
 import ar.edu.unrn.seminario.dto.RolDTO;
 import ar.edu.unrn.seminario.dto.TareaDTO;
 import ar.edu.unrn.seminario.dto.UsuarioDTO;
+import ar.edu.unrn.seminario.modelo.Evento;
 import ar.edu.unrn.seminario.modelo.Proyecto;
 import ar.edu.unrn.seminario.modelo.Rol;
 import ar.edu.unrn.seminario.modelo.Tarea;
@@ -21,6 +22,7 @@ public class MemoryApi implements IApi {
 	private Set<Usuario> usuarios = new HashSet();
 	private List<Tarea> tareas = new ArrayList();
 	private Set<Proyecto> proyectos = new HashSet();
+	private Set<Evento> eventos = new HashSet<>();
 	
 
 	public MemoryApi() {
@@ -177,6 +179,13 @@ public class MemoryApi implements IApi {
 	public List<ProyectoDTO> obtenerProyectos() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	@Override
+	public void crearEvento(LocalDateTime fecha, LocalDateTime inicio, LocalDateTime fin, String descripcion) {
+		// TODO Auto-generated method stub
+		Evento evento = new Evento(fecha, inicio, fin, descripcion);
+		this.eventos.add(evento);
 	}
 	
 }

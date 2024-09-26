@@ -40,4 +40,6 @@ public interface IApi {
 	List<TareaDTO> obtenerTareas();
 	
 	List<ProyectoDTO> obtenerProyectos();
+	
+	void crearEvento(LocalDateTime fecha, LocalDateTime inicio, LocalDateTime fin, String descripcion);
 }
