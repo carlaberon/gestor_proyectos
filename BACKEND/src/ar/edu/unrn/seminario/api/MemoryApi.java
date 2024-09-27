@@ -8,11 +8,13 @@ import java.util.List;
 import java.util.Set;
 
 import ar.edu.unrn.seminario.dto.EventoDTO;
+import ar.edu.unrn.seminario.dto.MiembroDTO;
 import ar.edu.unrn.seminario.dto.ProyectoDTO;
 import ar.edu.unrn.seminario.dto.RolDTO;
 import ar.edu.unrn.seminario.dto.TareaDTO;
 import ar.edu.unrn.seminario.dto.UsuarioDTO;
 import ar.edu.unrn.seminario.modelo.Evento;
+import ar.edu.unrn.seminario.modelo.Miembro;
 import ar.edu.unrn.seminario.modelo.Plan;
 import ar.edu.unrn.seminario.modelo.Proyecto;
 import ar.edu.unrn.seminario.modelo.Rol;
@@ -29,14 +31,14 @@ public class MemoryApi implements IApi {
 	private Set<Plan> planeSet = new HashSet<>();
 	
 
-	public MemoryApi(Set<Proyecto> proyectos) {
-
+	public MemoryApi() {
+		//Set<Proyecto> proyectos
 		// datos iniciales
 		this.roles.add(new Rol(1, "PROPIETARIO"));
 		this.roles.add(new Rol(2, "OBSERVADOR"));
 		this.roles.add(new Rol(3, "COLABORADOR"));
 		inicializarUsuarios();
-		this.proyectos = proyectos;
+		//this.proyectos = proyectos;
 	}
 
 	private void inicializarUsuarios() {
@@ -246,9 +248,90 @@ public class MemoryApi implements IApi {
 	    Proyecto nuevoProyecto = new Proyecto(nombre, usuarioPropietario, estado, descripcion);
 	    
 	    // Agregar el proyecto a la colección de proyectos
-	    this.proyectos.add(nuevoProyecto);		
+	    this.proyectos.add(nuevoProyecto);
 	}
     
-    
+	@Override
+	public void eliminarProyecto(String nombreProyecto) {
+	    Proyecto proyectoAEliminar = null;
+
+	    // Buscar el proyecto por nombre
+	    for (Proyecto proyecto : this.proyectos) {
+	        if (proyecto.getNombre().equals(nombreProyecto)) {
+	            proyectoAEliminar = proyecto;
+	            break;
+	        }
+	    }
+
+	    // Si se encuentra el proyecto, eliminarlo
+	    if (proyectoAEliminar != null) {
+	        this.proyectos.remove(proyectoAEliminar);
+	        System.out.println("El proyecto '" + nombreProyecto + "' ha sido eliminado.");
+	    }	 
+	}
+
+	@Override
+	public void modificarProyecto(String nombreProyecto, ProyectoDTO proyectoModificado) {
+	    // Buscar el proyecto por nombre
+	    Proyecto proyectoExistente = buscarProyectoPorNombre(nombreProyecto);
+	    
+	    // Modificar los campos del proyecto existente con los valores del DTO
+	    proyectoExistente.setNombre(proyectoModificado.getNombre());
+	    
+	    // Buscar el usuario propietario por nombre (asumiendo que el DTO guarda el nombre del usuario)
+	    Usuario usuarioPropietario = buscarUsuarioPorNombre(proyectoModificado.getUsuarioPropietario());
+	    /*if (usuarioPropietario != null) {
+	        proyectoExistente.setUsuarioPropietario(usuarioPropietario);
+	    } else {
+	        throw new IllegalArgumentException("No se encontró el usuario propietario con nombre: " + proyectoModificado.getUsuarioPropietario());
+	    }*/
+
+	    // Modificar otros atributos del proyecto
+	    proyectoExistente.setPrioridad(proyectoModificado.getPrioridad());
+	    proyectoExistente.setEstado(proyectoModificado.isEstado());
+	    proyectoExistente.setDescripcion(proyectoModificado.getDescripcion());
+	    
+	    // Actualizar miembros utilizando el MiembroDTO
+	    Set<Miembro> miembrosActualizados = convertirMiembrosDTOAMiembros(proyectoModificado.getMiembros());
+	    proyectoExistente.setMiembros(miembrosActualizados);
+	    
+	    // Actualizar tareas utilizando el TareaDTO
+	    Set<Tarea> tareasActualizadas = convertirTareasDTOATareas(proyectoModificado.getTareas());
+	    proyectoExistente.setTareas(tareasActualizadas);
+	}
+	
+	private Set<Miembro> convertirMiembrosDTOAMiembros(Set<MiembroDTO> miembrosDTO) {
+	    Set<Miembro> miembros = new HashSet<>();
+	    
+	    for (MiembroDTO dto : miembrosDTO) {
+	        Miembro miembro = new Miembro(dto.getCodigo());
+	        miembro.setFechaBaja(dto.getFechaBaja());
+	        miembros.add(miembro);
+	    }
+	    
+	    return miembros;
+	}
+	
+	private Set<Tarea> convertirTareasDTOATareas(Set<TareaDTO> tareasDTO) {
+	    Set<Tarea> tareas = new HashSet<>();
+	    
+	    for (TareaDTO dto : tareasDTO) {
+	        Tarea tarea = new Tarea(
+	            dto.getName(),
+	            dto.getProject(),
+	            dto.getPriority(),
+	            dto.getUser().getNombre(),  // Asume que Usuario tiene un método getNombre()
+	            dto.isEstado(),
+	            dto.getDescription(),
+	            dto.getInicio(),
+	            dto.getFin()
+	        );
+	        tareas.add(tarea);
+	    }
+	    
+	    return tareas;
+	}
+		
+	
     
 }

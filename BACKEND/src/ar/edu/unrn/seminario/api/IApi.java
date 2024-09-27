@@ -55,5 +55,9 @@ public interface IApi {
     public int compare(Proyecto p1, Proyecto p2);
     
     void crearPlan(String nombre, Proyecto pertenece);
+
+	void eliminarProyecto(String nombreProyecto);
+	
+	void modificarProyecto(String nombreProyecto, ProyectoDTO proyectoModificado);
     
 }
