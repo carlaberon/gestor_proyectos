@@ -7,9 +7,13 @@ import ar.edu.unrn.seminario.dto.RolDTO;
 import ar.edu.unrn.seminario.dto.UsuarioDTO;
 import ar.edu.unrn.seminario.modelo.Proyecto;
 import ar.edu.unrn.seminario.modelo.Usuario;
-
+import ar.edu.unrn.seminario.dto.ProyectoDTO;
 public interface IApi {
-
+	List<ProyectoDTO> obtenerProyectos();
+	// Método para asignar la prioridad de un proyecto
+    void asignarPrioridad(String nombreProyecto, String prioridad);
+    public int compare(Proyecto p1, Proyecto p2);
+    
 	void registrarUsuario(String username, String password, String email, String nombre, Integer rol);
 
 	UsuarioDTO obtenerUsuario(String username);

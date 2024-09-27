@@ -1,10 +1,11 @@
 package ar.edu.unrn.seminario.gui;
 
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -29,13 +30,13 @@ public class ProyectosDetallado extends JFrame {
         // Crear la tabla
         JTable tabla = new JTable(new DefaultTableModel(
                 new Object[][]{
-                        {"Gestionar evento", "Activo", "La gestion de diferentes", "\u2714", "31/03/2024", "Carla", "A1987", "16/08/2023", "\u2B07"},
-                        {"Recuento de votos", "Finalizado", "Informacion sobre los votos", "\u2718", "28/03/2024", "Gabriel", "A2987", "28/03/2023", "\u2B07"},
-                        {"Gestionar tarea", "Activo", "Tareas necesarias sobre la", "\u2714", "14/04/2024", "Hernan", "A3987", "11/01/2023", "\u2B07"},
-                        {"Parciales", "Inactivo", "Informacion sobre como completar la informacion de los parciales de la carrera", "\u2718", "31/11/2023", "Tomas", "A4987", "28/03/2023", "\u2B07"},
+                        {"Gestionar evento", "Activo", "La gestion de diferentes", "\u2714", "31/03/2024", "Carla", "A1987", "16/08/2023", "\u2B07", "Asignar"},
+                        {"Recuento de votos", "Finalizado", "Informacion sobre los votos", "\u2718", "28/03/2024", "Gabriel", "A2987", "28/03/2023", "\u2B07", "Media"},
+                        {"Gestionar tarea", "Activo", "Tareas necesarias sobre la", "\u2714", "14/04/2024", "Hernan", "A3987", "11/01/2023", "\u2B07", "Baja"},
+                        {"Parciales", "Inactivo", "Informacion sobre como completar la informacion de los parciales de la carrera", "\u2718", "31/11/2023", "Tomas", "A4987", "28/03/2023", "\u2B07", "Alta"},
                 },
                 new String[]{
-                        "Nombre del proyecto", "Estado", "Descripcion del estado", "Público", "Fecha de vencimiento", "Propietario del proyecto", "ID del proyecto", "Creado el", "Expandir"
+                        "Nombre del proyecto", "Estado", "Descripcion del estado", "Público", "Fecha de vencimiento", "Propietario del proyecto", "ID del proyecto", "Creado el", "Expandir", "Prioridad"
                 }
         ));
 
@@ -49,7 +50,7 @@ public class ProyectosDetallado extends JFrame {
                 } else {
                     c.setForeground(Color.WHITE); // Color blanco para otras columnas
                 }
-                setBackground(new Color(48, 48, 48)); // Color de fondo de la tabla
+                
                 return c;
             }
         });
@@ -68,7 +69,7 @@ public class ProyectosDetallado extends JFrame {
         // Establecer fuente y color de encabezados
         tabla.setFont(fuente);
         tabla.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 11));
-        tabla.getTableHeader().setBackground(new Color(109, 114, 195)); // Color púrpura para el encabezado
+        tabla.getTableHeader().setBackground(tituloColor); 
         tabla.getTableHeader().setForeground(Color.WHITE);
         tabla.setBackground(fondoColor);
         tabla.setRowHeight(30);
@@ -76,6 +77,7 @@ public class ProyectosDetallado extends JFrame {
         // Ajustar ancho de columnas
         tabla.getColumnModel().getColumn(3).setPreferredWidth(50); // Público
         tabla.getColumnModel().getColumn(8).setPreferredWidth(50); // Expandir
+        tabla.getColumnModel().getColumn(9).setPreferredWidth(50); // Prioridad
 
         // Hacer que la columna de descripción permita texto multilínea
         tabla.getColumnModel().getColumn(2).setCellRenderer(new JTextAreaRenderer());
@@ -83,6 +85,14 @@ public class ProyectosDetallado extends JFrame {
         // Crear botones de expandir
         tabla.getColumn("Expandir").setCellRenderer(new ButtonRenderer());
         tabla.getColumn("Expandir").setCellEditor(new ButtonEditor(new JCheckBox(), tabla));
+
+        // Hola carla, ESTO FUE LO QUE HICE AGREGAR UN COMBOBOX PARA QUE PONGA LAS PRIORIDADES
+        String[] prioridades = {"Alta", "Media", "Baja"};
+        JComboBox<String> comboBox = new JComboBox<>(prioridades);
+        comboBox.setBackground(fondoColor);
+        comboBox.setForeground(Color.WHITE);
+        TableColumn prioridadColumna = tabla.getColumnModel().getColumn(9);
+        prioridadColumna.setCellEditor(new DefaultCellEditor(comboBox));
 
         // Crear un panel inferior con un color específico
         JPanel panelInferior = new JPanel();
@@ -93,10 +103,9 @@ public class ProyectosDetallado extends JFrame {
 
         // Añadir la tabla y el panel inferior al JFrame
         JScrollPane scrollPane = new JScrollPane(tabla);
+        scrollPane.getViewport().setBackground(fondoColor); // Establecer el fondo del viewport
         getContentPane().add(scrollPane, BorderLayout.CENTER);
         getContentPane().add(panelInferior, BorderLayout.SOUTH); // Añadir el panel inferior
-        
-        //quisas quito esto
     }
 
     // Renderer personalizado para celdas con JTextArea (que permita texto multilínea)
@@ -110,11 +119,10 @@ public class ProyectosDetallado extends JFrame {
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
             setText(value != null ? value.toString() : "");
             setSize(table.getColumnModel().getColumn(column).getWidth(), getPreferredSize().height);
-            
+
             if (isSelected) {
                 setBackground(table.getSelectionBackground());
                 setForeground(table.getSelectionForeground());
-                
             } else {
                 setBackground(table.getBackground());
                 setForeground(table.getForeground());
@@ -141,10 +149,10 @@ public class ProyectosDetallado extends JFrame {
                 public void actionPerformed(ActionEvent e) {
                     fireEditingStopped();
                     int row = table.getSelectedRow();
-                    
+
                     // Obtener el tamaño preferido de la celda de la columna de descripción
                     JTextArea textArea = (JTextArea) table.getCellRenderer(row, 2)
-                        .getTableCellRendererComponent(table, table.getValueAt(row, 2), false, false, row, 2);
+                            .getTableCellRendererComponent(table, table.getValueAt(row, 2), false, false, row, 2);
                     int preferredHeight = textArea.getPreferredSize().height;
 
                     // Establecer la altura de la fila en función del tamaño preferido
@@ -179,21 +187,21 @@ public class ProyectosDetallado extends JFrame {
 
         @Override
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-            setHorizontalAlignment(SwingConstants.CENTER); // Botón centrado
+            if (isSelected) {
+                setBackground(table.getSelectionBackground());
+                setForeground(table.getSelectionForeground());
+            } else {
+                setBackground(new Color(48, 48, 48)); // Fondo oscuro
+                setForeground(Color.WHITE); // Texto en blanco
+            }
             return this;
         }
     }
 
     public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    ProyectosDetallado frame = new ProyectosDetallado();
-                    frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
+        SwingUtilities.invokeLater(() -> {
+            ProyectosDetallado frame = new ProyectosDetallado();
+            frame.setVisible(true);
         });
     }
 }

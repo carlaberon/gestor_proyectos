@@ -8,6 +8,7 @@ public class Proyecto {
     private String nombre;
     private Usuario usuarioPropietario;
     private boolean estado; // ACTIVO = false, FINALIZADO = true
+    private String prioridad;
     private Set<Miembro> miembros = new HashSet<>();
     private String descripcion;
     private Set<Proyecto> proyectos = new HashSet<>();
@@ -31,7 +32,11 @@ public class Proyecto {
         this.descripcion = descripcion;
     }
 
-    public String getNombre() {
+    public Proyecto(String nombre2, String string) {
+		// TODO Auto-generated constructor stub
+	}
+
+	public String getNombre() {
         return nombre;
     }
     
@@ -120,6 +125,14 @@ public class Proyecto {
         result = prime * result + (nombre == null ? 0 : nombre.hashCode());
         result = prime * result + (usuarioPropietario == null ? 0 : usuarioPropietario.hashCode());
         return result;
+    }
+
+    public String getPrioridad() {
+        return prioridad;
+    }
+
+    public void setPrioridad(String prioridad) {
+        this.prioridad = prioridad;
     }
 }
 

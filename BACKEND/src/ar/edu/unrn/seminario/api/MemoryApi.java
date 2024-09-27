@@ -2,6 +2,7 @@ package ar.edu.unrn.seminario.api;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -12,13 +13,13 @@ import ar.edu.unrn.seminario.modelo.Proyecto;
 import ar.edu.unrn.seminario.modelo.Rol;
 import ar.edu.unrn.seminario.modelo.Tarea;
 import ar.edu.unrn.seminario.modelo.Usuario;
-
+import ar.edu.unrn.seminario.dto.ProyectoDTO;
 public class MemoryApi implements IApi {
 
 	private Set<Rol> roles = new HashSet();
 	private Set<Usuario> usuarios = new HashSet();
 	private List<Tarea> tareas = new ArrayList();
-	
+	private Set<Proyecto> proyectos;
 
 	public MemoryApi() {
 
@@ -28,7 +29,41 @@ public class MemoryApi implements IApi {
 		this.roles.add(new Rol(3, "INVITADO"));
 		inicializarUsuarios();
 	}
+	public MemoryApi(Set<Proyecto> proyectos) {
+        this.proyectos = proyectos;
+    }
+	// Implementación del método para obtener la lista de proyectos como DTO
+    @Override
+    public List<ProyectoDTO> obtenerProyectos() {
+        List<ProyectoDTO> dtos = new ArrayList<>();
+        for (Proyecto p : this.proyectos) {
+            dtos.add(new ProyectoDTO(p.getNombre(), p.getUsuarioPropietario().getNombre(), p.getEstado(), p.getPrioridad(), p.getDescripcion()));
+        }
+        return dtos;
+    }
 
+    // Implementación del método para asignar prioridad a un proyecto
+    @Override
+    public void asignarPrioridad(String nombreProyecto, String prioridad) {
+        for (Proyecto p : this.proyectos) {
+            if (p.getNombre().equals(nombreProyecto)) {
+                p.setPrioridad(prioridad);
+                break;
+            }
+        }
+    }
+    @Override
+    public int compare(Proyecto p1, Proyecto p2) {
+        // Ordenar por prioridad (alta, media, baja)
+        List<String> prioridades = Arrays.asList("alta", "media", "baja");
+        return Integer.compare(prioridades.indexOf(p1.getPrioridad()), prioridades.indexOf(p2.getPrioridad()));
+    }
+    
+    
+    
+    
+    
+    
 	private void inicializarUsuarios() {
 		registrarUsuario("admin", "1234", "admin@unrn.edu.ar", "Admin", 1);
 		registrarUsuario("ldifabio", "4", "ldifabio@unrn.edu.ar", "Lucas", 2);
