@@ -10,13 +10,13 @@ public class TareaDTO {
     private String name;
     private String project_name;
     private String priority;
-    private Usuario user;
+    private String user;
     private boolean estado; // FINALIZADO: TRUE, NOFINALIZADO: FALSE
     private String description;
     private LocalDateTime inicio; 
     private LocalDateTime fin;
     
-    public TareaDTO(String name, String project_name, String priority, Usuario user, boolean estado, String descripcion, LocalDateTime inicio, LocalDateTime fin) {
+    public TareaDTO(String name, String project_name, String priority, String user, boolean estado, String descripcion, LocalDateTime inicio, LocalDateTime fin) {
         super();
         this.name = name;
         this.project_name = project_name;
@@ -53,11 +53,11 @@ public class TareaDTO {
         this.priority = priority;
     }
 
-    public Usuario getUser() {
+    public String getUser() {
         return user;
     }
 
-    public void setUser(Usuario user) {
+    public void setUser(String user) {
         this.user = user;
     }
 

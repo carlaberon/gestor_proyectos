@@ -166,12 +166,13 @@ public class MemoryApi implements IApi {
 		// TODO Auto-generated method stub
 		List<TareaDTO> tareas = new ArrayList<>();
 		for (Tarea t : this.tareas) {
-			//agregar parametros de la tarea
-			tareas.add(new TareaDTO(null, null, null, null, false, null, null, null));
+			//agregar parametros de la tarea, falta definir local date time
+			tareas.add(new TareaDTO(t.getNombre(), t.getProyecto(), t.getPrioridad(), t.getUsuario(), t.isEstado(), t.getDescripcion(), null, null));
 			
 		}
 		return tareas;
 	}
+
 
 	@Override
 	public List<ProyectoDTO> obtenerProyectos() {
