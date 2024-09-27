@@ -3,8 +3,9 @@ package ar.edu.unrn.seminario.modelo;
 public class Rol {
 	private Integer codigo;
 	private String nombre;
+	private String descripcion;
 	private boolean activo;
-
+	
 	public Rol() {
 
 	}
@@ -29,22 +30,6 @@ public class Rol {
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
-	}
-
-	public boolean isActivo() {
-		return activo;
-	}
-
-	public void setActivo(boolean activo) {
-		this.activo = activo;
-	}
-
-	public void activar() {
-		this.activo = true;
-	}
-
-	public void desactivar() {
-		this.activo = false;
 	}
 
 	@Override
@@ -74,7 +59,23 @@ public class Rol {
 
 	@Override
 	public String toString() {
-		return "Rol [codigo=" + codigo + ", nombre=" + nombre + ", activo=" + activo + "]";
+		return "Rol [codigo=" + codigo + ", nombre=" + nombre + ", activo=" + "]";
+	}
+
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+
+	public boolean isActivo() {
+		return activo;
+	}
+
+	public void setActivo(boolean activo) {
+		this.activo = activo;
 	}
 
 }

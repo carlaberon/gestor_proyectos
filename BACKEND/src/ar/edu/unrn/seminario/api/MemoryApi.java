@@ -30,9 +30,9 @@ public class MemoryApi implements IApi {
 	public MemoryApi(Set<Proyecto> proyectos) {
 
 		// datos iniciales
-		this.roles.add(new Rol(1, "ADMIN"));
-		this.roles.add(new Rol(2, "ESTUDIANTE"));
-		this.roles.add(new Rol(3, "INVITADO"));
+		this.roles.add(new Rol(1, "PROPIETARIO"));
+		this.roles.add(new Rol(2, "OBSERVADOR"));
+		this.roles.add(new Rol(3, "COLABORADOR"));
 		inicializarUsuarios();
 		this.proyectos = proyectos;
 	}
