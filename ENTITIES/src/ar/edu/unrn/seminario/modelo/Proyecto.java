@@ -13,6 +13,7 @@ public class Proyecto {
     private String descripcion;
     private Set<Proyecto> proyectos = new HashSet<>();
     private Set<Tarea> tareas = new HashSet<>();
+    private Plan plan;
 
     public Proyecto(String nombre, Usuario usuarioPropietario) {
         this.nombre = nombre; 
@@ -30,6 +31,10 @@ public class Proyecto {
         this.usuarioPropietario = usuarioPropietario;
         this.estado = estado;
         this.descripcion = descripcion;
+    }
+    
+    public Proyecto() {
+    	
     }
 
     public String getNombre() {
@@ -113,6 +118,14 @@ public class Proyecto {
 	public void setPrioridad(String prioridad) {
 		this.prioridad = prioridad;
 	}
+	
+	public Plan getPlan() {
+        return plan;
+    }
+
+    public void setPlan(Plan plan) {
+        this.plan = plan;
+    }
 
 	@Override
     public boolean equals(Object obj) {

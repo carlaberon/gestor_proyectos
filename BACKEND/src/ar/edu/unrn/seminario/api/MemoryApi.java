@@ -13,6 +13,7 @@ import ar.edu.unrn.seminario.dto.RolDTO;
 import ar.edu.unrn.seminario.dto.TareaDTO;
 import ar.edu.unrn.seminario.dto.UsuarioDTO;
 import ar.edu.unrn.seminario.modelo.Evento;
+import ar.edu.unrn.seminario.modelo.Plan;
 import ar.edu.unrn.seminario.modelo.Proyecto;
 import ar.edu.unrn.seminario.modelo.Rol;
 import ar.edu.unrn.seminario.modelo.Tarea;
@@ -25,6 +26,7 @@ public class MemoryApi implements IApi {
 	private List<Tarea> tareas = new ArrayList<>();
 	private Set<Proyecto> proyectos = new HashSet<>();
 	private Set<Evento> eventos = new HashSet<>();
+	private Set<Plan> planeSet = new HashSet<>();
 	
 
 	public MemoryApi(Set<Proyecto> proyectos) {
@@ -228,4 +230,25 @@ public class MemoryApi implements IApi {
         List<String> prioridades = Arrays.asList("alta", "media", "baja");
         return Integer.compare(prioridades.indexOf(p1.getPrioridad()), prioridades.indexOf(p2.getPrioridad()));
     }
+
+	@Override
+	public void crearPlan(String nombre, Proyecto pertenece) {
+		// Verificar si el proyecto ya tiene un plan asignado
+		
+		// Crear una nueva instancia de Plan con el nombre y el proyecto
+	    Plan nuevoPlan = new Plan(nombre, pertenece);
+	    pertenece.setPlan(nuevoPlan);
+	}
+
+	@Override
+	public void crearProyecto(String nombre, Usuario usuarioPropietario, boolean estado, String descripcion) {
+		// Crear un nuevo proyecto con los parámetros recibidos
+	    Proyecto nuevoProyecto = new Proyecto(nombre, usuarioPropietario, estado, descripcion);
+	    
+	    // Agregar el proyecto a la colección de proyectos
+	    this.proyectos.add(nuevoProyecto);		
+	}
+    
+    
+    
 }

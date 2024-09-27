@@ -39,14 +39,21 @@ public interface IApi {
 	void desactivarUsuario(String username); // recuperar el objeto Usuario, implementar el comportamiento de estado.
 	
 	void registrarTarea(String name, String project, String priority, String user, boolean estado, String descripcion); //falta inicio, fin
+	
 	List<TareaDTO> obtenerTareas();
 	
 	List<ProyectoDTO> obtenerProyectos();
 	
+	void crearProyecto(String nombre, Usuario usuarioPropietario, boolean estado, String descripcion);
+	
 	void crearEvento(LocalDateTime fecha, LocalDateTime inicio, LocalDateTime fin, String descripcion);
+	
 	List<EventoDTO> obtenerEventos();
 	
 	void asignarPrioridad(String nombreProyecto, String prioridad);
-    public int compare(Proyecto p1, Proyecto p2);
 	
+    public int compare(Proyecto p1, Proyecto p2);
+    
+    void crearPlan(String nombre, Proyecto pertenece);
+    
 }
