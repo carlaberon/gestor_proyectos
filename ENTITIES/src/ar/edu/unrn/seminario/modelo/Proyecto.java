@@ -106,7 +106,15 @@ public class Proyecto {
             this.estado = false;
     }
     
-    @Override
+    public String getPrioridad() {
+		return prioridad;
+	}
+
+	public void setPrioridad(String prioridad) {
+		this.prioridad = prioridad;
+	}
+
+	@Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
         if (!(obj instanceof Proyecto)) return false;

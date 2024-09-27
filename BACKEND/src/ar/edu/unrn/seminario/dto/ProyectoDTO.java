@@ -10,7 +10,7 @@ import ar.edu.unrn.seminario.modelo.Usuario;
 
 public class ProyectoDTO {
 
-    private String nombreProyecto;
+    private String nombre;
     private String usuarioPropietario;
     private String prioridad;
     private boolean estado; //ACTIVO= false; FINALIZADO = true
@@ -19,15 +19,16 @@ public class ProyectoDTO {
     private Set<String> proyectos = new HashSet<>();
     private Set<String> tareas = new HashSet<>();
     
-    public ProyectoDTO(String nombreProyecto, String usuarioPropietario, String prioridad, boolean estado) {
-        this.nombreProyecto = nombreProyecto;
+    public ProyectoDTO(String nombreProyecto, String usuarioPropietario, boolean estado, String prioridad, String descripcion) {
+        this.nombre = nombreProyecto;
         this.usuarioPropietario = usuarioPropietario;
         this.prioridad = prioridad;
         this.estado = estado;
+        this.descripcion = descripcion;
     }
     
     public String getNombre() {
-        return this.nombreProyecto;
+        return this.nombre;
     }
     
     public String getUsuarioPropietario() {
@@ -84,5 +85,16 @@ public class ProyectoDTO {
 
     public void setTareas(Set<String> tareas) {
         this.tareas = tareas;
+    }
+    
+    @Override
+    public String toString() {
+        return "ProyectoDTO{" +
+                "nombre='" + nombre + '\'' +
+                ", usuarioPropietario='" + usuarioPropietario + '\'' +
+                ", estado=" + (estado ? "FINALIZADO" : "ACTIVO") +
+                ", prioridad='" + prioridad + '\'' +
+                ", descripcion='" + descripcion + '\'' +
+                '}';
     }
 }

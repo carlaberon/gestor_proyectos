@@ -45,4 +45,8 @@ public interface IApi {
 	
 	void crearEvento(LocalDateTime fecha, LocalDateTime inicio, LocalDateTime fin, String descripcion);
 	List<EventoDTO> obtenerEventos();
+	
+	void asignarPrioridad(String nombreProyecto, String prioridad);
+    public int compare(Proyecto p1, Proyecto p2);
+	
 }

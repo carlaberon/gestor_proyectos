@@ -2,6 +2,7 @@ package ar.edu.unrn.seminario.api;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -26,13 +27,14 @@ public class MemoryApi implements IApi {
 	private Set<Evento> eventos = new HashSet<>();
 	
 
-	public MemoryApi() {
+	public MemoryApi(Set<Proyecto> proyectos) {
 
 		// datos iniciales
 		this.roles.add(new Rol(1, "ADMIN"));
 		this.roles.add(new Rol(2, "ESTUDIANTE"));
 		this.roles.add(new Rol(3, "INVITADO"));
 		inicializarUsuarios();
+		this.proyectos = proyectos;
 	}
 
 	private void inicializarUsuarios() {
@@ -175,12 +177,6 @@ public class MemoryApi implements IApi {
 		}
 		return tareas;
 	}
-
-	@Override
-	public List<ProyectoDTO> obtenerProyectos() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
 	@Override
 	public void crearEvento(LocalDateTime fecha, LocalDateTime inicio, LocalDateTime fin, String descripcion) {
@@ -206,4 +202,30 @@ public class MemoryApi implements IApi {
 		return eventosDTO;
 	}
 	
+	// Implementación del método para obtener la lista de proyectos como DTO
+    @Override
+    public List<ProyectoDTO> obtenerProyectos() {
+        List<ProyectoDTO> dtos = new ArrayList<>();
+        for (Proyecto p : this.proyectos) {
+            dtos.add(new ProyectoDTO(p.getNombre(), p.getUsuarioPropietario().getNombre(), p.getEstado(), p.getPrioridad(), p.getDescripcion()));
+        }
+        return dtos;
+    }
+	
+    // Implementación del método para asignar prioridad a un proyecto
+    @Override
+    public void asignarPrioridad(String nombreProyecto, String prioridad) {
+        for (Proyecto p : this.proyectos) {
+            if (p.getNombre().equals(nombreProyecto)) {
+                p.setPrioridad(prioridad);
+                break;
+            }
+        }
+    }
+    @Override
+    public int compare(Proyecto p1, Proyecto p2) {
+        // Ordenar por prioridad (alta, media, baja)
+        List<String> prioridades = Arrays.asList("alta", "media", "baja");
+        return Integer.compare(prioridades.indexOf(p1.getPrioridad()), prioridades.indexOf(p2.getPrioridad()));
+    }
 }
