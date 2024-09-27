@@ -205,5 +205,24 @@ public class MemoryApi implements IApi {
 	    }
 		return eventosDTO;
 	}
-	
+
+	@Override
+	public void eliminarProyecto(String nombreProyecto) {
+	    Proyecto proyectoAEliminar = null;
+
+	    // Buscar el proyecto por nombre
+	    for (Proyecto proyecto : this.proyectos) {
+	        if (proyecto.getNombre().equals(nombreProyecto)) {
+	            proyectoAEliminar = proyecto;
+	            break;
+	        }
+	    }
+
+	    // Si se encuentra el proyecto, eliminarlo
+	    if (proyectoAEliminar != null) {
+	        this.proyectos.remove(proyectoAEliminar);
+	        System.out.println("El proyecto '" + nombreProyecto + "' ha sido eliminado.");
+	    } 
+	}
+
 }
