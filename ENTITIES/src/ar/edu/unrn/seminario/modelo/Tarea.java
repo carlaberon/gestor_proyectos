@@ -5,15 +5,15 @@ import java.time.LocalDateTime;
 public class Tarea {
 
     private String nombre;
-    private Proyecto proyecto;
+    private String proyecto;
     private String prioridad;
-    private Usuario usuario;
+    private String usuario;
     private boolean estado; // FINALIZADO: TRUE, NOFINALIZADO: FALSE
     private String descripcion;
     private LocalDateTime inicio; 
     private LocalDateTime fin;
 
-    public Tarea(String nombretarea, Proyecto proyecto, String prioridad, Usuario usuario, boolean estado, String descripcion, LocalDateTime inicio, LocalDateTime fin)
+    public Tarea(String nombretarea, String proyecto, String prioridad, String usuario, boolean estado, String descripcion, LocalDateTime inicio, LocalDateTime fin)
     {
         this.nombre = nombretarea;
         this.proyecto = proyecto;
@@ -30,15 +30,12 @@ public class Tarea {
         return nombre;
     }
 
-    public Proyecto getProyecto() {
+    public String getProyecto() {
         return proyecto;
     }
 
-    public String getPrioridad() {
-        return prioridad;
-    }
 
-    public Usuario getUsuario() {
+    public String getUsuario() {
         return usuario;
     }
 
@@ -72,21 +69,28 @@ public class Tarea {
     public LocalDateTime getFin() {
         return fin;
     }
+    
+    public String getPrioridad() {
+    	return this.prioridad;
+    }
+    
+    
 
     // Setters
+    
+    public void setPrioridad(String prioridad) {
+    	this.prioridad = prioridad; 
+    }
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
 
-    public void setProyecto(Proyecto proyecto) {
+    public void setProyecto(String proyecto) {
         this.proyecto = proyecto;
     }
 
-    public void setPrioridad(String prioridad) {
-        this.prioridad = prioridad;
-    }
 
-    public void setUsuario(Usuario usuario) {
+    public void setUsuario(String usuario) {
         this.usuario = usuario;
     }
 

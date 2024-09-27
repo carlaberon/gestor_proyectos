@@ -7,6 +7,7 @@ public class Proyecto {
 
     private String nombre;
     private Usuario usuarioPropietario;
+    private String prioridad; //ALTA, MEDIA, BAJA //agregar getter setter etc
     private boolean estado; // ACTIVO = false, FINALIZADO = true
     private String prioridad;
     private Set<Miembro> miembros = new HashSet<>();
