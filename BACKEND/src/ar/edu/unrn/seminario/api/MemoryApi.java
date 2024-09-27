@@ -272,66 +272,63 @@ public class MemoryApi implements IApi {
 
 	@Override
 	public void modificarProyecto(String nombreProyecto, ProyectoDTO proyectoModificado) {
-	    // Buscar el proyecto por nombre
 	    Proyecto proyectoExistente = buscarProyectoPorNombre(nombreProyecto);
 	    
-	    // Modificar los campos del proyecto existente con los valores del DTO
+	    // Modificar los campos del proyecto existente
 	    proyectoExistente.setNombre(proyectoModificado.getNombre());
-	    
-	    // Buscar el usuario propietario por nombre (asumiendo que el DTO guarda el nombre del usuario)
 	    Usuario usuarioPropietario = buscarUsuarioPorNombre(proyectoModificado.getUsuarioPropietario());
-	    /*if (usuarioPropietario != null) {
+	    if (usuarioPropietario != null) {
 	        proyectoExistente.setUsuarioPropietario(usuarioPropietario);
 	    } else {
 	        throw new IllegalArgumentException("No se encontró el usuario propietario con nombre: " + proyectoModificado.getUsuarioPropietario());
-	    }*/
+	    }
 
-	    // Modificar otros atributos del proyecto
 	    proyectoExistente.setPrioridad(proyectoModificado.getPrioridad());
 	    proyectoExistente.setEstado(proyectoModificado.isEstado());
 	    proyectoExistente.setDescripcion(proyectoModificado.getDescripcion());
-	    
-	    // Actualizar miembros utilizando el MiembroDTO
+
+	    // Convertir y actualizar miembros y tareas
 	    Set<Miembro> miembrosActualizados = convertirMiembrosDTOAMiembros(proyectoModificado.getMiembros());
 	    proyectoExistente.setMiembros(miembrosActualizados);
 	    
-	    // Actualizar tareas utilizando el TareaDTO
 	    Set<Tarea> tareasActualizadas = convertirTareasDTOATareas(proyectoModificado.getTareas());
 	    proyectoExistente.setTareas(tareasActualizadas);
 	}
 	
-	private Set<Miembro> convertirMiembrosDTOAMiembros(Set<MiembroDTO> miembrosDTO) {
+	private Set<Miembro> convertirMiembrosDTOAMiembros(Set<String> miembrosDTO) {
 	    Set<Miembro> miembros = new HashSet<>();
 	    
-	    for (MiembroDTO dto : miembrosDTO) {
-	        Miembro miembro = new Miembro(dto.getCodigo());
-	        miembro.setFechaBaja(dto.getFechaBaja());
+	    for (String codigo : miembrosDTO) {
+	        Miembro miembro = new Miembro(codigo);
 	        miembros.add(miembro);
 	    }
 	    
 	    return miembros;
 	}
-	
-	private Set<Tarea> convertirTareasDTOATareas(Set<TareaDTO> tareasDTO) {
+
+	private Set<Tarea> convertirTareasDTOATareas(Set<String> tareasDTO) {
 	    Set<Tarea> tareas = new HashSet<>();
 	    
-	    for (TareaDTO dto : tareasDTO) {
-	        Tarea tarea = new Tarea(
-	            dto.getName(),
-	            dto.getProject(),
-	            dto.getPriority(),
-	            dto.getUser().getNombre(),  // Asume que Usuario tiene un método getNombre()
-	            dto.isEstado(),
-	            dto.getDescription(),
-	            dto.getInicio(),
-	            dto.getFin()
-	        );
-	        tareas.add(tarea);
+	    for (String nombreTarea : tareasDTO) {
+	        Tarea tarea = buscarTareaPorNombre(nombreTarea);
+	        if (tarea != null) {
+	            tareas.add(tarea);
+	        } else {
+	            // Manejar el caso donde no se encuentra la tarea
+	            System.out.println("Tarea no encontrada: " + nombreTarea);
+	        }
 	    }
 	    
 	    return tareas;
 	}
 		
-	
+	private Tarea buscarTareaPorNombre(String nombre) {
+	    for (Tarea tarea : this.tareas) {
+	        if (tarea.getNombre().equals(nombre)) {
+	            return tarea; // Devuelve la tarea si el nombre coincide
+	        }
+	    }
+	    return null; // Devuelve null si no se encuentra la tarea
+	}
     
 }
