@@ -1,6 +1,7 @@
 package ar.edu.unrn.seminario.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Button;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -9,6 +10,8 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -37,6 +40,8 @@ public class VentanaTareas extends JFrame {
     private JTable table;
 	DefaultTableModel modelo;
 	IApi api;
+	JButton botonModificar;
+	JButton botonEliminar;
 
     public VentanaTareas(IApi api) {
 
@@ -171,7 +176,16 @@ public class VentanaTareas extends JFrame {
 		scrollPane.setViewportView(table);
 		scrollPane.getViewport().setBackground(new Color(45, 44, 50)); // Fondo del scrollPane
       	
-        // Configuración del botón "Tarea +" en la esquina superior derecha
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				// Habilitar botones
+				habilitarBotones(true);
+
+			}
+		});
+		
+		// Configuración del botón "Tarea +" en la esquina superior derecha
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         buttonPanel.setOpaque(false);
 
@@ -188,6 +202,18 @@ public class VentanaTareas extends JFrame {
         buttonPanel.add(btnTarea);
         descPanel.add(buttonPanel, BorderLayout.NORTH); // Coloca el botón en el norte (arriba)
         centerPanel1.add(descPanel);
+        
+       //Configuración de los botones "Modificar" y "Eliminar" tarea
+      JPanel botones = new JPanel(new FlowLayout());
+      botones.setOpaque(false);
+      
+      botonModificar = createButton("Modificar", new Color(138, 102, 204));
+      botonEliminar = createButton("Eliminar", new Color(138, 102, 204));
+      botones.add(botonModificar);
+      botones.add(botonEliminar);
+      descPanel.add(botones, BorderLayout.SOUTH);
+      
+      habilitarBotones(false);
     }
     
     // Método auxiliar para crear paneles con título y diseño consistente
@@ -223,6 +249,12 @@ public class VentanaTareas extends JFrame {
         button.setPreferredSize(new Dimension(120, 40));
         return button;
     }
+    
+	private void habilitarBotones(boolean b) {
+		botonModificar.setEnabled(b);
+		botonEliminar.setEnabled(b);
+
+	}
 	void actualizarTabla() {
 		// Obtiene el model del table
 		DefaultTableModel modelo = (DefaultTableModel) table.getModel();
