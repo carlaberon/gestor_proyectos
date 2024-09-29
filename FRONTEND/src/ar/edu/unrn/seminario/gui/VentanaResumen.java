@@ -94,8 +94,6 @@ public class VentanaResumen extends JFrame {
             // Agregar ActionListener solo al botón de "Configuración"
             if (item.equals("Configuración")) {
                 menuButton.addActionListener(e -> {
-                    // Aquí va la acción que deseas realizar cuando se presiona el botón de Configuración
-                    System.out.println("Configuración seleccionada");
                     // Por ejemplo, podrías abrir un nuevo panel de configuración:
                     abrirPanelConfiguracion();
                 });
@@ -149,7 +147,7 @@ public class VentanaResumen extends JFrame {
         contentPane.add(centerPanel1, BorderLayout.CENTER);
     }
     
- // Método para abrir el panel de configuración
+    // Método para abrir el panel de configuración
     private void abrirPanelConfiguracion() {
         // Lógica para mostrar el panel de configuración
         // Puedes implementar esto como desees
