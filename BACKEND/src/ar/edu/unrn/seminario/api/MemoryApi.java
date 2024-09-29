@@ -282,7 +282,7 @@ public class MemoryApi implements IApi {
 	    } else {
 	        throw new IllegalArgumentException("No se encontró el usuario propietario con nombre: " + proyectoModificado.getUsuarioPropietario());
 	    }
-
+	   
 	    proyectoExistente.setPrioridad(proyectoModificado.getPrioridad());
 	    proyectoExistente.setEstado(proyectoModificado.isEstado());
 	    proyectoExistente.setDescripcion(proyectoModificado.getDescripcion());
@@ -305,7 +305,7 @@ public class MemoryApi implements IApi {
 	    
 	    return miembros;
 	}
-
+	
 	private Set<Tarea> convertirTareasDTOATareas(Set<String> tareasDTO) {
 	    Set<Tarea> tareas = new HashSet<>();
 	    
@@ -321,7 +321,7 @@ public class MemoryApi implements IApi {
 	    
 	    return tareas;
 	}
-		
+	
 	private Tarea buscarTareaPorNombre(String nombre) {
 	    for (Tarea tarea : this.tareas) {
 	        if (tarea.getNombre().equals(nombre)) {
