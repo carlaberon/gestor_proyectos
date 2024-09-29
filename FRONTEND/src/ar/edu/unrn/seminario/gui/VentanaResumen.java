@@ -2,6 +2,9 @@ package ar.edu.unrn.seminario.gui;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+
+import ar.edu.unrn.seminario.api.IApi;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,7 +13,7 @@ public class VentanaResumen extends JFrame {
 
     private JPanel contentPane;
 
-    public VentanaResumen(/* IApi api */) {
+    public VentanaResumen(IApi api) {
 
         setTitle("");
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
@@ -190,7 +193,7 @@ public class VentanaResumen extends JFrame {
     }
 
     public static void main(String[] args) {
-        VentanaResumen resumen = new VentanaResumen();
+        VentanaResumen resumen = new VentanaResumen(null);
         resumen.setVisible(true);
     }
 }
