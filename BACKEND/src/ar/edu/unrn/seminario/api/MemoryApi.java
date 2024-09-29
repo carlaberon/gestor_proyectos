@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+
 import ar.edu.unrn.seminario.dto.EventoDTO;
 import ar.edu.unrn.seminario.dto.ProyectoDTO;
 import ar.edu.unrn.seminario.dto.RolDTO;
@@ -27,7 +28,6 @@ public class MemoryApi implements IApi {
 	
 
 	public MemoryApi() {
-
 		// datos iniciales
 		this.roles.add(new Rol(1, "PROPIETARIO"));
 		this.roles.add(new Rol(2, "OBSERVADOR"));
@@ -208,7 +208,7 @@ public class MemoryApi implements IApi {
 
 	@Override
 	public void eliminarProyecto(String nombreProyecto) {
-	    Proyecto proyectoAEliminar = null;
+		Proyecto proyectoAEliminar = null;
 
 	    // Buscar el proyecto por nombre
 	    for (Proyecto proyecto : this.proyectos) {
@@ -222,7 +222,12 @@ public class MemoryApi implements IApi {
 	    if (proyectoAEliminar != null) {
 	        this.proyectos.remove(proyectoAEliminar);
 	        System.out.println("El proyecto '" + nombreProyecto + "' ha sido eliminado.");
-	    } 
+	    } else {
+	        System.out.println("Proyecto con nombre '" + nombreProyecto + "' no encontrado.");
+	    }
+		
 	}
-
+	
+	
+	
 }

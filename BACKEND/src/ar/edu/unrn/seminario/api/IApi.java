@@ -45,4 +45,6 @@ public interface IApi {
 	
 	void crearEvento(LocalDateTime fecha, LocalDateTime inicio, LocalDateTime fin, String descripcion);
 	List<EventoDTO> obtenerEventos();
+	
+	public void eliminarProyecto(String nombreProyecto);
 }

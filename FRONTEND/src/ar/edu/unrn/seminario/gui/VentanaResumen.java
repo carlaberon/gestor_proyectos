@@ -91,7 +91,9 @@ public class VentanaResumen extends JFrame {
             menuButton.setMargin(new Insets(10, 10, 10, 10)); // Margen interno
             menuPanel.add(menuButton);
         }
-
+        
+        
+        
         // Agregar el panel lateral al contentPane
         contentPane.add(menuPanel, BorderLayout.WEST);
 
