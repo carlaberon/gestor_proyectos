@@ -73,7 +73,7 @@ public class VentanaResumen extends JFrame {
        
         this.setJMenuBar(menuBar);
 
-        // Panel lateral (Menú)-----------------------------------------------------------------------------
+     // Panel lateral (Menú)-----------------------------------------------------------------------------
         JPanel menuPanel = new JPanel();
         menuPanel.setLayout(new GridLayout(7, 1, 10, 10)); // Espacio entre botones
         menuPanel.setPreferredSize(new Dimension(200, 0));
@@ -90,12 +90,22 @@ public class VentanaResumen extends JFrame {
             menuButton.setHorizontalAlignment(SwingConstants.LEFT); // Alineación izquierda
             menuButton.setMargin(new Insets(10, 10, 10, 10)); // Margen interno
             menuPanel.add(menuButton);
+
+            // Agregar ActionListener solo al botón de "Configuración"
+            if (item.equals("Configuración")) {
+                menuButton.addActionListener(e -> {
+                    // Por ejemplo, podrías abrir un nuevo panel de configuración:
+                    abrirPanelConfiguracion();
+                });
+            }
         }
         
         
         
         // Agregar el panel lateral al contentPane
         contentPane.add(menuPanel, BorderLayout.WEST);
+
+        
 
         // Panel principal (Centro)
         JPanel centerPanel1 = new JPanel();
@@ -137,6 +147,14 @@ public class VentanaResumen extends JFrame {
 
         // Agregar el panel principal al contentPane
         contentPane.add(centerPanel1, BorderLayout.CENTER);
+    }
+    
+    // Método para abrir el panel de configuración
+    private void abrirPanelConfiguracion() {
+        // Lógica para mostrar el panel de configuración
+        // Puedes implementar esto como desees
+        VentanaConfigurarProyecto ventanaConfig = new VentanaConfigurarProyecto();
+        ventanaConfig.setVisible(true);
     }
 
     // Método auxiliar para crear paneles con título y diseño consistente

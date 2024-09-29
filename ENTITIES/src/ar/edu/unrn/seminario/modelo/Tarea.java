@@ -6,6 +6,7 @@ public class Tarea {
 
     private String nombre;
     private String proyecto;
+    private String prioridad;
     private String usuario;
     private boolean estado; // FINALIZADO: TRUE, NOFINALIZADO: FALSE
     private String descripcion;
@@ -16,6 +17,7 @@ public class Tarea {
     {
         this.nombre = nombretarea;
         this.proyecto = proyecto;
+        this.prioridad = prioridad;
         this.usuario = usuario;
         this.estado = estado;
         this.descripcion = descripcion; 
@@ -67,8 +69,18 @@ public class Tarea {
     public LocalDateTime getFin() {
         return fin;
     }
+    
+    public String getPrioridad() {
+    	return this.prioridad;
+    }
+    
+    
 
     // Setters
+    
+    public void setPrioridad(String prioridad) {
+    	this.prioridad = prioridad; 
+    }
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
