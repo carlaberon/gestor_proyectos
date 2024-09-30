@@ -2,10 +2,12 @@ package ar.edu.unrn.seminario.gui;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
-import ar.edu.unrn.seminario.modelo.Proyecto;
-public class Inicio {
+
+public class Inicio extends JFrame {
 
     private JFrame frame;
 
@@ -31,12 +33,22 @@ public class Inicio {
 
         JMenuItem logoutItem = new JMenuItem("Cerrar sesión");
         JMenuItem confItem = new JMenuItem("Configurar Cuenta");
+        JMenuItem verTodosProyectosMenuItem = new JMenuItem("Ver todos los proyectos");
 
         accountMenu.add(confItem);
         accountMenu.add(logoutItem);
+        accountMenu.add(verTodosProyectosMenuItem);
         menuBar.add(accountMenu);
 
         logoutItem.addActionListener(e -> System.exit(0));
+
+        verTodosProyectosMenuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                abrirListaProyectos(); // Abrir la ventana de proyectos desde el menú
+                
+            }
+        });
 
         frame.setJMenuBar(menuBar);
 
@@ -69,7 +81,6 @@ public class Inicio {
         welcomeLabel.setFont(new Font("Segoe UI", Font.PLAIN, 18));
         contentPanel.add(welcomeLabel);
 
-        // Panel derecho para proyectos
         JPanel rightPanel = new JPanel(new BorderLayout());
         rightPanel.setBackground(new Color(30, 30, 30));
 
@@ -77,22 +88,21 @@ public class Inicio {
         proyectosLabel.setForeground(Color.GRAY);
         proyectosLabel.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 
-        // Panel donde se muestran los proyectos
         JPanel proyectosListPanel = new JPanel();
         proyectosListPanel.setLayout(new BoxLayout(proyectosListPanel, BoxLayout.Y_AXIS));
         proyectosListPanel.setBackground(new Color(30, 30, 30));
 
-        // ESTA ES LA PARTE QUE MUEVE LA PRIORIDAD DE LOS PROYECTOS
-        List<Proyecto> proyectos = crearProyectos();
-        proyectos.sort((p1, p2) -> p1.getPrioridad().compareTo(p2.getPrioridad())); 
+        List<Proyecto> proyectos = crearProyectos();//ESTO ES EL COMPARADOR DE PRIORIDAD
+        proyectos.sort((p1, p2) -> p1.getPrioridad().compareTo(p2.getPrioridad()));
         for (Proyecto proyecto : proyectos) {
-            JLabel proyectoLabel = new JLabel(proyecto.getNombre());
-            proyectoLabel.setForeground(Color.LIGHT_GRAY);
-            proyectoLabel.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-            proyectosListPanel.add(proyectoLabel);
+            JButton proyectoButton = new JButton(proyecto.getNombre());
+            proyectoButton.setForeground(Color.GRAY);
+            proyectoButton.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+            proyectoButton.addActionListener(e -> abrirVentanaResumen(proyecto)); // ActionListener para abrir VentanaResumen
+            proyectosListPanel.add(proyectoButton);
+            
         }
 
-        // Panel inferior con botones
         JPanel proyectosButtonsPanel = new JPanel();
         proyectosButtonsPanel.setBackground(new Color(30, 30, 30));
 
@@ -101,6 +111,7 @@ public class Inicio {
         formatButton(btnNuevoProyecto);
         formatButton(btnVerProyectos);
 
+        btnVerProyectos.addActionListener(e -> abrirListaProyectos()); // Acción para el botón
         proyectosButtonsPanel.add(btnNuevoProyecto);
         proyectosButtonsPanel.add(btnVerProyectos);
 
@@ -116,16 +127,14 @@ public class Inicio {
         frame.setVisible(true);
     }
 
-    // Método para crear proyectos de ejemplo
     private List<Proyecto> crearProyectos() {
         List<Proyecto> proyectos = new ArrayList<>();
         proyectos.add(new Proyecto("Gestor proyectos", "Alta"));
-        proyectos.add(new Proyecto("Recuentos votos", "cedia"));
-        proyectos.add(new Proyecto("Gestionar tareas", "Baja"));
+        proyectos.add(new Proyecto("Recuentos votos", "Media"));
+        proyectos.add(new Proyecto("Gestionar tareas", "Zaja"));
         return proyectos;
     }
 
-    // Método para dar formato a los botones
     private void formatButton(JButton button) {
         button.setForeground(Color.WHITE);
         button.setBackground(new Color(80, 80, 80));
@@ -133,9 +142,22 @@ public class Inicio {
         button.setFont(new Font("Segoe UI", Font.PLAIN, 14));
     }
 
+    private void abrirListaProyectos() {
+        ListaProyectos listaProyectos = new ListaProyectos(); // Crear una instancia de ListaProyectos
+        listaProyectos.setVisible(true); // Hacer visible la ventana de proyectos
+        //frame.dispose(); // Cerrar la ventana actual
+        
+    }
+
+    private void abrirVentanaResumen(Proyecto proyecto) {
+        VentanaResumen ventanaResumen = new VentanaResumen(); // Crear una instancia de VentanaResumen
+        ventanaResumen.setVisible(true); // Hacer visible la ventana de resumen
+    }
+
     public static void main(String[] args) {
         new Inicio();
     }
+}
 
     // Clase Proyecto para almacenar información de proyectos
     class Proyecto {
@@ -155,4 +177,3 @@ public class Inicio {
             return prioridad;
         }
     }
-}

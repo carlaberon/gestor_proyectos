@@ -7,11 +7,10 @@ public class Proyecto {
 
     private String nombre;
     private Usuario usuarioPropietario;
-    private String prioridad; //ALTA, MEDIA, BAJA //agregar getter setter etc
     private boolean estado; // ACTIVO = false, FINALIZADO = true
-    private String prioridad;
     private Set<Miembro> miembros = new HashSet<>();
     private String descripcion;
+    private String prioridad;
     private Set<Proyecto> proyectos = new HashSet<>();
     private Set<Tarea> tareas = new HashSet<>();
 
@@ -68,7 +67,13 @@ public class Proyecto {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
-    
+    public String getPrioridad() {
+        return prioridad;
+    }
+
+    public void setPrioridad(String prioridad) {
+        this.prioridad = prioridad;
+    }
     public Set<Proyecto> getProyectos() {
         return proyectos;
     }
@@ -126,14 +131,6 @@ public class Proyecto {
         result = prime * result + (nombre == null ? 0 : nombre.hashCode());
         result = prime * result + (usuarioPropietario == null ? 0 : usuarioPropietario.hashCode());
         return result;
-    }
-
-    public String getPrioridad() {
-        return prioridad;
-    }
-
-    public void setPrioridad(String prioridad) {
-        this.prioridad = prioridad;
     }
 }
 

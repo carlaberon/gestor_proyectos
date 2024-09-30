@@ -10,9 +10,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class ProyectosDetallado extends JFrame {
+public class ListaProyectos extends JFrame {
 
-    public ProyectosDetallado() {
+    public ListaProyectos() {
         // Configuración básica de la ventana
         setTitle("Proyectos Activos");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -30,7 +30,7 @@ public class ProyectosDetallado extends JFrame {
         // Crear la tabla
         JTable tabla = new JTable(new DefaultTableModel(
                 new Object[][]{
-                        {"Gestionar evento", "Activo", "La gestion de diferentes", "\u2714", "31/03/2024", "Carla", "A1987", "16/08/2023", "\u2B07", "Asignar"},
+                        {"Gestionar evento", "Activo", "La gestion de diferentes", "\u2714", "31/03/2024", "Carla", "A1987", "16/08/2023", "\u2B07", "aja"},
                         {"Recuento de votos", "Finalizado", "Informacion sobre los votos", "\u2718", "28/03/2024", "Gabriel", "A2987", "28/03/2023", "\u2B07", "Media"},
                         {"Gestionar tarea", "Activo", "Tareas necesarias sobre la", "\u2714", "14/04/2024", "Hernan", "A3987", "11/01/2023", "\u2B07", "Baja"},
                         {"Parciales", "Inactivo", "Informacion sobre como completar la informacion de los parciales de la carrera", "\u2718", "31/11/2023", "Tomas", "A4987", "28/03/2023", "\u2B07", "Alta"},
@@ -200,7 +200,7 @@ public class ProyectosDetallado extends JFrame {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            ProyectosDetallado frame = new ProyectosDetallado();
+        	ListaProyectos frame = new ListaProyectos();
             frame.setVisible(true);
         });
     }
