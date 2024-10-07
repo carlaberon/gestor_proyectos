@@ -1,6 +1,9 @@
 package ar.edu.unrn.seminario.gui;
 
 import javax.swing.*;
+
+import ar.edu.unrn.seminario.api.IApi;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,8 +13,9 @@ import java.util.List;
 public class Inicio extends JFrame {
 
     private JFrame frame;
-
-    public Inicio() {
+    IApi api;
+    public Inicio(IApi api) {
+    	this.api = api;
         frame = new JFrame("LabProject");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 600);
