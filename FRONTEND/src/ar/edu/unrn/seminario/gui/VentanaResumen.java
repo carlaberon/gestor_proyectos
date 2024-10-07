@@ -4,6 +4,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import ar.edu.unrn.seminario.api.IApi;
+import ar.edu.unrn.seminario.dto.ProyectoDTO;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -13,7 +14,7 @@ public class VentanaResumen extends JFrame {
 
     private JPanel contentPane;
 
-    public VentanaResumen(IApi api) {
+    public VentanaResumen(ProyectoDTO proyecto) {
 
         setTitle("");
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);

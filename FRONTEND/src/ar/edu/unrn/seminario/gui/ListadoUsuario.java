@@ -36,6 +36,7 @@ public class ListadoUsuario extends JFrame  {
 	public ListadoUsuario(IApi api) throws RuntimeException{
 		this.api = api;
 
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
