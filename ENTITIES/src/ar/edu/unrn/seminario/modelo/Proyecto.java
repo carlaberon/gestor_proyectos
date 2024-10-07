@@ -121,13 +121,6 @@ public class Proyecto {
             this.estado = false;
     }
     
-    public String getPrioridad() {
-		return prioridad;
-	}
-
-	public void setPrioridad(String prioridad) {
-		this.prioridad = prioridad;
-	}
 	
 	public Plan getPlan() {
         return plan;

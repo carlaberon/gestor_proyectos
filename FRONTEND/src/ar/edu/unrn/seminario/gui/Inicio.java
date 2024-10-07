@@ -1,6 +1,11 @@
 package ar.edu.unrn.seminario.gui;
 
 import javax.swing.*;
+
+import ar.edu.unrn.seminario.api.IApi;
+import ar.edu.unrn.seminario.api.MemoryApi;
+import ar.edu.unrn.seminario.dto.ProyectoDTO;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,8 +15,10 @@ import java.util.List;
 public class Inicio extends JFrame {
 
     private JFrame frame;
+    IApi api;
 
-    public Inicio() {
+    public Inicio(IApi api) {
+    	this.api = api;
         frame = new JFrame("LabProject");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 600);
@@ -93,14 +100,33 @@ public class Inicio extends JFrame {
         proyectosListPanel.setLayout(new BoxLayout(proyectosListPanel, BoxLayout.Y_AXIS));
         proyectosListPanel.setBackground(new Color(30, 30, 30));
 
-        List<Proyecto> proyectos = crearProyectos();//ESTO ES EL COMPARADOR DE PRIORIDAD
+        //BACK -> DTO -> FRONT
+        List<ProyectoDTO> proyectos = api.obtenerProyectos();
+
+        
         proyectos.sort((p1, p2) -> p1.getPrioridad().compareTo(p2.getPrioridad()));
-        for (Proyecto proyecto : proyectos) {
+        
+        for (ProyectoDTO proyecto : proyectos) {
             JButton proyectoButton = new JButton(proyecto.getNombre());
             proyectoButton.setForeground(Color.DARK_GRAY);
             proyectoButton.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-            proyectoButton.addActionListener(e -> abrirVentanaResumen(proyecto)); // ActionListener para abrir VentanaResumen
+            
+            proyectoButton.addActionListener( new ActionListener () {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					abrirVentanaResumen(proyecto);
+				}
+            	
+            });
+            
             proyectosListPanel.add(proyectoButton);
+<<<<<<< HEAD
+=======
+           
+            
+>>>>>>> develope
         }
 
         JPanel proyectosButtonsPanel = new JPanel();
@@ -149,14 +175,20 @@ public class Inicio extends JFrame {
         // No cerrar la ventana principal
     }
 
+<<<<<<< HEAD
 
     private void abrirVentanaResumen(Proyecto proyecto) {
         VentanaResumen ventanaResumen = new VentanaResumen(null); // Crear una instancia de VentanaResumen
+=======
+    private void abrirVentanaResumen(ProyectoDTO proyecto) {
+        VentanaResumen ventanaResumen = new VentanaResumen(proyecto); // Crear una instancia de VentanaResumen
+>>>>>>> develope
         ventanaResumen.setVisible(true); // Hacer visible la ventana de resumen
     }
 
     public static void main(String[] args) {
-        new Inicio();
+    	IApi api = new MemoryApi();
+        new Inicio(api);
     }
 }
 
