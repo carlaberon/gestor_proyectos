@@ -13,9 +13,13 @@ import java.awt.event.ActionListener;
 public class VentanaResumen extends JFrame {
 
     private JPanel contentPane;
+    
+    private ProyectoDTO unproyecto;
 
     public VentanaResumen(ProyectoDTO proyecto) {
 
+    	this.unproyecto = proyecto; 
+    	
         setTitle("");
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         setBounds(100, 100, 900, 600);
@@ -29,7 +33,7 @@ public class VentanaResumen extends JFrame {
         menuBar.setBackground(new Color(138, 102, 204));
         menuBar.setPreferredSize(new Dimension(100, 50));
 
-        JMenu menuProyecto = new JMenu("nombreProyecto");
+        JMenu menuProyecto = new JMenu(unproyecto.getNombre());
         menuProyecto.setForeground(Color.WHITE);
         menuProyecto.setFont(new Font("Segoe UI", Font.PLAIN, 18));
 
@@ -118,7 +122,7 @@ public class VentanaResumen extends JFrame {
         centerPanel1.setBorder(new EmptyBorder(20, 20, 20, 20)); // Margen alrededor del contenido
 
         // Descripción del proyecto
-        JPanel descPanel = createPanel("Descripción del proyecto", "Estado no definido");
+        JPanel descPanel = createPanel("Descripción del proyecto", proyecto.getDescripcion());
         centerPanel1.add(descPanel);
 
         // Estado del proyecto

@@ -45,7 +45,7 @@ public class MemoryApi implements IApi {
 	
 	private void inicializarProyecto() {
 		Usuario user =new Usuario("Usuario","123","name","gmail",new Rol());
-		crearProyecto("SL", user ,false,"proyecto_sl");
+		crearProyecto("TareasSL", user ,false,"Proyecto para la gestion de tareas");
 	}
 
 	private void inicializarUsuarios() {
