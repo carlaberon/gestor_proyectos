@@ -72,11 +72,11 @@ public class Proyecto {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
-    public String getPrioridad() {
+    public String getPrioridad1() {
         return prioridad;
     }
 
-    public void setPrioridad(String prioridad) {
+    public void setPrioridad1(String prioridad) {
         this.prioridad = prioridad;
     }
     public Set<Proyecto> getProyectos() {

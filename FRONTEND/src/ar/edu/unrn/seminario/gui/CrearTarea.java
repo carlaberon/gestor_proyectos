@@ -36,8 +36,8 @@ public class CrearTarea extends JFrame {
     	 
     	this.ventanaTareas = ventanaTareas;
         
-    	proyectos.add(new ProyectoDTO("Proyecto1", "UsuarioPropietario", "alta", false));
-        proyectos.add(new ProyectoDTO("Proyecto2", "UsuarioPropietario", "alta", false));
+    	proyectos.add(new ProyectoDTO("Proyecto1", "UsuarioPropietario",false, "alta", "false"));
+        proyectos.add(new ProyectoDTO("Proyecto2", "UsuarioPropietario",false, "alta", "false"));
 
         Rol unRol = new Rol();
         usuarios.add(new UsuarioDTO("usuario1", "password", "nombre", "email", unRol, true));

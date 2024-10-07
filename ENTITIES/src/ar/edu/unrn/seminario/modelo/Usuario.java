@@ -1,5 +1,7 @@
 package ar.edu.unrn.seminario.modelo;
 
+import ar.edu.unrn.seminario.exception.StateChangeException;
+
 public class Usuario {
 	private String usuario;
 	private String contrasena;
@@ -65,7 +67,6 @@ public class Usuario {
 	public String obtenerEstado() {
 		return isActivo() ? "ACTIVO" : "INACTIVO";
 	}
-
 	public void activar() {
 		if (!isActivo())
 			this.activo = true;

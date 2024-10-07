@@ -47,6 +47,7 @@ public class Inicio extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 abrirListaProyectos(); // Abrir la ventana de proyectos desde el menú
                 
+                
             }
         });
 
@@ -96,11 +97,10 @@ public class Inicio extends JFrame {
         proyectos.sort((p1, p2) -> p1.getPrioridad().compareTo(p2.getPrioridad()));
         for (Proyecto proyecto : proyectos) {
             JButton proyectoButton = new JButton(proyecto.getNombre());
-            proyectoButton.setForeground(Color.GRAY);
+            proyectoButton.setForeground(Color.DARK_GRAY);
             proyectoButton.setFont(new Font("Segoe UI", Font.PLAIN, 14));
             proyectoButton.addActionListener(e -> abrirVentanaResumen(proyecto)); // ActionListener para abrir VentanaResumen
             proyectosListPanel.add(proyectoButton);
-            
         }
 
         JPanel proyectosButtonsPanel = new JPanel();
@@ -111,7 +111,7 @@ public class Inicio extends JFrame {
         formatButton(btnNuevoProyecto);
         formatButton(btnVerProyectos);
 
-        btnVerProyectos.addActionListener(e -> abrirListaProyectos()); // Acción para el botón
+        btnVerProyectos.addActionListener(e -> abrirListaProyectos()); // Acción del boton para abrir la ventana
         proyectosButtonsPanel.add(btnNuevoProyecto);
         proyectosButtonsPanel.add(btnVerProyectos);
 
@@ -143,14 +143,15 @@ public class Inicio extends JFrame {
     }
 
     private void abrirListaProyectos() {
-        ListaProyectos listaProyectos = new ListaProyectos(); // Crear una instancia de ListaProyectos
-        listaProyectos.setVisible(true); // Hacer visible la ventana de proyectos
-        //frame.dispose(); // Cerrar la ventana actual
-        
+        ListaProyectos listaProyectos = new ListaProyectos(); 
+        listaProyectos.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Solo cerrar la ventana de la lista
+        listaProyectos.setVisible(true); 
+        // No cerrar la ventana principal
     }
 
+
     private void abrirVentanaResumen(Proyecto proyecto) {
-        VentanaResumen ventanaResumen = new VentanaResumen(); // Crear una instancia de VentanaResumen
+        VentanaResumen ventanaResumen = new VentanaResumen(null); // Crear una instancia de VentanaResumen
         ventanaResumen.setVisible(true); // Hacer visible la ventana de resumen
     }
 
