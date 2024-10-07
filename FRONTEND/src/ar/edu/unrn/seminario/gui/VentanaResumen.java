@@ -102,7 +102,9 @@ public class VentanaResumen extends JFrame {
                 });
             }
         }
-
+        
+        
+        
         // Agregar el panel lateral al contentPane
         contentPane.add(menuPanel, BorderLayout.WEST);
 
