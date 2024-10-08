@@ -79,7 +79,7 @@ public class Inicio extends JFrame {
             menuButton.setMargin(new Insets(10, 10, 10, 10));
             menuPanel.add(menuButton);
         }
-        frame.add(menuPanel, BorderLayout.WEST);
+        frame.getContentPane().add(menuPanel, BorderLayout.WEST);
 
         JPanel contentPanel = new JPanel();
         contentPanel.setBackground(new Color(45, 45, 45));
@@ -129,6 +129,12 @@ public class Inicio extends JFrame {
         proyectosButtonsPanel.setBackground(new Color(30, 30, 30));
 
         JButton btnNuevoProyecto = new JButton("Proyecto +");
+        btnNuevoProyecto.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		CrearProyecto crearProyecto = new CrearProyecto();
+        		crearProyecto.setVisible(true);
+        	}
+        });
         JButton btnVerProyectos = new JButton("Ver todos los proyectos");
         formatButton(btnNuevoProyecto);
         formatButton(btnVerProyectos);
@@ -144,18 +150,18 @@ public class Inicio extends JFrame {
         mainPanel.add(contentPanel, BorderLayout.CENTER);
         mainPanel.add(rightPanel, BorderLayout.EAST);
 
-        frame.add(mainPanel);
+        frame.getContentPane().add(mainPanel);
 
         frame.setVisible(true);
     }
 
-    private List<Proyecto> crearProyectos() {
+    /*private List<Proyecto> crearProyectos() {
         List<Proyecto> proyectos = new ArrayList<>();
         proyectos.add(new Proyecto("Gestor proyectos", "Alta"));
         proyectos.add(new Proyecto("Recuentos votos", "Media"));
         proyectos.add(new Proyecto("Gestionar tareas", "Zaja"));
         return proyectos;
-    }
+    }*/
 
     private void formatButton(JButton button) {
         button.setForeground(Color.WHITE);
@@ -182,7 +188,7 @@ public class Inicio extends JFrame {
     }
 }
 
-    // Clase Proyecto para almacenar información de proyectos
+    /*// Clase Proyecto para almacenar información de proyectos
     class Proyecto {
         private String nombre;
         private String prioridad;
@@ -199,4 +205,4 @@ public class Inicio extends JFrame {
         public String getPrioridad() {
             return prioridad;
         }
-    }
+    }*/
