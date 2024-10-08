@@ -38,7 +38,14 @@ public class MemoryApi implements IApi {
 		this.roles.add(new Rol(2, "OBSERVADOR"));
 		this.roles.add(new Rol(3, "COLABORADOR"));
 		inicializarUsuarios();
-		//this.proyectos = proyectos;
+		inicializarProyecto();
+		
+		
+	}
+	
+	private void inicializarProyecto() {
+		Usuario user =new Usuario("Usuario","123","name","gmail",new Rol());
+		crearProyecto("TareasSL", user ,false,"Proyecto para la gestion de tareas");
 	}
 
 	private void inicializarUsuarios() {
@@ -249,6 +256,7 @@ public class MemoryApi implements IApi {
 	    Proyecto nuevoProyecto = new Proyecto(nombre, usuarioPropietario, estado, descripcion);
 	    
 	    // Agregar el proyecto a la colección de proyectos
+	    
 	    this.proyectos.add(nuevoProyecto);
 	}
     
