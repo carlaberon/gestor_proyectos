@@ -1,15 +1,13 @@
 package ar.edu.unrn.seminario.gui;
 
 import javax.swing.*;
-
-import ar.edu.unrn.seminario.api.IApi;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.List;
-
+import ar.edu.unrn.seminario.api.IApi;
+import ar.edu.unrn.seminario.api.MemoryApi;
+import ar.edu.unrn.seminario.dto.ProyectoDTO;
 public class Inicio extends JFrame {
 
     private JFrame frame;
@@ -96,14 +94,23 @@ public class Inicio extends JFrame {
         JPanel proyectosListPanel = new JPanel();
         proyectosListPanel.setLayout(new BoxLayout(proyectosListPanel, BoxLayout.Y_AXIS));
         proyectosListPanel.setBackground(new Color(30, 30, 30));
+        //BACK -> DTO -> FRONT
+        List<ProyectoDTO> proyectos = api.obtenerProyectos();
 
-        List<Proyecto> proyectos = crearProyectos();//ESTO ES EL COMPARADOR DE PRIORIDAD
         proyectos.sort((p1, p2) -> p1.getPrioridad().compareTo(p2.getPrioridad()));
-        for (Proyecto proyecto : proyectos) {
+        for (ProyectoDTO proyecto : proyectos) {
             JButton proyectoButton = new JButton(proyecto.getNombre());
             proyectoButton.setForeground(Color.DARK_GRAY);
             proyectoButton.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-            proyectoButton.addActionListener(e -> abrirVentanaResumen(proyecto)); // ActionListener para abrir VentanaResumen
+            proyectoButton.addActionListener( new ActionListener () {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					abrirVentanaResumen(proyecto);
+				}
+            	
+            });
             proyectosListPanel.add(proyectoButton);
         }
 
@@ -115,7 +122,7 @@ public class Inicio extends JFrame {
         formatButton(btnNuevoProyecto);
         formatButton(btnVerProyectos);
 
-        btnVerProyectos.addActionListener(e -> abrirListaProyectos()); // Acción para el botón
+        btnVerProyectos.addActionListener(e -> abrirListaProyectos()); // Acción del boton
         proyectosButtonsPanel.add(btnNuevoProyecto);
         proyectosButtonsPanel.add(btnVerProyectos);
 
@@ -131,14 +138,6 @@ public class Inicio extends JFrame {
         frame.setVisible(true);
     }
 
-    private List<Proyecto> crearProyectos() {
-        List<Proyecto> proyectos = new ArrayList<>();
-        proyectos.add(new Proyecto("Gestor proyectos", "Alta"));
-        proyectos.add(new Proyecto("Recuentos votos", "Media"));
-        proyectos.add(new Proyecto("Gestionar tareas", "Zaja"));
-        return proyectos;
-    }
-
     private void formatButton(JButton button) {
         button.setForeground(Color.WHITE);
         button.setBackground(new Color(80, 80, 80));
@@ -147,37 +146,20 @@ public class Inicio extends JFrame {
     }
 
     private void abrirListaProyectos() {
-        ListaProyectos listaProyectos = new ListaProyectos(); // Crear una instancia de ListaProyectos
-        listaProyectos.setVisible(true); // Hacer visible la ventana de proyectos
-        //frame.dispose(); // esto hace que si abro la ventana lista se elimina la ventana actual
-        
+        ListaProyectos listaProyectos = new ListaProyectos(); 
+        listaProyectos.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Solo cerrar la ventana de la lista
+        listaProyectos.setVisible(true); 
+        // No cerrar la ventana principal
     }
 
-    private void abrirVentanaResumen(Proyecto proyecto) {
-        VentanaResumen ventanaResumen = new VentanaResumen(null); // Crear una instancia de VentanaResumen
+
+    private void abrirVentanaResumen(ProyectoDTO proyecto) {
+        VentanaResumen ventanaResumen = new VentanaResumen(proyecto); // Crear una instancia de VentanaResumen 
         ventanaResumen.setVisible(true); // Hacer visible la ventana de resumen
     }
 
     public static void main(String[] args) {
-        new Inicio();
+    	IApi api = new MemoryApi();
+        new Inicio(api);
     }
 }
-
-    // Clase Proyecto para almacenar información de proyectos
-    class Proyecto {
-        private String nombre;
-        private String prioridad;
-
-        public Proyecto(String nombre, String prioridad) {
-            this.nombre = nombre;
-            this.prioridad = prioridad;
-        }
-
-        public String getNombre() {
-            return nombre;
-        }
-
-        public String getPrioridad() {
-            return prioridad;
-        }
-    } 

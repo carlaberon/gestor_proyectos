@@ -219,7 +219,7 @@ public class MemoryApi implements IApi {
     public List<ProyectoDTO> obtenerProyectos() {
         List<ProyectoDTO> dtos = new ArrayList<>();
         for (Proyecto p : this.proyectos) {
-            dtos.add(new ProyectoDTO(p.getNombre(), p.getUsuarioPropietario().getNombre(), p.getEstado(), p.getPrioridad(), p.getDescripcion()));
+            dtos.add(new ProyectoDTO(p.getNombre(), p.getUsuarioPropietario().getNombre(), p.getEstado(), p.getPrioridad1(), p.getDescripcion()));
         }
         return dtos;
     }
@@ -229,7 +229,7 @@ public class MemoryApi implements IApi {
     public void asignarPrioridad(String nombreProyecto, String prioridad) {
         for (Proyecto p : this.proyectos) {
             if (p.getNombre().equals(nombreProyecto)) {
-                p.setPrioridad(prioridad);
+                p.setPrioridad1(prioridad);
                 break;
             }
         }
@@ -238,7 +238,7 @@ public class MemoryApi implements IApi {
     public int compare(Proyecto p1, Proyecto p2) {
         // Ordenar por prioridad (alta, media, baja)
         List<String> prioridades = Arrays.asList("alta", "media", "baja");
-        return Integer.compare(prioridades.indexOf(p1.getPrioridad()), prioridades.indexOf(p2.getPrioridad()));
+        return Integer.compare(prioridades.indexOf(p1.getPrioridad1()), prioridades.indexOf(p2.getPrioridad1()));
     }
 
 	@Override
@@ -292,7 +292,7 @@ public class MemoryApi implements IApi {
 	        throw new IllegalArgumentException("No se encontró el usuario propietario con nombre: " + proyectoModificado.getUsuarioPropietario());
 	    }
 	   
-	    proyectoExistente.setPrioridad(proyectoModificado.getPrioridad());
+	    proyectoExistente.setPrioridad1(proyectoModificado.getPrioridad());
 	    //proyectoExistente.setEstado(proyectoModificado.isEstado()); //ver para sacarlo
 	    proyectoExistente.setDescripcion(proyectoModificado.getDescripcion());
 

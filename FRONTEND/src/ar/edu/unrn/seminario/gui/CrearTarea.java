@@ -48,16 +48,11 @@ public class CrearTarea extends JFrame {
     public CrearTarea(IApi api, JFrame ventanaTareas) {
     	 
     	this.ventanaTareas = (VentanaTareas) ventanaTareas;
-        
-<<<<<<< HEAD
+
     	proyectos.add(new ProyectoDTO("Proyecto1", "UsuarioPropietario",false, "alta", "false"));
         proyectos.add(new ProyectoDTO("Proyecto2", "UsuarioPropietario",false, "alta", "false"));
-=======
-  
     	proyectos.add(new ProyectoDTO("Proyecto1", "UsuarioPropietario", false, "Alta", "proyecto para la gestion de tareas"));
         proyectos.add(new ProyectoDTO("Proyecto2", "UsuarioPropietario", false, "Baja", "proyecto para la gestion de tareas2"));
->>>>>>> develope
-
         Rol unRol = new Rol();
         usuarios.add(new UsuarioDTO("usuario1", "password", "nombre", "email", unRol, true));
         usuarios.add(new UsuarioDTO("usuario2", "password", "nombre", "email", unRol, true));
