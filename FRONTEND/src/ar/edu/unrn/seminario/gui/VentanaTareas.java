@@ -22,6 +22,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -213,7 +214,31 @@ public class VentanaTareas extends JFrame {
       botones.add(botonEliminar);
       descPanel.add(botones, BorderLayout.SOUTH);
       
+      
       habilitarBotones(false);
+      
+      botonEliminar.addActionListener(new ActionListener() {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			int filaSeleccionada = table.getSelectedRow(); 
+			
+			if (filaSeleccionada != -1) {
+				
+				int confirmacion = JOptionPane.showConfirmDialog(botonEliminar, "¿Desea eliminar la tarea?","Confirmar Eliminacion", JOptionPane.YES_NO_OPTION);
+				
+				if (confirmacion == JOptionPane.YES_OPTION) {
+					
+					((DefaultTableModel) table.getModel()).removeRow(filaSeleccionada);
+					
+				}
+				
+			}
+	
+		}
+    	  
+      });
     }
     
     // Método auxiliar para crear paneles con título y diseño consistente

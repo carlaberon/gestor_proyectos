@@ -28,7 +28,7 @@ public class MemoryApi implements IApi {
 	private List<Tarea> tareas = new ArrayList<>();
 	private Set<Proyecto> proyectos = new HashSet<>();
 	private Set<Evento> eventos = new HashSet<>();
-	private Set<Plan> planeSet = new HashSet<>();
+	//private Set<Plan> planeSet = new HashSet<>();
 	
 
 	public MemoryApi() {
@@ -38,7 +38,14 @@ public class MemoryApi implements IApi {
 		this.roles.add(new Rol(2, "OBSERVADOR"));
 		this.roles.add(new Rol(3, "COLABORADOR"));
 		inicializarUsuarios();
-		//this.proyectos = proyectos;
+		inicializarProyecto();
+		
+		
+	}
+	
+	private void inicializarProyecto() {
+		Usuario user =new Usuario("Usuario","123","name","gmail",new Rol());
+		crearProyecto("TareasSL", user ,false,"Proyecto para la gestion de tareas");
 	}
 
 	private void inicializarUsuarios() {
@@ -249,6 +256,7 @@ public class MemoryApi implements IApi {
 	    Proyecto nuevoProyecto = new Proyecto(nombre, usuarioPropietario, estado, descripcion);
 	    
 	    // Agregar el proyecto a la colección de proyectos
+	    
 	    this.proyectos.add(nuevoProyecto);
 	}
     
@@ -285,51 +293,9 @@ public class MemoryApi implements IApi {
 	    }
 	   
 	    proyectoExistente.setPrioridad(proyectoModificado.getPrioridad());
-	    proyectoExistente.setEstado(proyectoModificado.isEstado());
+	    //proyectoExistente.setEstado(proyectoModificado.isEstado()); //ver para sacarlo
 	    proyectoExistente.setDescripcion(proyectoModificado.getDescripcion());
 
-	    // Convertir y actualizar miembros y tareas
-	    Set<Miembro> miembrosActualizados = convertirMiembrosDTOAMiembros(proyectoModificado.getMiembros());
-	    proyectoExistente.setMiembros(miembrosActualizados);
-	    
-	    Set<Tarea> tareasActualizadas = convertirTareasDTOATareas(proyectoModificado.getTareas());
-	    proyectoExistente.setTareas(tareasActualizadas);
-	}
-	
-	private Set<Miembro> convertirMiembrosDTOAMiembros(Set<String> miembrosDTO) {
-	    Set<Miembro> miembros = new HashSet<>();
-	    
-	    for (String codigo : miembrosDTO) {
-	        Miembro miembro = new Miembro(codigo);
-	        miembros.add(miembro);
-	    }
-	    
-	    return miembros;
-	}
-	
-	private Set<Tarea> convertirTareasDTOATareas(Set<String> tareasDTO) {
-	    Set<Tarea> tareas = new HashSet<>();
-	    
-	    for (String nombreTarea : tareasDTO) {
-	        Tarea tarea = buscarTareaPorNombre(nombreTarea);
-	        if (tarea != null) {
-	            tareas.add(tarea);
-	        } else {
-	            // Manejar el caso donde no se encuentra la tarea
-	            System.out.println("Tarea no encontrada: " + nombreTarea);
-	        }
-	    }
-	    
-	    return tareas;
-	}
-	
-	private Tarea buscarTareaPorNombre(String nombre) {
-	    for (Tarea tarea : this.tareas) {
-	        if (tarea.getNombre().equals(nombre)) {
-	            return tarea; // Devuelve la tarea si el nombre coincide
-	        }
-	    }
-	    return null; // Devuelve null si no se encuentra la tarea
 	}
 	
 	private Proyecto buscarProyectoPorNombre(String nombreProyecto) {

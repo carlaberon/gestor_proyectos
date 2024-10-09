@@ -1,5 +1,7 @@
 package ar.edu.unrn.seminario.modelo;
 
+import ar.edu.unrn.seminario.exception.StateChangeException;
+
 public class Usuario {
 	private String usuario;
 	private String contrasena;
@@ -66,15 +68,28 @@ public class Usuario {
 		return isActivo() ? "ACTIVO" : "INACTIVO";
 	}
 
-	public void activar() {
+	public void activar() throws RuntimeException{
+		if (isActivo()) {
+			
+			throw new StateChangeException("El usuario ya está activado");
+			
+		}
 		if (!isActivo())
 			this.activo = true;
+		
 	}
 
-	public void desactivar() {
+	public void desactivar() throws RuntimeException{
+		
+		if (!isActivo()) {
+			throw new StateChangeException("El usuario ya está desactivado");
+		}
+		
 		if (isActivo())
 			this.activo = false;
+	
 	}
+	
 
 	@Override
 	public int hashCode() {
