@@ -177,7 +177,7 @@ public class Inicio extends JFrame {
     }
 
     private void abrirListaProyectos() {
-        ListaProyectos listaProyectos = new ListaProyectos(); // Crear una instancia de ListaProyectos
+        ListaProyectos listaProyectos = new ListaProyectos(api); // Crear una instancia de ListaProyectos
         listaProyectos.setVisible(true); // Hacer visible la ventana de proyectos
         //frame.dispose(); // Cerrar la ventana actual
         
