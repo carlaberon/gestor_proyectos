@@ -27,7 +27,11 @@ public class ProyectoDTO {
         this.descripcion = descripcion;
     }
     
-    public String getNombre() {
+    public ProyectoDTO(String nombre2, String descripcion2) {
+		// TODO Auto-generated constructor stub
+	}
+
+	public String getNombre() {
         return this.nombre;
     }
     
@@ -97,4 +101,9 @@ public class ProyectoDTO {
                 ", descripcion='" + descripcion + '\'' +
                 '}';
     }
+
+	public void agregarTarea(TareaDTO nuevaTarea) {
+		// TODO Auto-generated method stub
+		
+	}
 }

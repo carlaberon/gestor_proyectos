@@ -34,6 +34,7 @@ import ar.edu.unrn.seminario.api.IApi;
 import ar.edu.unrn.seminario.api.MemoryApi;
 import ar.edu.unrn.seminario.dto.TareaDTO;
 import ar.edu.unrn.seminario.dto.UsuarioDTO;
+import ar.edu.unrn.seminario.modelo.Tarea;
 
 public class VentanaTareas extends JFrame {
 
@@ -44,11 +45,11 @@ public class VentanaTareas extends JFrame {
 	JButton botonModificar;
 	JButton botonEliminar;
 
-    public VentanaTareas(IApi api) {
+    public VentanaTareas(IApi api,String nombreProyecto) {
 
     	this.api = api; 
     	
-    	setTitle("");
+    	setTitle(nombreProyecto);
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         setBounds(100, 100, 900, 600);
         
@@ -165,14 +166,25 @@ public class VentanaTareas extends JFrame {
         // Modelo de la tabla
 		String[] titulos = { "NOMBRE", "PROYECTO", "ESTADO", "ASIGNADO", "PRIORIDAD" };
 		modelo = new DefaultTableModel(new Object[][] {}, titulos);
-
-		// Obtiene la lista de tareas a mostrar
+		
+		/*// Obtiene la lista de tareas a mostrar
 		List<TareaDTO> tareas = (List<TareaDTO>) api.obtenerTareas();
 		// Agrega las tareas en el model
 		for (TareaDTO t : tareas) {
 			modelo.addRow(new Object[] { t.getName(), t.getProject(),t.isEstado(), t.getUser(), t.getPriority() });
 		}
-
+		*/
+		List<Tarea> tareas = api.obtenerTareasPorProyecto(nombreProyecto); // Filtra las tareas por proyecto
+		modelo.setRowCount(0); // Limpiar el modelo antes de agregar nuevas filas
+		for (Tarea t : tareas) {
+		    modelo.addRow(new Object[] {
+		        t.getNombre(),
+		        t.getProyecto(),
+		        t.isEstado() ? "FINALIZADA" : "EN CURSO", // Modifica el estado a una cadena legible
+		        t.getUsuario(),
+		        t.getPrioridad()
+		    });
+		}
 		table.setModel(modelo);
 		scrollPane.setViewportView(table);
 		scrollPane.getViewport().setBackground(new Color(45, 44, 50)); // Fondo del scrollPane
@@ -281,23 +293,24 @@ public class VentanaTareas extends JFrame {
 
 	}
 	void actualizarTabla() {
-		// Obtiene el model del table
-		DefaultTableModel modelo = (DefaultTableModel) table.getModel();
-		// Obtiene la lista de usuarios a mostrar
-		List<TareaDTO> tareas = api.obtenerTareas();
-		// Resetea el model
-		modelo.setRowCount(0);
+	    // Obtiene el model del table
+	    DefaultTableModel modelo = (DefaultTableModel) table.getModel();
+	    // Obtiene la lista de tareas filtradas por proyecto
+	    List<Tarea> tareas = api.obtenerTareasPorProyecto(this.getTitle()); // this.getTitle() retorna el nombre del proyecto
+	    // Resetea el modelo
+	    modelo.setRowCount(0);
 
-		// Agrega los usuarios en el model
-		for (TareaDTO t : tareas) {
-			modelo.addRow(new Object[] { t.getName(), t.getProject(),t.isEstado(), t.getUser(), t.getPriority() });
-		}
-
+	    // Agrega las tareas en el modelo
+	    for (Tarea t : tareas) {
+	        modelo.addRow(new Object[] { t.getNombre(), t.getProjecto(), t.isEstado(), t.getUsuario(), t.getPrioridad() });
+	    }
 	}
 
     public static void main(String[] args) {
     	IApi api = new MemoryApi();
-    	VentanaTareas ventanatareas = new VentanaTareas(api);
+    	String proyect = "Proyecto2";
+    	VentanaTareas ventanatareas = new VentanaTareas(api,proyect);
     	ventanatareas.setVisible(true);
+    	
     }
 }

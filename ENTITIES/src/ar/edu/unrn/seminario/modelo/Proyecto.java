@@ -26,10 +26,11 @@ public class Proyecto {
         this.estado = estado;
     }
 
-    public Proyecto(String nombre, Usuario usuarioPropietario, boolean estado, String descripcion) {
+    public Proyecto(String nombre, Usuario usuarioPropietario, boolean estado,String prioridad, String descripcion) {
         this.nombre = nombre; 
         this.usuarioPropietario = usuarioPropietario;
         this.estado = estado;
+        this.prioridad=prioridad;
         this.descripcion = descripcion;
     }
     

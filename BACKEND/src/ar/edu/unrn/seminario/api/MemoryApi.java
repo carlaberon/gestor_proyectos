@@ -3,9 +3,12 @@ package ar.edu.unrn.seminario.api;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import ar.edu.unrn.seminario.dto.EventoDTO;
 import ar.edu.unrn.seminario.dto.MiembroDTO;
@@ -29,7 +32,8 @@ public class MemoryApi implements IApi {
 	private Set<Proyecto> proyectos = new HashSet<>();
 	private Set<Evento> eventos = new HashSet<>();
 	//private Set<Plan> planeSet = new HashSet<>();
-	
+	private List<TareaDTO> tareasDTO;
+
 
 	public MemoryApi() {
 		//Set<Proyecto> proyectos
@@ -39,14 +43,23 @@ public class MemoryApi implements IApi {
 		this.roles.add(new Rol(3, "COLABORADOR"));
 		inicializarUsuarios();
 		inicializarProyecto();
-		
+
 		
 	}
 	
 	private void inicializarProyecto() {
-		Usuario user =new Usuario("Usuario","123","name","gmail",new Rol());
-		crearProyecto("TareasSL", user ,false,"Proyecto para la gestion de tareas");
+	    // Crear algunos usuarios para asignar a los proyectos
+	    Usuario user1 = new Usuario("HernanPro", "12", "eze@gmail.com", "Hernan", this.buscarRol(2)); // Observador
+	    Usuario user2 = new Usuario("bjgorosito", "1234", "bjgorosito@unrn.edu.ar", "Bruno", this.buscarRol(3)); // Colaborador
+	    Usuario user3 = new Usuario("Tomas", "12345", "admin@unrn.edu.ar", "Admin", this.buscarRol(1)); // Propietario
+
+	    // Crear proyectos con diferentes prioridades y usuarios asignados
+	    crearProyecto("Sistema de Gestión de Tareas", user1, true,"media", "Sistema para gestionar tareas en equipo.");
+	    crearProyecto("Aplicación de votos", user2, false,"alta", "Aplicación para contar los votos de la municipalidad");
+	    crearProyecto("La gestion de eventos", user3, true,"baja", "Proyecto para desarrollar gestion de los eventos de ");
+	    crearProyecto("Parciales", user1, false,"media", "Informacion sobre como completar la informacion de los parciales de la carrera");
 	}
+
 
 	private void inicializarUsuarios() {
 		registrarUsuario("admin", "1234", "admin@unrn.edu.ar", "Admin", 1);
@@ -169,26 +182,27 @@ public class MemoryApi implements IApi {
 		return null;
 	}
 
-	@Override
-	public void registrarTarea(String name, String project, String priority, String user, boolean estado,
-			String descripcion) { //falta inicio y fin: estan en null
-	
-		Tarea tarea = new Tarea(name, project, priority, user, estado, descripcion, null, null );
-		this.tareas.add(tarea);
+	public void registrarTarea(String name, String project, String priority, String user, boolean estado, String descripcion) {
+	    Tarea tarea = new Tarea(name, project, priority, user, estado, descripcion, null, null);
+	    this.tareas.add(tarea); // Agrega la tarea a la lista de tareas
 	}
 
-	@Override
 	public List<TareaDTO> obtenerTareas() {
-		// TODO Auto-generated method stub
-		List<TareaDTO> tareas = new ArrayList<>();
-		for (Tarea t : this.tareas) {
-			//agregar parametros de la tarea, falta definir local date time
-			tareas.add(new TareaDTO(t.getNombre(), t.getProyecto(), t.getPrioridad(), t.getUsuario(), t.isEstado(), t.getDescripcion(), null, null));
-			
-		}
-		return tareas;
+	    List<TareaDTO> tareasDTO = new ArrayList<>();
+	    for (Tarea t : this.tareas) {  // Asegúrate de que `this.tareas` tiene elementos
+	        tareasDTO.add(new TareaDTO(t.getNombre(), t.getProyecto(), t.getPrioridad(), t.getUsuario(), t.isEstado(), t.getDescripcion(), null, null));
+	    }
+	    return tareasDTO;
 	}
+	/*public List<TareaDTO> obtenerTareasPorProyecto(String nombreProyecto) {
+        return tareasPorProyecto.getOrDefault(nombreProyecto, new ArrayList<>());
+    }*/
 	
+	public List<Tarea> obtenerTareasPorProyecto(String nombreProyecto) {
+	    return tareas.stream()
+	        .filter(t -> t.getProyecto() != null && t.getProyecto().equals(nombreProyecto))
+	        .collect(Collectors.toList());
+	}
 	@Override
 	public void crearEvento(LocalDateTime fecha, LocalDateTime inicio, LocalDateTime fin, String descripcion) {
 		// TODO Auto-generated method stub
@@ -251,9 +265,9 @@ public class MemoryApi implements IApi {
 	}
 
 	@Override
-	public void crearProyecto(String nombre, Usuario usuarioPropietario, boolean estado, String descripcion) {
+	public void crearProyecto(String nombre, Usuario usuarioPropietario, boolean estado,String prioridad, String descripcion) {
 		// Crear un nuevo proyecto con los parámetros recibidos
-	    Proyecto nuevoProyecto = new Proyecto(nombre, usuarioPropietario, estado, descripcion);
+	    Proyecto nuevoProyecto = new Proyecto(nombre, usuarioPropietario, estado, prioridad, descripcion);
 	    
 	    // Agregar el proyecto a la colección de proyectos
 	    
@@ -315,6 +329,5 @@ public class MemoryApi implements IApi {
 	    }
 	    return null; // Si no se encuentra, retorna null
 	}
-
     
 }

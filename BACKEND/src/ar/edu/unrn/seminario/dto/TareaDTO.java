@@ -16,10 +16,10 @@ public class TareaDTO {
     private LocalDateTime inicio; 
     private LocalDateTime fin;
     
-    public TareaDTO(String name, String project_name, String priority, String user, boolean estado, String descripcion, LocalDateTime inicio, LocalDateTime fin) {
+    public TareaDTO(String name, String string, String priority, String user, boolean estado, String descripcion, LocalDateTime inicio, LocalDateTime fin) {
         super();
         this.name = name;
-        this.project_name = project_name;
+        this.project_name = string;
         this.priority = priority;
         this.user = user;
         this.estado = estado;
@@ -28,7 +28,12 @@ public class TareaDTO {
         this.fin = fin;
     }
 
-    // Getters and Setters
+    public TareaDTO(String text, String proyectoSeleccionado, String text2, String username,
+			LocalDateTime fechaInicioDate, LocalDateTime fechaFinDate, String text3, boolean b) {
+		// TODO Auto-generated constructor stub
+	}
+
+	// Getters and Setters
     public String getName() {
         return name;
     }
