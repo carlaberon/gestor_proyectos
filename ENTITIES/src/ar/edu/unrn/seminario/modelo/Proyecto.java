@@ -6,6 +6,7 @@ import java.util.Set;
 public class Proyecto {
 
     private String nombre;
+    private String id;
     private Usuario usuarioPropietario;
     private boolean estado; // ACTIVO = false, FINALIZADO = true
     private Set<Miembro> miembros = new HashSet<>();
@@ -15,22 +16,25 @@ public class Proyecto {
     private Set<Tarea> tareas = new HashSet<>();
     private Plan plan;
 
-    public Proyecto(String nombre, Usuario usuarioPropietario) {
+    public Proyecto(String nombre, Usuario usuarioPropietario, String id) {
         this.nombre = nombre; 
         this.usuarioPropietario = usuarioPropietario;
+        this.id = id;
     }
 
-    public Proyecto(String nombre, Usuario usuarioPropietario, boolean estado) {
+    public Proyecto(String nombre, Usuario usuarioPropietario, String id, boolean estado) {
         this.nombre = nombre; 
         this.usuarioPropietario = usuarioPropietario;
         this.estado = estado;
+        this.id = id;
     }
 
-    public Proyecto(String nombre, Usuario usuarioPropietario, boolean estado, String descripcion) {
+    public Proyecto(String nombre, Usuario usuarioPropietario, String id, boolean estado, String descripcion) {
         this.nombre = nombre; 
         this.usuarioPropietario = usuarioPropietario;
         this.estado = estado;
         this.descripcion = descripcion;
+        this.id = id;
     }
     
     public Proyecto() {
@@ -128,6 +132,10 @@ public class Proyecto {
 
     public void setPlan(Plan plan) {
         this.plan = plan;
+    }
+    
+    public String getId() {
+    	return id;
     }
 
 	@Override

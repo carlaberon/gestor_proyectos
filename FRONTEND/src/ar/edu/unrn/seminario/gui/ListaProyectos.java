@@ -6,13 +6,16 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
+import ar.edu.unrn.seminario.api.IApi;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class ListaProyectos extends JFrame {
-
-    public ListaProyectos() {
+	IApi api;
+    public ListaProyectos(IApi api) {
+    	this.api = api;
         // Configuración básica de la ventana
         setTitle("Proyectos Activos");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -199,9 +202,9 @@ public class ListaProyectos extends JFrame {
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-        	ListaProyectos frame = new ListaProyectos();
-            frame.setVisible(true);
-        });
+//        SwingUtilities.invokeLater(() -> {
+//        	ListaProyectos frame = new ListaProyectos();
+//            frame.setVisible(true);
+//        });
     }
 }

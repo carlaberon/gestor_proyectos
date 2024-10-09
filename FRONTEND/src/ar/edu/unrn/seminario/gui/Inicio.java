@@ -165,20 +165,20 @@ public class Inicio extends JFrame {
     }
 
     private void abrirListaProyectos() {
-        ListaProyectos listaProyectos = new ListaProyectos(); // Crear una instancia de ListaProyectos
+        ListaProyectos listaProyectos = new ListaProyectos(api); // Crear una instancia de ListaProyectos
         listaProyectos.setVisible(true); // Hacer visible la ventana de proyectos
         //frame.dispose(); // Cerrar la ventana actual
         
     }
 
     private void abrirVentanaResumen(ProyectoDTO proyecto) {
-        VentanaResumen ventanaResumen = new VentanaResumen(proyecto); // Crear una instancia de VentanaResumen
+        VentanaResumen ventanaResumen = new VentanaResumen(api,proyecto); // Crear una instancia de VentanaResumen
         ventanaResumen.setVisible(true); // Hacer visible la ventana de resumen
     }
 
     public static void main(String[] args) {
     	IApi api = new MemoryApi();
-        new Inicio(api);
+        Inicio ini = new Inicio(api);
     }
 }
 

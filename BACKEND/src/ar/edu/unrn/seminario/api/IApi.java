@@ -44,7 +44,7 @@ public interface IApi {
 	
 	List<ProyectoDTO> obtenerProyectos();
 	
-	void crearProyecto(String nombre, Usuario usuarioPropietario, boolean estado, String descripcion);
+	void crearProyecto(String nombre, Usuario usuarioPropietario, String id, boolean estado, String descripcion);
 	
 	void crearEvento(LocalDateTime fecha, LocalDateTime inicio, LocalDateTime fin, String descripcion);
 	
@@ -58,6 +58,8 @@ public interface IApi {
 
 	void eliminarProyecto(String nombreProyecto);
 	
-	void modificarProyecto(String nombreProyecto, ProyectoDTO proyectoModificado);
+	void modificarProyecto(String nombreProyecto, String nombreNuevo, String nuevoPrioridad, String nuevoDescripcion);
+	
+	ProyectoDTO obtenerProyecto(String nombre);
     
 }

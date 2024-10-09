@@ -16,6 +16,7 @@ import javax.swing.border.EmptyBorder;
 
 import ar.edu.unrn.seminario.api.IApi;
 import ar.edu.unrn.seminario.api.MemoryApi;
+import ar.edu.unrn.seminario.dto.ProyectoDTO;
 
 public class VentanaConfigurarProyecto extends JFrame {
 
@@ -32,25 +33,25 @@ public class VentanaConfigurarProyecto extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					IApi api = new MemoryApi(); //polimorfismo
-					VentanaConfigurarProyecto frame = new VentanaConfigurarProyecto(api);
-					frame.setLocationRelativeTo(null);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+////					IApi api = new MemoryApi(); //polimorfismo
+//					VentanaConfigurarProyecto frame = new VentanaConfigurarProyecto(api);
+//					frame.setLocationRelativeTo(null);
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	/**
 	 * Create the frame.
 	 */
-	public VentanaConfigurarProyecto(IApi api) {
+	public VentanaConfigurarProyecto(IApi api, ProyectoDTO proyecto) {
 		setTitle("Modificar Proyecto");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 800, 650);
@@ -109,7 +110,15 @@ public class VentanaConfigurarProyecto extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "Usuario registrado con exito!", "Info", JOptionPane.INFORMATION_MESSAGE);
+				api.modificarProyecto(proyecto.getId(), textField.getText(), textField_2.getText(), textField_3.getText());
+				
+				int opcionSeleccionada = JOptionPane.showConfirmDialog(null,
+						"Estas seguro que queres modificar el proyecto?", "Confirmar cambio de estado.",
+						JOptionPane.YES_NO_OPTION);
+				if (opcionSeleccionada == JOptionPane.YES_OPTION) {
+					JOptionPane.showMessageDialog(null, "Modificacion realizada con exito!", "Info", JOptionPane.INFORMATION_MESSAGE);
+				}
+				
 				setVisible(false);
 				dispose();
 			}
@@ -121,7 +130,17 @@ public class VentanaConfigurarProyecto extends JFrame {
 		cancelar.setForeground(new Color(29, 17, 40));
 		cancelar.setBackground(new Color(229, 212, 237));
 		cancelar.setBounds(627, 573, 147, 27);
+		cancelar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+				dispose();
+			}
+		});
 		contentPane.add(cancelar);
+		
+		
 	}
 
 }

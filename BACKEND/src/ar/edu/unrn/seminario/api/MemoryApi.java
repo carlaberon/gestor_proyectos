@@ -45,7 +45,7 @@ public class MemoryApi implements IApi {
 	
 	private void inicializarProyecto() {
 		Usuario user =new Usuario("Usuario","123","name","gmail",new Rol());
-		crearProyecto("TareasSL", user ,false,"Proyecto para la gestion de tareas");
+		crearProyecto("TareasSL", user , "123", false,"Proyecto para la gestion de tareas");
 	}
 
 	private void inicializarUsuarios() {
@@ -219,7 +219,7 @@ public class MemoryApi implements IApi {
     public List<ProyectoDTO> obtenerProyectos() {
         List<ProyectoDTO> dtos = new ArrayList<>();
         for (Proyecto p : this.proyectos) {
-            dtos.add(new ProyectoDTO(p.getNombre(), p.getUsuarioPropietario().getNombre(), p.getEstado(), p.getPrioridad(), p.getDescripcion()));
+            dtos.add(new ProyectoDTO(p.getNombre(), p.getUsuarioPropietario(), p.getId(), p.getEstado(), p.getPrioridad(), p.getDescripcion()));
         }
         return dtos;
     }
@@ -251,9 +251,9 @@ public class MemoryApi implements IApi {
 	}
 
 	@Override
-	public void crearProyecto(String nombre, Usuario usuarioPropietario, boolean estado, String descripcion) {
+	public void crearProyecto(String nombre, Usuario usuarioPropietario, String id, boolean estado, String descripcion) {
 		// Crear un nuevo proyecto con los parámetros recibidos
-	    Proyecto nuevoProyecto = new Proyecto(nombre, usuarioPropietario, estado, descripcion);
+	    Proyecto nuevoProyecto = new Proyecto(nombre, usuarioPropietario, id, estado, descripcion);
 	    
 	    // Agregar el proyecto a la colección de proyectos
 	    
@@ -279,23 +279,45 @@ public class MemoryApi implements IApi {
 	    }	 
 	}
 
+//	@Override
+//	public void modificarProyecto(String nombreProyecto, ProyectoDTO proyectoModificado) {
+//	    Proyecto proyectoExistente = buscarProyectoPorNombre(nombreProyecto);
+//	    
+//	    // Modificar los campos del proyecto existente
+//	    proyectoExistente.setNombre(proyectoModificado.getNombre());
+//	    Usuario usuarioPropietario = buscarUsuarioPorNombre(proyectoModificado.getUsuarioPropietario());
+//	    if (usuarioPropietario != null) {
+//	        proyectoExistente.setUsuarioPropietario(usuarioPropietario);
+//	    } else {
+//	        throw new IllegalArgumentException("No se encontró el usuario propietario con nombre: " + proyectoModificado.getUsuarioPropietario());
+//	    }
+//	   
+//	    proyectoExistente.setPrioridad(proyectoModificado.getPrioridad());
+//	    //proyectoExistente.setEstado(proyectoModificado.isEstado()); //ver para sacarlo
+//	    proyectoExistente.setDescripcion(proyectoModificado.getDescripcion());
+//
+//	}
 	@Override
-	public void modificarProyecto(String nombreProyecto, ProyectoDTO proyectoModificado) {
-	    Proyecto proyectoExistente = buscarProyectoPorNombre(nombreProyecto);
-	    
-	    // Modificar los campos del proyecto existente
-	    proyectoExistente.setNombre(proyectoModificado.getNombre());
-	    Usuario usuarioPropietario = buscarUsuarioPorNombre(proyectoModificado.getUsuarioPropietario());
-	    if (usuarioPropietario != null) {
-	        proyectoExistente.setUsuarioPropietario(usuarioPropietario);
-	    } else {
-	        throw new IllegalArgumentException("No se encontró el usuario propietario con nombre: " + proyectoModificado.getUsuarioPropietario());
-	    }
-	   
-	    proyectoExistente.setPrioridad(proyectoModificado.getPrioridad());
-	    //proyectoExistente.setEstado(proyectoModificado.isEstado()); //ver para sacarlo
-	    proyectoExistente.setDescripcion(proyectoModificado.getDescripcion());
-
+	public void modificarProyecto(String id, String nombreNuevo, String nuevoPrioridad, String nuevoDescripcion) {
+	    for (Proyecto proyecto : proyectos) {
+			if(proyecto.getId() == id) {
+				proyecto.setNombre(nombreNuevo);
+				proyecto.setPrioridad(nuevoPrioridad);
+				proyecto.setDescripcion(nuevoDescripcion);
+			}
+		}
+	}
+	
+	@Override
+	public ProyectoDTO obtenerProyecto(String id) {
+		ProyectoDTO proyectoDto = null;
+		
+		for (Proyecto proyecto : proyectos) {
+			if(proyecto.getId() == id) {
+				proyectoDto = new ProyectoDTO(proyecto.getNombre(), proyecto.getUsuarioPropietario(), proyecto.getId(), proyecto.getEstado(), proyecto.getPrioridad(), proyecto.getDescripcion());
+			}
+		}
+		return proyectoDto;
 	}
 	
 	private Proyecto buscarProyectoPorNombre(String nombreProyecto) {
@@ -315,6 +337,6 @@ public class MemoryApi implements IApi {
 	    }
 	    return null; // Si no se encuentra, retorna null
 	}
-
+	
     
 }

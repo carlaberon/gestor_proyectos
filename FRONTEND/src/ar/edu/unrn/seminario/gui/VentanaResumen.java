@@ -4,6 +4,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import ar.edu.unrn.seminario.api.IApi;
+import ar.edu.unrn.seminario.api.MemoryApi;
 import ar.edu.unrn.seminario.dto.ProyectoDTO;
 
 import java.awt.*;
@@ -13,12 +14,13 @@ import java.awt.event.ActionListener;
 public class VentanaResumen extends JFrame {
 
     private JPanel contentPane;
-    
+    IApi api;
     private ProyectoDTO unproyecto;
 
-    public VentanaResumen(ProyectoDTO proyecto) {
+    public VentanaResumen(IApi api, ProyectoDTO proyecto) {
 
-    	this.unproyecto = proyecto; 
+    	this.unproyecto = proyecto;
+    	this.api = api;
     	
         setTitle("");
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
@@ -161,7 +163,8 @@ public class VentanaResumen extends JFrame {
     private void abrirPanelConfiguracion() {
         // Lógica para mostrar el panel de configuración
         // Puedes implementar esto como desees
-        VentanaConfigurarProyecto ventanaConfig = new VentanaConfigurarProyecto();
+        VentanaConfigurarProyecto ventanaConfig = new VentanaConfigurarProyecto(api,unproyecto);
+        actualizarDatosProyecto();
         ventanaConfig.setVisible(true);
     }
 
@@ -200,7 +203,12 @@ public class VentanaResumen extends JFrame {
     }
 
     public static void main(String[] args) {
-        VentanaResumen resumen = new VentanaResumen(null);
-        resumen.setVisible(true);
+////    	IApi api = new MemoryApi();
+//        VentanaResumen resumen = new VentanaResumen();
+//        resumen.setVisible(true);
+    }
+    
+    private void actualizarDatosProyecto() {
+    	unproyecto = api.obtenerProyecto(getName());
     }
 }
