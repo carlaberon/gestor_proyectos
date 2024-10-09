@@ -23,8 +23,7 @@ public class Inicio extends JFrame {
     IApi api;
     public Inicio(IApi api) {
     	this.api = api;
-
-    	frame = new JFrame("LabProject");
+        frame = new JFrame("LabProject");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 600);
 
@@ -107,13 +106,7 @@ public class Inicio extends JFrame {
         //BACK -> DTO -> FRONT
         List<ProyectoDTO> proyectos = api.obtenerProyectos();
 
-<<<<<<< HEAD
-        
-        //proyectos.sort((p1, p2) -> p1.getPrioridad().compareTo(p2.getPrioridad()));
-        
-=======
         proyectos.sort(Comparator.comparingInt(p -> PRIORIDAD_MAP.get(p.getPrioridad())));
->>>>>>> Gabriel
         for (ProyectoDTO proyecto : proyectos) {
             JButton proyectoButton = new JButton(proyecto.getNombre());
             proyectoButton.setForeground(Color.DARK_GRAY);
@@ -154,10 +147,6 @@ public class Inicio extends JFrame {
         frame.setVisible(true);
     }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> Gabriel
     private void formatButton(JButton button) {
         button.setForeground(Color.WHITE);
         button.setBackground(new Color(80, 80, 80));
@@ -183,7 +172,4 @@ public class Inicio extends JFrame {
         new Inicio(api);
     }
 }
-<<<<<<< HEAD
 
-=======
->>>>>>> Gabriel
