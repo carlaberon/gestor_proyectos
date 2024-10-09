@@ -2,6 +2,9 @@ package ar.edu.unrn.seminario.gui;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+
+import ar.edu.unrn.seminario.api.IApi;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,8 +13,8 @@ public class VentanaResumen extends JFrame {
 
     private JPanel contentPane;
 
-    public VentanaResumen(/* IApi api */) {
-
+    public VentanaResumen( IApi api ) {
+    	
         setTitle("");
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         setBounds(100, 100, 900, 600);
@@ -95,9 +98,12 @@ public class VentanaResumen extends JFrame {
             if (item.equals("Configuración")) {
                 menuButton.addActionListener(e -> {
                     // Por ejemplo, podrías abrir un nuevo panel de configuración:
-                    abrirPanelConfiguracion();
+                	
+                    abrirFrame(api, new VentanaConfigurarProyecto(api));
                 });
             }
+            
+            
         }
         
         
@@ -149,13 +155,17 @@ public class VentanaResumen extends JFrame {
         contentPane.add(centerPanel1, BorderLayout.CENTER);
     }
     
-    // Método para abrir el panel de configuración
-    private void abrirPanelConfiguracion() {
-        // Lógica para mostrar el panel de configuración
-        // Puedes implementar esto como desees
-        VentanaConfigurarProyecto ventanaConfig = new VentanaConfigurarProyecto();
-        ventanaConfig.setVisible(true);
-    }
+//    // Método para abrir el panel de configuración
+//    private void abrirPanelConfiguracion(IApi api) {
+//        // Lógica para mostrar el panel de configuración
+//        // Puedes implementar esto como desees
+//        VentanaConfigurarProyecto ventanaConfig = new VentanaConfigurarProyecto(api);
+//        ventanaConfig.setVisible(true);
+//    }
+    
+    private void abrirFrame(IApi api, JFrame frame) {
+      frame.setVisible(true);
+  }
 
     // Método auxiliar para crear paneles con título y diseño consistente
     private JPanel createPanel(String title, String subtitle) {
@@ -192,7 +202,7 @@ public class VentanaResumen extends JFrame {
     }
 
     public static void main(String[] args) {
-        VentanaResumen resumen = new VentanaResumen();
+        VentanaResumen resumen = new VentanaResumen(null);
         resumen.setVisible(true);
     }
 }
