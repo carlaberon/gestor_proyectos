@@ -90,12 +90,10 @@ public class MemoryApi implements IApi {
 
 	@Override
 	public UsuarioDTO obtenerUsuario(String username) {
-		UsuarioDTO user;
 		for(Usuario u: this.usuarios) {
-			if (u.getNombre() == username) {
+			if (u.getUsuario().equals(username)) {
 				
-				user = new UsuarioDTO(u.getUsuario(),u.getContrasena(), u.getNombre(), u.getEmail(), u.getRol(), u.isActivo());
-				
+				UsuarioDTO user = new UsuarioDTO(u.getUsuario(), u.getContrasena(), u.getNombre(), u.getEmail(), u.getRol(), u.isActivo());
 				return user;
 			}
 		}

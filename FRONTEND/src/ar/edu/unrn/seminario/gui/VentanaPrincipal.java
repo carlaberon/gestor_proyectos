@@ -26,6 +26,7 @@ public class VentanaPrincipal extends JFrame {
 	private JPanel contentPane;
 	private JTextField txtCorreoElectronico;
 	private JTextField txtContrasea;
+	private IApi api;
 
 	/**
 	 * Launch the application.

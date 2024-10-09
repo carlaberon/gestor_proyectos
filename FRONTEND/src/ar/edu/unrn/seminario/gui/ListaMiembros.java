@@ -4,13 +4,19 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
+import ar.edu.unrn.seminario.api.IApi;
+import ar.edu.unrn.seminario.api.MemoryApi;
+import ar.edu.unrn.seminario.dto.UsuarioDTO;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 public class ListaMiembros extends JFrame {
-
-    public ListaMiembros() {
+	private List<UsuarioDTO> usuarios;
+	
+    public ListaMiembros(IApi api) {
         setTitle("Lista de Miembros");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(800, 400);
@@ -29,14 +35,18 @@ public class ListaMiembros extends JFrame {
         model.addColumn("Correo");
         model.addColumn("Estado");
         model.addColumn("Roles");
-        model.addColumn("Proyecto");
-
+        //model.addColumn("Proyecto");
+        
+        usuarios = api.obtenerUsuarios();
+        for (UsuarioDTO u : usuarios) {
+        	model.addRow(new Object[] {u.getUsername(), u.getEmail(), u.isActivo(), u.getRol()});
+		}
         // Agregar 4 filas como ejemplo
-        model.addRow(new Object[]{"Carla", "carlita@gmail.com", "Activo", "Propietario", "Proyecto 1"});
+        /*model.addRow(new Object[]{"Carla", "carlita@gmail.com", "Activo", "Propietario", "Proyecto 1"});
         model.addRow(new Object[]{"Gabriel", "elmaster@gmail.com", "Inactivo", "Colaborador", "Proyecto 1"});
         model.addRow(new Object[]{"Thomas", "bocayoteamo@gmail.com", "Activo", "Observador", "Proyecto 1"});
-        model.addRow(new Object[]{"Hernan", "eze@gmail.com", "Inactivo", "Colaborador", "SubProyecto 1.A"});
-
+        model.addRow(new Object[]{"Hernan", "eze@gmail.com", "Inactivo", "Colaborador", "SubProyecto 1.A"});*/
+        
         // Crear tabla
         JTable tabla = new JTable(model);
         tabla.setFont(new Font("Segoe UI", Font.PLAIN, 11));
@@ -115,7 +125,8 @@ public class ListaMiembros extends JFrame {
     }
 
     public static void main(String[] args) {
-        ListaMiembros listamiembros = new ListaMiembros();
+    	IApi api = new MemoryApi();
+        ListaMiembros listamiembros = new ListaMiembros(api);
         listamiembros.setVisible(true);
     }
 }

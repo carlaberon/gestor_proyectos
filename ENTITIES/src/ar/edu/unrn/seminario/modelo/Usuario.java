@@ -9,17 +9,27 @@ public class Usuario{
 	private String nombre;
 	private String email;
 	private Rol rol;
-	private boolean activo;
+	private Boolean activo;
 
 
-	public Usuario(String usuario, String contrasena, String nombre, String email, Rol rol) {
+	public Usuario(String usuario, String contrasena, String nombre, String email, Rol rol, Boolean activo) {
 
 		this.usuario = usuario;
 		this.contrasena = contrasena;
 		this.nombre = nombre;
 		this.email = email;
 		this.rol = rol;
+		this.activo = activo;
 	}
+	
+	public Usuario(String username, String password, String nombre, String email, Rol rol) {
+        this.usuario = username;
+        this.contrasena = password;
+        this.nombre = nombre;
+        this.email = email;
+        this.rol = rol;
+        this.activo = true;  // Puedes ajustar este valor según sea necesario
+    }
 
 	public String getUsuario() {
 		return usuario;

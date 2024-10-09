@@ -1,6 +1,16 @@
 package ar.edu.unrn.seminario.gui;
 
 import javax.swing.*;
+
+import ar.edu.unrn.seminario.api.IApi;
+import ar.edu.unrn.seminario.api.MemoryApi;
+import ar.edu.unrn.seminario.dto.ProyectoDTO;
+import ar.edu.unrn.seminario.dto.UsuarioDTO;
+import ar.edu.unrn.seminario.modelo.Rol;
+import ar.edu.unrn.seminario.modelo.Usuario;
+import ar.edu.unrn.seminario.dto.RolDTO;
+
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,9 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import ar.edu.unrn.seminario.api.IApi;
-import ar.edu.unrn.seminario.api.MemoryApi;
-import ar.edu.unrn.seminario.dto.ProyectoDTO;
+
 public class Inicio extends JFrame {
 	public static final Map<String, Integer> PRIORIDAD_MAP = new HashMap<>();
     static {
@@ -20,9 +28,14 @@ public class Inicio extends JFrame {
         PRIORIDAD_MAP.put("baja", 3);
     }
     private JFrame frame;
-    IApi api;
-    public Inicio(IApi api) {
+
+    private IApi api;
+    private Usuario usuarioActual;
+
+    public Inicio(IApi api, Usuario usuarioActual) {
+
     	this.api = api;
+    	this.usuarioActual = usuarioActual;
         frame = new JFrame("LabProject");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 600);
@@ -38,7 +51,7 @@ public class Inicio extends JFrame {
         menuBar.add(projectName);
         menuBar.add(Box.createHorizontalGlue());
 
-        JMenu accountMenu = new JMenu("nombreCuenta");
+        JMenu accountMenu = new JMenu(usuarioActual.getNombre());
         accountMenu.setForeground(Color.WHITE);
         accountMenu.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 
@@ -84,7 +97,7 @@ public class Inicio extends JFrame {
             menuButton.setMargin(new Insets(10, 10, 10, 10));
             menuPanel.add(menuButton);
         }
-        frame.add(menuPanel, BorderLayout.WEST);
+        frame.getContentPane().add(menuPanel, BorderLayout.WEST);
 
         JPanel contentPanel = new JPanel();
         contentPanel.setBackground(new Color(45, 45, 45));
@@ -127,6 +140,12 @@ public class Inicio extends JFrame {
         proyectosButtonsPanel.setBackground(new Color(30, 30, 30));
 
         JButton btnNuevoProyecto = new JButton("Proyecto +");
+        btnNuevoProyecto.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		CrearProyecto crearProyecto = new CrearProyecto(api, usuarioActual);
+        		crearProyecto.setVisible(true);
+        	}
+        });
         JButton btnVerProyectos = new JButton("Ver todos los proyectos");
         formatButton(btnNuevoProyecto);
         formatButton(btnVerProyectos);
@@ -142,10 +161,11 @@ public class Inicio extends JFrame {
         mainPanel.add(contentPanel, BorderLayout.CENTER);
         mainPanel.add(rightPanel, BorderLayout.EAST);
 
-        frame.add(mainPanel);
+        frame.getContentPane().add(mainPanel);
 
         frame.setVisible(true);
     }
+
 
     private void formatButton(JButton button) {
         button.setForeground(Color.WHITE);
@@ -155,10 +175,17 @@ public class Inicio extends JFrame {
     }
 
     private void abrirListaProyectos() {
-        ListaProyectos listaProyectos = new ListaProyectos(); 
-        listaProyectos.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Solo cerrar la ventana de la lista
-        listaProyectos.setVisible(true); 
-        // No cerrar la ventana principal
+
+
+
+        ListaProyectos listaProyectos = new ListaProyectos(api); // Crear una instancia de ListaProyectos
+		
+		listaProyectos.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Solo cerrar la ventana de la lista
+		
+		listaProyectos.setVisible(true); // Hacer visible la ventana de proyectos
+        //frame.dispose(); // Cerrar la ventana actual
+        
+
     }
 
 
@@ -169,7 +196,12 @@ public class Inicio extends JFrame {
 
     public static void main(String[] args) {
     	IApi api = new MemoryApi();
-        new Inicio(api);
+    	
+    	RolDTO rolDTO = new RolDTO(1, "PROPIETARIO", true);
+    	Rol rol = new Rol(rolDTO.getCodigo(), rolDTO.getNombre(), rolDTO.isActivo());
+    	
+        Usuario usuario = new Usuario("admin", "1234", "Admin", "admin@unrn.edu.ar", rol, true); // Crear el usuario
+        new Inicio(api, usuario);
     }
 }
 
