@@ -26,10 +26,11 @@ public class Proyecto {
         this.estado = estado;
     }
 
-    public Proyecto(String nombre, Usuario usuarioPropietario, boolean estado, String descripcion) {
+    public Proyecto(String nombre, Usuario usuarioPropietario, boolean estado,String prioridad, String descripcion) {
         this.nombre = nombre; 
         this.usuarioPropietario = usuarioPropietario;
         this.estado = estado;
+        this.prioridad=prioridad;
         this.descripcion = descripcion;
     }
     
@@ -74,11 +75,11 @@ public class Proyecto {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
-    public String getPrioridad() {
+    public String getPrioridad1() {
         return prioridad;
     }
 
-    public void setPrioridad(String prioridad) {
+    public void setPrioridad1(String prioridad) {
         this.prioridad = prioridad;
     }
     public Set<Proyecto> getProyectos() {

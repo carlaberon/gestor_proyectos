@@ -10,6 +10,7 @@ import ar.edu.unrn.seminario.dto.TareaDTO;
 import ar.edu.unrn.seminario.dto.UsuarioDTO;
 import ar.edu.unrn.seminario.modelo.Evento;
 import ar.edu.unrn.seminario.modelo.Proyecto;
+import ar.edu.unrn.seminario.modelo.Tarea;
 import ar.edu.unrn.seminario.modelo.Usuario;
 
 public interface IApi {
@@ -44,7 +45,7 @@ public interface IApi {
 	
 	List<ProyectoDTO> obtenerProyectos();
 	
-	void crearProyecto(String nombre, Usuario usuarioPropietario, boolean estado, String descripcion);
+	void crearProyecto(String nombre, Usuario usuarioPropietario, boolean estado,String prioridad, String descripcion);//MODIFICADO X MI
 	
 	void crearEvento(LocalDateTime fecha, LocalDateTime inicio, LocalDateTime fin, String descripcion);
 	
@@ -59,5 +60,7 @@ public interface IApi {
 	void eliminarProyecto(String nombreProyecto);
 	
 	void modificarProyecto(String nombreProyecto, ProyectoDTO proyectoModificado);
+
+	List<Tarea> obtenerTareasPorProyecto(String nombreProyecto);
     
 }

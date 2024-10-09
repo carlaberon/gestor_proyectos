@@ -1,22 +1,26 @@
 package ar.edu.unrn.seminario.gui;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import ar.edu.unrn.seminario.api.IApi;
 import ar.edu.unrn.seminario.api.MemoryApi;
 import ar.edu.unrn.seminario.dto.ProyectoDTO;
-
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
-
 public class Inicio extends JFrame {
-
+	public static final Map<String, Integer> PRIORIDAD_MAP = new HashMap<>();
+    static {
+        PRIORIDAD_MAP.put("alta", 1);
+        PRIORIDAD_MAP.put("media", 2);
+        PRIORIDAD_MAP.put("baja", 3);
+    }
     private JFrame frame;
     IApi api;
-
     public Inicio(IApi api) {
     	this.api = api;
 
@@ -54,6 +58,7 @@ public class Inicio extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 abrirListaProyectos(); // Abrir la ventana de proyectos desde el menú
+                
                 
             }
         });
@@ -99,18 +104,20 @@ public class Inicio extends JFrame {
         JPanel proyectosListPanel = new JPanel();
         proyectosListPanel.setLayout(new BoxLayout(proyectosListPanel, BoxLayout.Y_AXIS));
         proyectosListPanel.setBackground(new Color(30, 30, 30));
-
         //BACK -> DTO -> FRONT
         List<ProyectoDTO> proyectos = api.obtenerProyectos();
 
+<<<<<<< HEAD
         
         //proyectos.sort((p1, p2) -> p1.getPrioridad().compareTo(p2.getPrioridad()));
         
+=======
+        proyectos.sort(Comparator.comparingInt(p -> PRIORIDAD_MAP.get(p.getPrioridad())));
+>>>>>>> Gabriel
         for (ProyectoDTO proyecto : proyectos) {
             JButton proyectoButton = new JButton(proyecto.getNombre());
-            proyectoButton.setForeground(Color.GRAY);
+            proyectoButton.setForeground(Color.DARK_GRAY);
             proyectoButton.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-            
             proyectoButton.addActionListener( new ActionListener () {
 
 				@Override
@@ -120,10 +127,7 @@ public class Inicio extends JFrame {
 				}
             	
             });
-            
             proyectosListPanel.add(proyectoButton);
-           
-            
         }
 
         JPanel proyectosButtonsPanel = new JPanel();
@@ -134,7 +138,7 @@ public class Inicio extends JFrame {
         formatButton(btnNuevoProyecto);
         formatButton(btnVerProyectos);
 
-        btnVerProyectos.addActionListener(e -> abrirListaProyectos()); // Acción para el botón
+        btnVerProyectos.addActionListener(e -> abrirListaProyectos()); // Acción del boton
         proyectosButtonsPanel.add(btnNuevoProyecto);
         proyectosButtonsPanel.add(btnVerProyectos);
 
@@ -150,7 +154,10 @@ public class Inicio extends JFrame {
         frame.setVisible(true);
     }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> Gabriel
     private void formatButton(JButton button) {
         button.setForeground(Color.WHITE);
         button.setBackground(new Color(80, 80, 80));
@@ -159,14 +166,15 @@ public class Inicio extends JFrame {
     }
 
     private void abrirListaProyectos() {
-        ListaProyectos listaProyectos = new ListaProyectos(); // Crear una instancia de ListaProyectos
-        listaProyectos.setVisible(true); // Hacer visible la ventana de proyectos
-        //frame.dispose(); // Cerrar la ventana actual
-        
+        ListaProyectos listaProyectos = new ListaProyectos(); 
+        listaProyectos.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Solo cerrar la ventana de la lista
+        listaProyectos.setVisible(true); 
+        // No cerrar la ventana principal
     }
 
+
     private void abrirVentanaResumen(ProyectoDTO proyecto) {
-        VentanaResumen ventanaResumen = new VentanaResumen(proyecto); // Crear una instancia de VentanaResumen
+        VentanaResumen ventanaResumen = new VentanaResumen(proyecto); // Crear una instancia de VentanaResumen 
         ventanaResumen.setVisible(true); // Hacer visible la ventana de resumen
     }
 
@@ -175,4 +183,7 @@ public class Inicio extends JFrame {
         new Inicio(api);
     }
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> Gabriel
