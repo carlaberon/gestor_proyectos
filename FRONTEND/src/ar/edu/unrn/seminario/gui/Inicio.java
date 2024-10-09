@@ -5,6 +5,10 @@ import javax.swing.*;
 import ar.edu.unrn.seminario.api.IApi;
 import ar.edu.unrn.seminario.api.MemoryApi;
 import ar.edu.unrn.seminario.dto.ProyectoDTO;
+import ar.edu.unrn.seminario.dto.UsuarioDTO;
+import ar.edu.unrn.seminario.modelo.Rol;
+import ar.edu.unrn.seminario.modelo.Usuario;
+import ar.edu.unrn.seminario.dto.RolDTO;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -15,10 +19,12 @@ import java.util.List;
 public class Inicio extends JFrame {
 
     private JFrame frame;
-    IApi api;
+    private IApi api;
+    private Usuario usuarioActual;
 
-    public Inicio(IApi api) {
+    public Inicio(IApi api, Usuario usuarioActual) {
     	this.api = api;
+    	this.usuarioActual = usuarioActual;
         frame = new JFrame("LabProject");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 600);
@@ -34,7 +40,7 @@ public class Inicio extends JFrame {
         menuBar.add(projectName);
         menuBar.add(Box.createHorizontalGlue());
 
-        JMenu accountMenu = new JMenu("nombreCuenta");
+        JMenu accountMenu = new JMenu(usuarioActual.getNombre());
         accountMenu.setForeground(Color.WHITE);
         accountMenu.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 
@@ -131,7 +137,7 @@ public class Inicio extends JFrame {
         JButton btnNuevoProyecto = new JButton("Proyecto +");
         btnNuevoProyecto.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		CrearProyecto crearProyecto = new CrearProyecto();
+        		CrearProyecto crearProyecto = new CrearProyecto(api, usuarioActual);
         		crearProyecto.setVisible(true);
         	}
         });
@@ -184,7 +190,12 @@ public class Inicio extends JFrame {
 
     public static void main(String[] args) {
     	IApi api = new MemoryApi();
-        new Inicio(api);
+    	
+    	RolDTO rolDTO = new RolDTO(1, "PROPIETARIO", true);
+    	Rol rol = new Rol(rolDTO.getCodigo(), rolDTO.getNombre(), rolDTO.isActivo());
+    	
+        Usuario usuario = new Usuario("admin", "1234", "Admin", "admin@unrn.edu.ar", rol, true); // Crear el usuario
+        new Inicio(api, usuario);
     }
 }
 
