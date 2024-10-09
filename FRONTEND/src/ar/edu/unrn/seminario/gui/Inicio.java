@@ -19,7 +19,8 @@ public class Inicio extends JFrame {
 
     public Inicio(IApi api) {
     	this.api = api;
-        frame = new JFrame("LabProject");
+
+    	frame = new JFrame("LabProject");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 600);
 
@@ -103,7 +104,7 @@ public class Inicio extends JFrame {
         List<ProyectoDTO> proyectos = api.obtenerProyectos();
 
         
-        proyectos.sort((p1, p2) -> p1.getPrioridad().compareTo(p2.getPrioridad()));
+        //proyectos.sort((p1, p2) -> p1.getPrioridad().compareTo(p2.getPrioridad()));
         
         for (ProyectoDTO proyecto : proyectos) {
             JButton proyectoButton = new JButton(proyecto.getNombre());
@@ -149,13 +150,6 @@ public class Inicio extends JFrame {
         frame.setVisible(true);
     }
 
-    private List<Proyecto> crearProyectos() {
-        List<Proyecto> proyectos = new ArrayList<>();
-        proyectos.add(new Proyecto("Gestor proyectos", "Alta"));
-        proyectos.add(new Proyecto("Recuentos votos", "Media"));
-        proyectos.add(new Proyecto("Gestionar tareas", "Zaja"));
-        return proyectos;
-    }
 
     private void formatButton(JButton button) {
         button.setForeground(Color.WHITE);
@@ -182,21 +176,3 @@ public class Inicio extends JFrame {
     }
 }
 
-    // Clase Proyecto para almacenar información de proyectos
-    class Proyecto {
-        private String nombre;
-        private String prioridad;
-
-        public Proyecto(String nombre, String prioridad) {
-            this.nombre = nombre;
-            this.prioridad = prioridad;
-        }
-
-        public String getNombre() {
-            return nombre;
-        }
-
-        public String getPrioridad() {
-            return prioridad;
-        }
-    }

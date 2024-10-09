@@ -199,8 +199,5 @@ public class VentanaResumen extends JFrame {
         return button;
     }
 
-    public static void main(String[] args) {
-        VentanaResumen resumen = new VentanaResumen(null);
-        resumen.setVisible(true);
-    }
+
 }

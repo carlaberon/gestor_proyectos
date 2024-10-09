@@ -33,6 +33,8 @@ public class Proyecto {
         this.descripcion = descripcion;
     }
     
+   
+    
     public Proyecto() {
     	
     }
