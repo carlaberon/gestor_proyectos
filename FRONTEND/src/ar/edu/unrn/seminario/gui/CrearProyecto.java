@@ -38,6 +38,7 @@ public class CrearProyecto extends JFrame {
 	private IApi api;
 	private List<ProyectoDTO> proyectos; //crear el proyectoDTO, crear el proyecto
 	private Usuario usuarioPropietario;
+	private JTextField textField;
 	
 	/**
 	 * Create the frame.
@@ -63,11 +64,11 @@ public class CrearProyecto extends JFrame {
 		JLabel nombreProyecto = new JLabel("Nombre Proyecto*:");
 		nombreProyecto.setForeground(new Color(240, 240, 240));
 		nombreProyecto.setFont(new Font("Segoe UI", Font.PLAIN, 20));
-		nombreProyecto.setBounds(88, 145, 227, 39);
+		nombreProyecto.setBounds(88, 93, 227, 39);
 		contentPane.add(nombreProyecto);
 
 		nombreProyectoTextField = new JTextField();
-		nombreProyectoTextField.setBounds(325, 157, 390, 25);
+		nombreProyectoTextField.setBounds(325, 105, 390, 25);
 		contentPane.add(nombreProyectoTextField);
 		nombreProyectoTextField.setColumns(10);
 
@@ -133,19 +134,31 @@ public class CrearProyecto extends JFrame {
 		JLabel lblNewLabel = new JLabel("Nuevo Proyecto");
 		lblNewLabel.setForeground(new Color(29, 17, 40));
 		lblNewLabel.setFont(new Font("Segoe UI", Font.PLAIN, 35));
-		lblNewLabel.setBounds(39, 49, 291, 73);
+		lblNewLabel.setBounds(41, 10, 291, 73);
 		contentPane.add(lblNewLabel);
 		
-		JLabel lblConfiguracinAvanzada = new JLabel("Configuración avanzada:");
-		lblConfiguracinAvanzada.setForeground(UIManager.getColor("Button.background"));
-		lblConfiguracinAvanzada.setFont(new Font("Segoe UI", Font.PLAIN, 15));
-		lblConfiguracinAvanzada.setBounds(509, 316, 167, 39);
-		contentPane.add(lblConfiguracinAvanzada);
+		JLabel lblDescripcion = new JLabel("Descripcion:");
+		lblDescripcion.setForeground(UIManager.getColor("Button.background"));
+		lblDescripcion.setFont(new Font("Segoe UI", Font.PLAIN, 20));
+		lblDescripcion.setBounds(88, 142, 227, 39);
+		contentPane.add(lblDescripcion);
 		
-		JCheckBox chckbxNewCheckBox = new JCheckBox("");
-		chckbxNewCheckBox.setBackground(new Color(81, 79, 89));
-		chckbxNewCheckBox.setBounds(694, 323, 21, 32);
-		contentPane.add(chckbxNewCheckBox);
+		JLabel lblPrioridad = new JLabel("Prioridad");
+		lblPrioridad.setForeground(UIManager.getColor("Button.background"));
+		lblPrioridad.setFont(new Font("Segoe UI", Font.PLAIN, 20));
+		lblPrioridad.setBounds(88, 191, 227, 39);
+		contentPane.add(lblPrioridad);
+		
+		textField = new JTextField();
+		textField.setColumns(10);
+		textField.setBounds(325, 157, 390, 25);
+		contentPane.add(textField);
+		
+		JComboBox<Object> proyectoComboBox_1 = new JComboBox<Object>();
+		proyectoComboBox_1.setForeground(new Color(29, 17, 40));
+		proyectoComboBox_1.setFont(new Font("Segoe UI", Font.PLAIN, 10));
+		proyectoComboBox_1.setBounds(325, 205, 390, 25);
+		contentPane.add(proyectoComboBox_1);
 
 		/*
 		for (ProyectoDTO proyect : this.proyectos) {
@@ -154,12 +167,4 @@ public class CrearProyecto extends JFrame {
 
 		
 	}
-	   public static void main(String[] args) {
-		   RolDTO rolDTO = new RolDTO(1, "PROPIETARIO", true);
-	    	Rol rol = new Rol(rolDTO.getCodigo(), rolDTO.getNombre(), rolDTO.isActivo());
-	    	
-	        Usuario usuario = new Usuario("admin", "1234", "Admin", "admin@unrn.edu.ar", rol, true); 
-	        CrearProyecto frame = new CrearProyecto(new MemoryApi(), usuario);
-	        frame.setVisible(true);
-	    }
 }
