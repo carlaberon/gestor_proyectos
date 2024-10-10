@@ -1,5 +1,7 @@
 package ar.edu.unrn.seminario.modelo;
 
+import ar.edu.unrn.seminario.dto.RolDTO;
+
 public class Rol {
 	private Integer codigo;
 	private String nombre;
@@ -14,6 +16,13 @@ public class Rol {
 		super();
 		this.codigo = codigo;
 		this.nombre = nombre;
+	}
+	
+	public Rol(Integer codigo, String nombre, boolean activo) {
+		super();
+		this.codigo = codigo;
+		this.nombre = nombre;
+		this.activo = activo;
 	}
 
 	public Integer getCodigo() {
@@ -31,6 +40,16 @@ public class Rol {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
+	
+	// Método de conversión de RolDTO a Rol
+    public static Rol fromDTO(RolDTO rolDTO) {
+        Rol rol = new Rol();
+        rol.setCodigo(rolDTO.getCodigo());
+        rol.setNombre(rolDTO.getNombre());
+        rol.setDescripcion(rolDTO.getDescripcion());
+        rol.setActivo(rolDTO.isActivo());
+        return rol;
+    }
 
 	@Override
 	public int hashCode() {

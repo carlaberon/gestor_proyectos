@@ -5,6 +5,10 @@ import javax.swing.*;
 import ar.edu.unrn.seminario.api.IApi;
 import ar.edu.unrn.seminario.api.MemoryApi;
 import ar.edu.unrn.seminario.dto.ProyectoDTO;
+import ar.edu.unrn.seminario.dto.UsuarioDTO;
+import ar.edu.unrn.seminario.modelo.Rol;
+import ar.edu.unrn.seminario.modelo.Usuario;
+import ar.edu.unrn.seminario.dto.RolDTO;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -15,10 +19,12 @@ import java.util.List;
 public class Inicio extends JFrame {
 
     private JFrame frame;
-    IApi api;
+    private IApi api;
+    private Usuario usuarioActual;
 
-    public Inicio(IApi api) {
+    public Inicio(IApi api, Usuario usuarioActual) {
     	this.api = api;
+    	this.usuarioActual = usuarioActual;
         frame = new JFrame("LabProject");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 600);
@@ -34,7 +40,7 @@ public class Inicio extends JFrame {
         menuBar.add(projectName);
         menuBar.add(Box.createHorizontalGlue());
 
-        JMenu accountMenu = new JMenu("nombreCuenta");
+        JMenu accountMenu = new JMenu(usuarioActual.getNombre());
         accountMenu.setForeground(Color.WHITE);
         accountMenu.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 
@@ -79,7 +85,7 @@ public class Inicio extends JFrame {
             menuButton.setMargin(new Insets(10, 10, 10, 10));
             menuPanel.add(menuButton);
         }
-        frame.add(menuPanel, BorderLayout.WEST);
+        frame.getContentPane().add(menuPanel, BorderLayout.WEST);
 
         JPanel contentPanel = new JPanel();
         contentPanel.setBackground(new Color(45, 45, 45));
@@ -129,6 +135,12 @@ public class Inicio extends JFrame {
         proyectosButtonsPanel.setBackground(new Color(30, 30, 30));
 
         JButton btnNuevoProyecto = new JButton("Proyecto +");
+        btnNuevoProyecto.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		CrearProyecto crearProyecto = new CrearProyecto(api, usuarioActual);
+        		crearProyecto.setVisible(true);
+        	}
+        });
         JButton btnVerProyectos = new JButton("Ver todos los proyectos");
         formatButton(btnNuevoProyecto);
         formatButton(btnVerProyectos);
@@ -144,18 +156,18 @@ public class Inicio extends JFrame {
         mainPanel.add(contentPanel, BorderLayout.CENTER);
         mainPanel.add(rightPanel, BorderLayout.EAST);
 
-        frame.add(mainPanel);
+        frame.getContentPane().add(mainPanel);
 
         frame.setVisible(true);
     }
 
-    private List<Proyecto> crearProyectos() {
+    /*private List<Proyecto> crearProyectos() {
         List<Proyecto> proyectos = new ArrayList<>();
         proyectos.add(new Proyecto("Gestor proyectos", "Alta"));
         proyectos.add(new Proyecto("Recuentos votos", "Media"));
         proyectos.add(new Proyecto("Gestionar tareas", "Zaja"));
         return proyectos;
-    }
+    }*/
 
     private void formatButton(JButton button) {
         button.setForeground(Color.WHITE);
@@ -172,17 +184,22 @@ public class Inicio extends JFrame {
     }
 
     private void abrirVentanaResumen(ProyectoDTO proyecto) {
-        VentanaResumen ventanaResumen = new VentanaResumen(api,proyecto); // Crear una instancia de VentanaResumen
+        VentanaResumen ventanaResumen = new VentanaResumen(proyecto); // Crear una instancia de VentanaResumen
         ventanaResumen.setVisible(true); // Hacer visible la ventana de resumen
     }
 
     public static void main(String[] args) {
     	IApi api = new MemoryApi();
-        Inicio ini = new Inicio(api);
+    	
+    	RolDTO rolDTO = new RolDTO(1, "PROPIETARIO", true);
+    	Rol rol = new Rol(rolDTO.getCodigo(), rolDTO.getNombre(), rolDTO.isActivo());
+    	
+        Usuario usuario = new Usuario("admin", "1234", "Admin", "admin@unrn.edu.ar", rol, true); // Crear el usuario
+        new Inicio(api, usuario);
     }
 }
 
-    // Clase Proyecto para almacenar información de proyectos
+    /*// Clase Proyecto para almacenar información de proyectos
     class Proyecto {
         private String nombre;
         private String prioridad;
@@ -199,4 +216,4 @@ public class Inicio extends JFrame {
         public String getPrioridad() {
             return prioridad;
         }
-    }
+    }*/

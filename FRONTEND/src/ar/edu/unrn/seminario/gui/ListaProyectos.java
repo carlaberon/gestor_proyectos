@@ -7,13 +7,19 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
 import ar.edu.unrn.seminario.api.IApi;
+import ar.edu.unrn.seminario.api.MemoryApi;
+import ar.edu.unrn.seminario.dto.ProyectoDTO;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 public class ListaProyectos extends JFrame {
-	IApi api;
+	private IApi api;
+	
     public ListaProyectos(IApi api) {
     	this.api = api;
         // Configuración básica de la ventana
@@ -29,9 +35,9 @@ public class ListaProyectos extends JFrame {
         Font fuente = new Font("Segoe UI", Font.PLAIN, 11);
 
         getContentPane().setBackground(fondoColor);
-
+        
         // Crear la tabla
-        JTable tabla = new JTable(new DefaultTableModel(
+        /*JTable tabla = new JTable(new DefaultTableModel(
                 new Object[][]{
                         {"Gestionar evento", "Activo", "La gestion de diferentes", "\u2714", "31/03/2024", "Carla", "A1987", "16/08/2023", "\u2B07", "aja"},
                         {"Recuento de votos", "Finalizado", "Informacion sobre los votos", "\u2718", "28/03/2024", "Gabriel", "A2987", "28/03/2023", "\u2B07", "Media"},
@@ -41,25 +47,31 @@ public class ListaProyectos extends JFrame {
                 new String[]{
                         "Nombre del proyecto", "Estado", "Descripcion del estado", "Público", "Fecha de vencimiento", "Propietario del proyecto", "ID del proyecto", "Creado el", "Expandir", "Prioridad"
                 }
-        ));
+        ));*/
+        JTable tabla = new JTable();
+        String[] proyectosTabla = {"Nombre", "Descripcion", "Estado", "Prioridad", "Propietario"};
+        
+        DefaultTableModel modelo = new DefaultTableModel(new Object[][] {}, proyectosTabla);
+        tabla.setModel(modelo);
+        
+        List<ProyectoDTO> proyectos = api.obtenerProyectos();
+        
+        for (ProyectoDTO p : proyectos) {
+			modelo.addRow(new Object[] {p.getNombre(), p.getDescripcion(), p.isEstado(), p.getPrioridad(), p.getUsuarioPropietario()});
+		}
 
-        // Cambiar el color de la columna "Nombre del proyecto"
+     // Configurar render de la tabla
         tabla.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
             @Override
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
                 Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-                if (column == 0) { // Nombres de proyectos
-                    c.setForeground(nombreProyectoColor);
-                } else {
-                    c.setForeground(Color.WHITE); // Color blanco para otras columnas
-                }
-                
+                c.setForeground(Color.WHITE);
                 return c;
             }
         });
 
         // Personalizar la columna "Público" con un JCheckBox centrado
-        tabla.getColumnModel().getColumn(3).setCellRenderer(new DefaultTableCellRenderer() {
+        /*tabla.getColumnModel().getColumn(3).setCellRenderer(new DefaultTableCellRenderer() {
             @Override
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
                 JCheckBox checkBox = new JCheckBox();
@@ -67,7 +79,7 @@ public class ListaProyectos extends JFrame {
                 checkBox.setSelected("\u2714".equals(value)); // Marca el checkbox si el valor es el caracter ✔
                 return checkBox;
             }
-        });
+        });*/
 
         // Establecer fuente y color de encabezados
         tabla.setFont(fuente);
@@ -77,24 +89,22 @@ public class ListaProyectos extends JFrame {
         tabla.setBackground(fondoColor);
         tabla.setRowHeight(30);
 
-        // Ajustar ancho de columnas
+        /*// Ajustar ancho de columnas
         tabla.getColumnModel().getColumn(3).setPreferredWidth(50); // Público
         tabla.getColumnModel().getColumn(8).setPreferredWidth(50); // Expandir
-        tabla.getColumnModel().getColumn(9).setPreferredWidth(50); // Prioridad
+        tabla.getColumnModel().getColumn(9).setPreferredWidth(50); // Prioridad*/
 
         // Hacer que la columna de descripción permita texto multilínea
         tabla.getColumnModel().getColumn(2).setCellRenderer(new JTextAreaRenderer());
 
-        // Crear botones de expandir
+        /*// Crear botones de expandir
         tabla.getColumn("Expandir").setCellRenderer(new ButtonRenderer());
-        tabla.getColumn("Expandir").setCellEditor(new ButtonEditor(new JCheckBox(), tabla));
+        tabla.getColumn("Expandir").setCellEditor(new ButtonEditor(new JCheckBox(), tabla));*/
 
-        // Hola carla, ESTO FUE LO QUE HICE AGREGAR UN COMBOBOX PARA QUE PONGA LAS PRIORIDADES
+     // ComboBox para prioridad
         String[] prioridades = {"Alta", "Media", "Baja"};
         JComboBox<String> comboBox = new JComboBox<>(prioridades);
-        comboBox.setBackground(fondoColor);
-        comboBox.setForeground(Color.WHITE);
-        TableColumn prioridadColumna = tabla.getColumnModel().getColumn(9);
+        TableColumn prioridadColumna = tabla.getColumnModel().getColumn(3);
         prioridadColumna.setCellEditor(new DefaultCellEditor(comboBox));
 
         // Crear un panel inferior con un color específico
@@ -202,9 +212,10 @@ public class ListaProyectos extends JFrame {
     }
 
     public static void main(String[] args) {
-//        SwingUtilities.invokeLater(() -> {
-//        	ListaProyectos frame = new ListaProyectos();
-//            frame.setVisible(true);
-//        });
+        SwingUtilities.invokeLater(() -> {
+        	IApi api = new MemoryApi();
+        	ListaProyectos frame = new ListaProyectos(api);
+            frame.setVisible(true);
+        });
     }
 }
