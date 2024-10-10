@@ -158,7 +158,7 @@ public class VentanaResumen extends JFrame {
         btnVerMiembros.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ListaMiembros listaMiembros = new ListaMiembros(); //MODIFICADO X MI
+                ListaMiembros listaMiembros = new ListaMiembros(api); //MODIFICADO X MI
                 listaMiembros.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 listaMiembros.setVisible(true);  
             }

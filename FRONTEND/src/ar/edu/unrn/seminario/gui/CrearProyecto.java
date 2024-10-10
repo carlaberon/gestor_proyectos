@@ -78,23 +78,7 @@ public class CrearProyecto extends JFrame {
 		aceptarButton.setFont(new Font("Segoe UI", Font.BOLD, 14));
 		aceptarButton.setBounds(395, 398, 147, 27);
 		contentPane.add(aceptarButton);
-		aceptarButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String nombreProyecto = nombreProyectoTextField.getText();
-				
-				// Validar que se haya ingresado un nombre
-                if (nombreProyecto.isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "El nombre del proyecto es obligatorio.", "Error", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-                
-                // Crear un nuevo proyecto
-                api.crearProyecto(nombreProyecto, usuarioPropietario, false, "Nuevo proyecto creado desde la interfaz.");
-                JOptionPane.showMessageDialog(null, "Proyecto registrado con éxito!", "Info", JOptionPane.INFORMATION_MESSAGE);
-                setVisible(false);
-                dispose();
-			}
-		});
+	
 
 		JButton cancelarButton = new JButton("Cancelar");
 		cancelarButton.setForeground(new Color(29, 17, 40));

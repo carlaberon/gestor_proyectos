@@ -46,13 +46,12 @@ public class CrearTarea extends JFrame {
 
         this.ventanaTareas = (VentanaTareas) ventanaTareas;
 
-        // Inicializar proyectos y usuarios
-        /*proyectos.add(new ProyectoDTO("Parciales", "UsuarioPropietario", false, "alta", "false"));
-        proyectos.add(new ProyectoDTO("Aplicación de votos", "UsuarioPropietario", false, "alta", "false"));*/
-        this.proyectos = api.obtenerProyectos();// con esto le envio directamente los proyectos creados
+        this.proyectos = api.obtenerProyectos(); // Aquí se llama a la API para obtener proyectos
+        if (this.proyectos == null) {
+            this.proyectos = new ArrayList<>(); // Inicializar con una lista vacía en caso de que sea null
+        }
         usuarios.add(new UsuarioDTO("usuario1", "password", "nombre", "email", new Rol(), true));
         usuarios.add(new UsuarioDTO("usuario2", "password", "nombre", "email", new Rol(), true));
-
         setTitle("Crear Tarea");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setBounds(200, 200, 600, 550);
@@ -136,7 +135,9 @@ public class CrearTarea extends JFrame {
         contentPane.add(cancelarButton);
 
         aceptarButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent arg0) {
+            private ProyectoDTO[] proyectos;
+
+			public void actionPerformed(ActionEvent arg0) {
                 // Validaciones de campos
                 if (nombreTareaTextField.getText().isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Por favor, ingrese el nombre de la tarea", "Error", JOptionPane.ERROR_MESSAGE);
@@ -177,13 +178,12 @@ public class CrearTarea extends JFrame {
                     false // Estado inicial
                 );
 
-                // Agregar la tarea al proyecto correspondiente
-                for (ProyectoDTO proyecto : proyectos) {
+                /*for (ProyectoDTO proyecto : proyectos) {
                     if (proyecto.getNombre().equals(proyectoSeleccionado)) {
                         proyecto.agregarTarea(nuevaTarea); // Añadir tarea al proyecto
                         break; // Salir del bucle una vez encontrada la tarea
                     }
-                }
+                }*///ESTA LINEA DE CODIGO ME GENERABA NULL EN THIS PROYECTO  
                 // Registrar la tarea
                 api.registrarTarea(
                     nombreTareaTextField.getText(),
@@ -214,6 +214,5 @@ public class CrearTarea extends JFrame {
         Date date = (Date) spinner.getValue();
         return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
     }
-}
-
+} 
 

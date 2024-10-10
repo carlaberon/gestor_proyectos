@@ -327,6 +327,12 @@ public class MemoryApi implements IApi {
 	    }
 	    return null; // Si no se encuentra, retorna null
 	}
+
+	@Override
+	public void crearProyecto(String nombreProyecto, Usuario usuarioPropietario, boolean b, String string) {
+		// TODO Auto-generated method stub
+		
+	}
     
 }
 

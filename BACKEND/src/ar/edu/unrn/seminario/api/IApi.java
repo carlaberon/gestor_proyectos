@@ -62,5 +62,7 @@ public interface IApi {
 	void modificarProyecto(String nombreProyecto, ProyectoDTO proyectoModificado);
 
 	List<Tarea> obtenerTareasPorProyecto(String nombreProyecto);
+
+	void crearProyecto(String nombreProyecto, Usuario usuarioPropietario, boolean b, String string);
     
 }
