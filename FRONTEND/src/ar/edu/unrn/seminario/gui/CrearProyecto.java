@@ -38,7 +38,7 @@ public class CrearProyecto extends JFrame {
 	private IApi api;
 	private List<ProyectoDTO> proyectos; //crear el proyectoDTO, crear el proyecto
 	private Usuario usuarioPropietario;
-	private JTextField textField;
+	private JTextField descripcionTextField;
 	
 	/**
 	 * Create the frame.
@@ -71,6 +71,11 @@ public class CrearProyecto extends JFrame {
 		nombreProyectoTextField.setBounds(325, 105, 390, 25);
 		contentPane.add(nombreProyectoTextField);
 		nombreProyectoTextField.setColumns(10);
+		
+		descripcionTextField = new JTextField();
+		descripcionTextField.setColumns(10);
+		descripcionTextField.setBounds(325, 157, 390, 25);
+		contentPane.add(descripcionTextField);
 
 		JButton aceptarButton = new JButton("Guardar");
 		aceptarButton.setForeground(new Color(229, 212, 237));
@@ -78,8 +83,23 @@ public class CrearProyecto extends JFrame {
 		aceptarButton.setFont(new Font("Segoe UI", Font.BOLD, 14));
 		aceptarButton.setBounds(395, 398, 147, 27);
 		contentPane.add(aceptarButton);
-	
-
+		aceptarButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String nombreProyecto = nombreProyectoTextField.getText();
+				String descripcion = descripcionTextField.getText();
+				// Validar que se haya ingresado un nombre
+                if (nombreProyecto.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "El nombre del proyecto es obligatorio.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                
+                // Crear un nuevo proyecto
+                api.crearProyecto(nombreProyecto, usuarioPropietario, false, descripcion);
+                JOptionPane.showMessageDialog(null, "Proyecto registrado con éxito!", "Info", JOptionPane.INFORMATION_MESSAGE);
+                setVisible(false);
+                dispose();
+			}
+		});
 		JButton cancelarButton = new JButton("Cancelar");
 		cancelarButton.setForeground(new Color(29, 17, 40));
 		cancelarButton.setBackground(new Color(229, 212, 237));
@@ -132,11 +152,6 @@ public class CrearProyecto extends JFrame {
 		lblPrioridad.setFont(new Font("Segoe UI", Font.PLAIN, 20));
 		lblPrioridad.setBounds(88, 191, 227, 39);
 		contentPane.add(lblPrioridad);
-		
-		textField = new JTextField();
-		textField.setColumns(10);
-		textField.setBounds(325, 157, 390, 25);
-		contentPane.add(textField);
 		
 		JComboBox<Object> proyectoComboBox_1 = new JComboBox<Object>();
 		proyectoComboBox_1.setForeground(new Color(29, 17, 40));
