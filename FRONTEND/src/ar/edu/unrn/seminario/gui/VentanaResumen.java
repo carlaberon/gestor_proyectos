@@ -17,10 +17,10 @@ public class VentanaResumen extends JFrame {
     
     private ProyectoDTO unproyecto;
     IApi api;
-    public VentanaResumen(ProyectoDTO proyecto) {
+    public VentanaResumen(IApi api, ProyectoDTO proyecto) {
 
     	this.unproyecto = proyecto; 
-    	this.api = new MemoryApi();
+    	this.api = api;
         
         setTitle("");
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
@@ -158,7 +158,7 @@ public class VentanaResumen extends JFrame {
         btnVerMiembros.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ListaMiembros listaMiembros = new ListaMiembros(); //MODIFICADO X MI
+                ListaMiembros listaMiembros = new ListaMiembros(api); //MODIFICADO X MI
                 listaMiembros.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 listaMiembros.setVisible(true);  
             }

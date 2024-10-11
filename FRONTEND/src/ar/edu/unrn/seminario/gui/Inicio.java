@@ -21,6 +21,7 @@ import java.util.Map;
 
 
 public class Inicio extends JFrame {
+	
 	public static final Map<String, Integer> PRIORIDAD_MAP = new HashMap<>();
     static {
         PRIORIDAD_MAP.put("alta", 1);
@@ -129,7 +130,7 @@ public class Inicio extends JFrame {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
-					abrirVentanaResumen(proyecto);
+					abrirVentanaResumen(api, proyecto);
 				}
             	
             });
@@ -189,8 +190,8 @@ public class Inicio extends JFrame {
     }
 
 
-    private void abrirVentanaResumen(ProyectoDTO proyecto) {
-        VentanaResumen ventanaResumen = new VentanaResumen(proyecto); // Crear una instancia de VentanaResumen 
+    private void abrirVentanaResumen(IApi api, ProyectoDTO proyecto) {
+        VentanaResumen ventanaResumen = new VentanaResumen(api, proyecto); // Crear una instancia de VentanaResumen 
         ventanaResumen.setVisible(true); // Hacer visible la ventana de resumen
     }
 
