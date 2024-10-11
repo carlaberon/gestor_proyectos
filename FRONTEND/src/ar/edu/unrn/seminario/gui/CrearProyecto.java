@@ -3,7 +3,9 @@ package ar.edu.unrn.seminario.gui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -29,10 +31,16 @@ import javax.swing.JRadioButton;
 import javax.swing.JCheckBox;
 
 public class CrearProyecto extends JFrame {
+	public static final Map<String, Integer> PRIORIDAD_MAP = new HashMap<>();
+    static {
+        PRIORIDAD_MAP.put("alta", 1);
+        PRIORIDAD_MAP.put("media", 2);
+        PRIORIDAD_MAP.put("baja", 3);
+    }
 
 	private JPanel contentPane;
 	private JTextField nombreProyectoTextField;
-	private JComboBox proyectoComboBox;
+	private JComboBox<String> proyectoComboBox;
 	private IApi api;
 	private List<ProyectoDTO> proyectos; //crear el proyectoDTO, crear el proyecto
 	private Usuario usuarioPropietario;
@@ -74,6 +82,19 @@ public class CrearProyecto extends JFrame {
 		descripcionTextField.setColumns(10);
 		descripcionTextField.setBounds(325, 157, 390, 25);
 		contentPane.add(descripcionTextField);
+		
+		JComboBox<String> prioridadComboBox = new JComboBox<>();
+		prioridadComboBox.setForeground(new Color(29, 17, 40));
+		prioridadComboBox.setFont(new Font("Segoe UI", Font.PLAIN, 10));
+		prioridadComboBox.setBounds(325, 205, 390, 25);
+		contentPane.add(prioridadComboBox);
+		
+		prioridadComboBox.addItem("");
+
+		// Llenar el JComboBox con las claves del mapa de prioridad
+        for (String prioridad : PRIORIDAD_MAP.keySet()) {
+            prioridadComboBox.addItem(prioridad);
+        }
 
 		JButton aceptarButton = new JButton("Guardar");
 		aceptarButton.setForeground(new Color(229, 212, 237));
@@ -85,11 +106,20 @@ public class CrearProyecto extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String nombreProyecto = nombreProyectoTextField.getText();
 				String descripcion = descripcionTextField.getText();
-				String prioridad = proyectoComboBox.getSelectedItem().toString();
+				//String prioridad = proyectoComboBox.getSelectedItem().toString();
+                String prioridadSeleccionada = (String) prioridadComboBox.getSelectedItem();
+                
 				
 				try {
+					// Verificar si no se seleccionó una prioridad
+		            if (prioridadSeleccionada == null || prioridadSeleccionada.isEmpty()) {
+		                throw new DataEmptyException("prioridad");
+		            }
+					// Obtener el valor de la prioridad del mapa
+                    Integer prioridadValor = PRIORIDAD_MAP.get(prioridadSeleccionada);
+					
 					// Crear un nuevo proyecto
-	                api.crearProyecto(nombreProyecto, usuarioPropietario, false, descripcion, prioridad);
+	                api.crearProyecto(nombreProyecto, usuarioPropietario, false, descripcion, prioridadValor.toString());
 	                JOptionPane.showMessageDialog(null, "Proyecto registrado con éxito!", "Info", JOptionPane.INFORMATION_MESSAGE);
 	                setVisible(false);
 	                dispose();
@@ -154,12 +184,6 @@ public class CrearProyecto extends JFrame {
 		lblPrioridad.setBounds(88, 191, 227, 39);
 		contentPane.add(lblPrioridad);
 		
-		JComboBox<Object> prioridadComboBox = new JComboBox<Object>();
-		prioridadComboBox.setForeground(new Color(29, 17, 40));
-		prioridadComboBox.setFont(new Font("Segoe UI", Font.PLAIN, 10));
-		prioridadComboBox.setBounds(325, 205, 390, 25);
-		contentPane.add(prioridadComboBox);
-
 		/*
 		for (ProyectoDTO proyect : this.proyectos) {
 			proyectoComboBox.addItem(proyect.getNombre());
