@@ -13,11 +13,11 @@ public class Tarea {
     private LocalDateTime inicio; 
     private LocalDateTime fin;
 
-    public Tarea(String nombretarea, String proyecto, String prioridad, String usuario, boolean estado, String descripcion, LocalDateTime inicio, LocalDateTime fin) {
+    public Tarea(String nombretarea, String proyecto, String prioridad, String user1, boolean estado, String descripcion, LocalDateTime inicio, LocalDateTime fin) {
         this.nombre = nombretarea;
         this.proyecto = proyecto;
         this.prioridad = prioridad;
-        this.usuario = usuario;
+        this.usuario = user1;
         this.estado = estado;
         this.descripcion = descripcion; 
         this.inicio = inicio;

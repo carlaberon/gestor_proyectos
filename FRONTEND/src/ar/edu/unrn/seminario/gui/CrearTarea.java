@@ -21,6 +21,9 @@ import ar.edu.unrn.seminario.dto.ProyectoDTO;
 import ar.edu.unrn.seminario.dto.TareaDTO;
 import ar.edu.unrn.seminario.dto.UsuarioDTO;
 import ar.edu.unrn.seminario.modelo.Rol;
+import ar.edu.unrn.seminario.modelo.Tarea;
+import ar.edu.unrn.seminario.modelo.Usuario;
+
 import javax.swing.JTextArea;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
@@ -43,13 +46,15 @@ public class CrearTarea extends JFrame {
     public CrearTarea(IApi api, JFrame ventanaTareas) {
 
         this.ventanaTareas = (VentanaTareas) ventanaTareas;
+        this.usuarios = api.obtenerUsuarios();
 
-        this.proyectos = api.obtenerProyectos(); // Aquí se llama a la API para obtener proyectos
-        if (this.proyectos == null) {
-            this.proyectos = new ArrayList<>(); // Inicializar con una lista vacía en caso de que sea null
-        }
+        // Inicializar proyectos y usuarios
+        /*proyectos.add(new ProyectoDTO("Parciales", "UsuarioPropietario", false, "alta", "false"));
+        proyectos.add(new ProyectoDTO("Aplicación de votos", "UsuarioPropietario", false, "alta", "false"));*/
+        this.proyectos = api.obtenerProyectos();// con esto le envio directamente los proyectos creados
         usuarios.add(new UsuarioDTO("usuario1", "password", "nombre", "email", new Rol(), true));
         usuarios.add(new UsuarioDTO("usuario2", "password", "nombre", "email", new Rol(), true));
+
         setTitle("Crear Tarea");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setBounds(200, 200, 600, 550);
@@ -102,9 +107,9 @@ public class CrearTarea extends JFrame {
         lblDescripcin.setBounds(43, 291, 150, 16);
         contentPane.add(lblDescripcin);
 
-        JTextArea textArea = new JTextArea();
-        textArea.setBounds(208, 291, 329, 111);
-        contentPane.add(textArea);
+        JTextArea textAreaDescription = new JTextArea();
+        textAreaDescription.setBounds(208, 291, 329, 111);
+        contentPane.add(textAreaDescription);
 
         JLabel lblFechaInicio = new JLabel("Fecha inicio:");
         lblFechaInicio.setBounds(43, 183, 150, 16);
@@ -130,10 +135,8 @@ public class CrearTarea extends JFrame {
         dateChooserFin.setBounds(190, 232, 70, 19);
         contentPane.add(dateChooserFin);
 
-        aceptarButton.addActionListener(new ActionListener() {
-            private ProyectoDTO[] proyectos;
-
-			public void actionPerformed(ActionEvent arg0) {
+        aceptarButton.addActionListener(new ActionListener() { //RESOLVER CON EXCEPTIONS
+            public void actionPerformed(ActionEvent arg0) {
                 // Validaciones de campos
                 if (nombreTareaTextField.getText().isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Por favor, ingrese el nombre de la tarea", "Error", JOptionPane.ERROR_MESSAGE);
@@ -156,12 +159,13 @@ public class CrearTarea extends JFrame {
                     return;
                 }
 
-                UsuarioDTO usuario = usuarios.get(selectedUserIndex);
+                
+                String nombreTarea = nombreTareaTextField.getText();
                 String proyectoSeleccionado = (String) proyectoTareaComboBox.getSelectedItem();
-                
-                
-                Date fechaInicioDate = dateChooserInicio.getDate(); 
-                
+                String prioridadTarea = prioridadTareaTextField.getText();
+                UsuarioDTO usuario = usuarios.get(selectedUserIndex);
+                String descripcionTarea = textAreaDescription.getText();
+                Date fechaInicioDate = dateChooserInicio.getDate();
                 Date fechaFinDate = dateChooserFin.getDate();
                
                 //Convertir Date a Localdatetime
@@ -174,34 +178,21 @@ public class CrearTarea extends JFrame {
                         .toLocalDateTime();
                 
                 // Crear una nueva tarea
+                Tarea tarea = new Tarea(
+                        nombreTarea, 
+                        proyectoSeleccionado, 
+                        prioridadTarea, 
+                        usuario.getNombre(),  // Usuario seleccionado
+                        false,    // Estado por defecto (puede ser false o true dependiendo de tu lógica)
+                        descripcionTarea, 
+                        fechaInicioLocalDateTime, 
+                        fechaFinLocalDateTime
+                    );
                 
-                TareaDTO nuevaTarea = new TareaDTO(
-                    nombreTareaTextField.getText(),
-                    proyectoSeleccionado,
-                    prioridadTareaTextField.getText(),
-                    usuario.getUsername(),
-                    fechaInicioLocalDateTime,
-                    fechaFinLocalDateTime,
-                    textArea.getText(), // Obtener la descripción de la tarea
-                    false // Estado inicial
-                );
-
-                /*for (ProyectoDTO proyecto : proyectos) {
-                    if (proyecto.getNombre().equals(proyectoSeleccionado)) {
-                        proyecto.agregarTarea(nuevaTarea); // Añadir tarea al proyecto
-                        break; // Salir del bucle una vez encontrada la tarea
-                    }
-                }*///ESTA LINEA DE CODIGO ME GENERABA NULL EN THIS PROYECTO  
-                // Registrar la tarea
-                api.registrarTarea(
-                    nombreTareaTextField.getText(),
-                    proyectoSeleccionado,
-                    prioridadTareaTextField.getText(),
-                    usuario.getUsername(), // Pasar el usuario seleccionado
-                    false, // Estado inicial
-                    "" // Descripción inicial (puedes cambiar esto si necesitas)
-                );
-
+       
+               api.añadirTareaAProyecto(proyectoSeleccionado, tarea); 
+                
+     
                 ((VentanaTareas) ventanaTareas).actualizarTabla();
 
                 JOptionPane.showMessageDialog(null, "Tarea creada con éxito!", "Info", JOptionPane.INFORMATION_MESSAGE);
@@ -218,9 +209,7 @@ public class CrearTarea extends JFrame {
         });
     }
 
-    private LocalDateTime getLocalDateTimeFromSpinner(JSpinner spinner) {
-        Date date = (Date) spinner.getValue();
-        return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
-    }
-} 
+
+}
+
 

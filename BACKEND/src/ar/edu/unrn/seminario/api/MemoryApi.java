@@ -33,6 +33,9 @@ public class MemoryApi implements IApi {
 	private Set<Evento> eventos = new HashSet<>();
 	//private Set<Plan> planeSet = new HashSet<>();
 	private List<TareaDTO> tareasDTO;
+	
+
+	private Map<String, List<TareaDTO>> tareasPorProyecto = new HashMap<>();
 
 
 	public MemoryApi() {
@@ -53,10 +56,19 @@ public class MemoryApi implements IApi {
 	    Usuario user2 = new Usuario("bjgorosito", "1234", "bjgorosito@unrn.edu.ar", "Bruno", this.buscarRol(3)); // Colaborador
 	    Usuario user3 = new Usuario("Tomas", "12345", "admin@unrn.edu.ar", "Admin", this.buscarRol(1)); // Propietario
 
-	    // Crear proyectos con diferentes prioridades y usuarios asignados
+	    // Crear proyectos con diferentes prioridades, usuarios asignados * y una lista de tareas
+	
 	    crearProyecto("Sistema de Gestión de Tareas", user1, true,"media", "Sistema para gestionar tareas en equipo.");
+	    LocalDateTime inicio = LocalDateTime.now();
+	    Tarea unaTarea = new Tarea("tarea1","Sistema de Gestión de Tareas","alta", user1.getNombre(), false, "descripcion", inicio, inicio); 
+	    añadirTareaAProyecto("Sistema de Gestión de Tareas", unaTarea);
+	    
+	  
+	    //CREAR LISTA DE TAREAS
 	    crearProyecto("Aplicación de votos", user2, false,"alta", "Aplicación para contar los votos de la municipalidad");
+	  //CREAR LISTA DE TAREAS
 	    crearProyecto("La gestion de eventos", user3, true,"baja", "Proyecto para desarrollar gestion de los eventos de ");
+	  //CREAR LISTA DE TAREAS
 	    crearProyecto("Parciales", user1, false,"media", "Informacion sobre como completar la informacion de los parciales de la carrera");
 	}
 
@@ -180,11 +192,11 @@ public class MemoryApi implements IApi {
 		return null;
 	}
 
-	public void registrarTarea(String name, String project, String priority, String user, boolean estado, String descripcion) {
-	    Tarea tarea = new Tarea(name, project, priority, user, estado, descripcion, null, null);
+	public void registrarTarea(String name, String project, String priority, Usuario user, boolean estado, String descripcion, LocalDateTime inicio, LocalDateTime fin) {
+	    Tarea tarea = new Tarea(name, project, priority, user.getNombre(), estado, descripcion, inicio, fin);
 	    this.tareas.add(tarea); // Agrega la tarea a la lista de tareas
 	}
-
+	
 	public List<TareaDTO> obtenerTareas() {
 	    List<TareaDTO> tareasDTO = new ArrayList<>();
 	    for (Tarea t : this.tareas) {  // Asegúrate de que `this.tareas` tiene elementos
@@ -192,15 +204,34 @@ public class MemoryApi implements IApi {
 	    }
 	    return tareasDTO;
 	}
-	/*public List<TareaDTO> obtenerTareasPorProyecto(String nombreProyecto) {
-        return tareasPorProyecto.getOrDefault(nombreProyecto, new ArrayList<>());
-    }*/
 	
-	public List<Tarea> obtenerTareasPorProyecto(String nombreProyecto) {
+	public void añadirTareaAProyecto(String proyecto, Tarea unaTarea) {
+
+		TareaDTO tarea = new TareaDTO(
+				unaTarea.getNombre(), 
+				unaTarea.getProyecto(), 
+				unaTarea.getPrioridad(), 
+				unaTarea.getUsuario(), 
+				unaTarea.isEstado(), 
+				unaTarea.getDescripcion(), 
+				unaTarea.getInicio(), 
+				unaTarea.getFin());
+
+		tareasPorProyecto.putIfAbsent(proyecto, new ArrayList<>());
+		tareasPorProyecto.get(proyecto).add(tarea);
+	}
+	
+	public List<TareaDTO> obtenerTareasPorProyecto(String nombreProyecto) throws RuntimeException {
+
+		return tareasPorProyecto.getOrDefault(nombreProyecto, new ArrayList<>());
+    }
+    
+	/*public List<TareaDTO> obtenerTareasPorProyecto(String nombreProyecto) {
+		
 	    return tareas.stream()
 	        .filter(t -> t.getProyecto() != null && t.getProyecto().equals(nombreProyecto))
 	        .collect(Collectors.toList());
-	}
+	}*/
 	@Override
 	public void crearEvento(LocalDateTime fecha, LocalDateTime inicio, LocalDateTime fin, String descripcion) {
 		// TODO Auto-generated method stub
@@ -264,6 +295,7 @@ public class MemoryApi implements IApi {
 
 	@Override
 	public void crearProyecto(String nombre, Usuario usuarioPropietario, boolean estado,String prioridad, String descripcion) {
+		
 		// Crear un nuevo proyecto con los parámetros recibidos
 	    Proyecto nuevoProyecto = new Proyecto(nombre, usuarioPropietario, estado, prioridad, descripcion);
 	    

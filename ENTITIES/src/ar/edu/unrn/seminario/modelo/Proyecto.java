@@ -1,6 +1,8 @@
 package ar.edu.unrn.seminario.modelo;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class Proyecto {
@@ -12,7 +14,6 @@ public class Proyecto {
     private String descripcion;
     private String prioridad;
     private Set<Proyecto> proyectos = new HashSet<>();
-    private Set<Tarea> tareas = new HashSet<>();
     private Plan plan;
 
     public Proyecto(String nombre, Usuario usuarioPropietario) {
@@ -32,6 +33,7 @@ public class Proyecto {
         this.estado = estado;
         this.prioridad=prioridad;
         this.descripcion = descripcion;
+   
     }
     
    
@@ -90,13 +92,6 @@ public class Proyecto {
         this.proyectos = proyectos;
     }
     
-    public Set<Tarea> getTareas() {
-        return tareas;
-    }
-    
-    public void setTareas(Set<Tarea> tareas) {
-        this.tareas = tareas;
-    }
     
     public boolean getEstado() {
         return estado; // ACTIVO: FALSE, FINALIZADO: TRUE
