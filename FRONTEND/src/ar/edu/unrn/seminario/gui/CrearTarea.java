@@ -25,6 +25,7 @@ import javax.swing.JTextArea;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
 import java.util.Date;
+import com.toedter.calendar.JDateChooser;
 
 public class CrearTarea extends JFrame {
 
@@ -38,9 +39,6 @@ public class CrearTarea extends JFrame {
     private List<UsuarioDTO> usuarios = new ArrayList<>();
 
     private VentanaTareas ventanaTareas;
-
-    private JSpinner fechaInicioSpinner;
-    private JSpinner fechaFinSpinner;
 
     public CrearTarea(IApi api, JFrame ventanaTareas) {
 
@@ -112,19 +110,9 @@ public class CrearTarea extends JFrame {
         lblFechaInicio.setBounds(43, 183, 150, 16);
         contentPane.add(lblFechaInicio);
 
-        // Spinner para la fecha de inicio
-        fechaInicioSpinner = new JSpinner(new SpinnerDateModel());
-        fechaInicioSpinner.setBounds(190, 181, 160, 22);
-        contentPane.add(fechaInicioSpinner);
-
         JLabel lblFechaFin = new JLabel("Fecha fin:");
         lblFechaFin.setBounds(43, 232, 150, 16);
         contentPane.add(lblFechaFin);
-
-        // Spinner para la fecha de fin
-        fechaFinSpinner = new JSpinner(new SpinnerDateModel());
-        fechaFinSpinner.setBounds(190, 228, 160, 22);
-        contentPane.add(fechaFinSpinner);
 
         JButton aceptarButton = new JButton("Aceptar");
         aceptarButton.setBounds(312, 438, 97, 25);
@@ -133,6 +121,14 @@ public class CrearTarea extends JFrame {
         JButton cancelarButton = new JButton("Cancelar");
         cancelarButton.setBounds(440, 438, 97, 25);
         contentPane.add(cancelarButton);
+        
+        JDateChooser dateChooserInicio = new JDateChooser();
+        dateChooserInicio.setBounds(190, 183, 70, 19);
+        contentPane.add(dateChooserInicio);
+        
+        JDateChooser dateChooserFin = new JDateChooser();
+        dateChooserFin.setBounds(190, 232, 70, 19);
+        contentPane.add(dateChooserFin);
 
         aceptarButton.addActionListener(new ActionListener() {
             private ProyectoDTO[] proyectos;
@@ -163,17 +159,29 @@ public class CrearTarea extends JFrame {
                 UsuarioDTO usuario = usuarios.get(selectedUserIndex);
                 String proyectoSeleccionado = (String) proyectoTareaComboBox.getSelectedItem();
                 
-                // Convertir los valores de las fechas ingresadas a LocalDateTime
-                LocalDateTime fechaInicioDate = getLocalDateTimeFromSpinner(fechaInicioSpinner);
-                LocalDateTime fechaFinDate = getLocalDateTimeFromSpinner(fechaFinSpinner);
+                
+                Date fechaInicioDate = dateChooserInicio.getDate(); 
+                
+                Date fechaFinDate = dateChooserFin.getDate();
+               
+                //Convertir Date a Localdatetime
+                LocalDateTime fechaInicioLocalDateTime = fechaInicioDate.toInstant()
+                        .atZone(ZoneId.systemDefault())
+                        .toLocalDateTime();
+
+                LocalDateTime fechaFinLocalDateTime = fechaFinDate.toInstant()
+                        .atZone(ZoneId.systemDefault())
+                        .toLocalDateTime();
+                
                 // Crear una nueva tarea
+                
                 TareaDTO nuevaTarea = new TareaDTO(
                     nombreTareaTextField.getText(),
                     proyectoSeleccionado,
                     prioridadTareaTextField.getText(),
                     usuario.getUsername(),
-                    fechaInicioDate,
-                    fechaFinDate,
+                    fechaInicioLocalDateTime,
+                    fechaFinLocalDateTime,
                     textArea.getText(), // Obtener la descripción de la tarea
                     false // Estado inicial
                 );

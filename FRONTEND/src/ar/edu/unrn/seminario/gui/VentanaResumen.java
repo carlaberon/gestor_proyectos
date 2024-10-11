@@ -17,10 +17,10 @@ public class VentanaResumen extends JFrame {
     
     private ProyectoDTO unproyecto;
     IApi api;
-    public VentanaResumen(ProyectoDTO proyecto) {
+    public VentanaResumen(IApi api, ProyectoDTO proyecto) {
 
     	this.unproyecto = proyecto; 
-    	this.api = new MemoryApi();
+    	this.api = api;
         
         setTitle("");
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
