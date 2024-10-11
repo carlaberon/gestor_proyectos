@@ -46,6 +46,7 @@ public class CrearTarea extends JFrame {
     public CrearTarea(IApi api, JFrame ventanaTareas) {
 
         this.ventanaTareas = (VentanaTareas) ventanaTareas;
+        this.usuarios = api.obtenerUsuarios();
 
         // Inicializar proyectos y usuarios
         /*proyectos.add(new ProyectoDTO("Parciales", "UsuarioPropietario", false, "alta", "false"));

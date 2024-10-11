@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -32,6 +33,7 @@ import javax.swing.table.DefaultTableModel;
 
 import ar.edu.unrn.seminario.api.IApi;
 import ar.edu.unrn.seminario.api.MemoryApi;
+import ar.edu.unrn.seminario.dto.RolDTO;
 import ar.edu.unrn.seminario.dto.TareaDTO;
 import ar.edu.unrn.seminario.dto.UsuarioDTO;
 import ar.edu.unrn.seminario.modelo.Tarea;
@@ -44,12 +46,13 @@ public class VentanaTareas extends JFrame {
 	IApi api;
 	JButton botonModificar;
 	JButton botonEliminar;
+	
 
     public VentanaTareas(IApi api,String nombreProyecto) throws RuntimeException{
 
     	this.api = api; 
     	
-    	setTitle(nombreProyecto);
+    	setTitle("Tareas");
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         setBounds(100, 100, 900, 600);
         
@@ -62,7 +65,7 @@ public class VentanaTareas extends JFrame {
         menuBar.setBackground(new Color(138, 102, 204));
         menuBar.setPreferredSize(new Dimension(100, 50));
 
-        JMenu menuProyecto = new JMenu("nombreProyecto");
+        JMenu menuProyecto = new JMenu(nombreProyecto);
         menuProyecto.setForeground(Color.WHITE);
         menuProyecto.setFont(new Font("Segoe UI", Font.PLAIN, 18));
 
@@ -308,10 +311,7 @@ public class VentanaTareas extends JFrame {
 
 	}
 	void actualizarTabla(){
-		
 	
-			
-		
 	    // Obtiene el model del table
 	    DefaultTableModel modelo = (DefaultTableModel) table.getModel();
 	    // Obtiene la lista de tareas filtradas por proyecto
