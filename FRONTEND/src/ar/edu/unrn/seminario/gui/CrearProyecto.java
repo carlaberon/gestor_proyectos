@@ -94,7 +94,7 @@ public class CrearProyecto extends JFrame {
                 }
                 
                 // Crear un nuevo proyecto
-                api.crearProyecto(nombreProyecto, usuarioPropietario, false, descripcion);
+                api.crearProyecto(nombreProyecto, usuarioPropietario, false,"alta", descripcion);
                 JOptionPane.showMessageDialog(null, "Proyecto registrado con éxito!", "Info", JOptionPane.INFORMATION_MESSAGE);
                 setVisible(false);
                 dispose();
