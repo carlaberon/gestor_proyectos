@@ -9,6 +9,8 @@ import javax.swing.table.TableColumn;
 import ar.edu.unrn.seminario.api.IApi;
 import ar.edu.unrn.seminario.api.MemoryApi;
 import ar.edu.unrn.seminario.dto.ProyectoDTO;
+import ar.edu.unrn.seminario.exception.DataEmptyException;
+import ar.edu.unrn.seminario.exception.NotNullException;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -39,7 +41,7 @@ public class ListaProyectos extends JFrame {
         // Crear la tabla
         /*JTable tabla = new JTable(new DefaultTableModel(
                 new Object[][]{
-                        {"Gestionar evento", "Activo", "La gestion de diferentes", "\u2714", "31/03/2024", "Carla", "A1987", "16/08/2023", "\u2B07", "aja"},
+                        {"Gestionar evento", "Activo", "La gestion de diferentes", "\u2714", "31/03/2024", "Carla", "A1987", "16/08/2023", "\u2B07", "alta"},
                         {"Recuento de votos", "Finalizado", "Informacion sobre los votos", "\u2718", "28/03/2024", "Gabriel", "A2987", "28/03/2023", "\u2B07", "Media"},
                         {"Gestionar tarea", "Activo", "Tareas necesarias sobre la", "\u2714", "14/04/2024", "Hernan", "A3987", "11/01/2023", "\u2B07", "Baja"},
                         {"Parciales", "Inactivo", "Informacion sobre como completar la informacion de los parciales de la carrera", "\u2718", "31/11/2023", "Tomas", "A4987", "28/03/2023", "\u2B07", "Alta"},
@@ -213,7 +215,13 @@ public class ListaProyectos extends JFrame {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-        	IApi api = new MemoryApi();
+        	IApi api = null;
+			try {
+				api = new MemoryApi();
+			} catch (NotNullException | DataEmptyException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
         	ListaProyectos frame = new ListaProyectos(api);
             frame.setVisible(true);
         });

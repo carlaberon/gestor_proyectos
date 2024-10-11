@@ -4,24 +4,24 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import ar.edu.unrn.seminario.api.IApi;
-import ar.edu.unrn.seminario.api.MemoryApi;
 import ar.edu.unrn.seminario.dto.ProyectoDTO;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import ar.edu.unrn.seminario.api.IApi;
+import ar.edu.unrn.seminario.api.MemoryApi;
 public class VentanaResumen extends JFrame {
 
     private JPanel contentPane;
-    IApi api;
+    
     private ProyectoDTO unproyecto;
-
+    IApi api;
     public VentanaResumen(IApi api, ProyectoDTO proyecto) {
 
-    	this.unproyecto = proyecto;
+    	this.unproyecto = proyecto; 
     	this.api = api;
-    	
+        
         setTitle("");
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         setBounds(100, 100, 900, 600);
@@ -146,7 +146,27 @@ public class VentanaResumen extends JFrame {
         miembrosPanel.add(btnMiembro);
         miembrosPanel.add(btnVerMiembros);
         centerPanel1.add(miembrosPanel);
+        btnMiembro.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                InvitarMiembro invitarMiembro = new InvitarMiembro();  // Crear una nueva instancia de la clase InvitarMiembro
+                invitarMiembro.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                invitarMiembro.setVisible(true);  // Mostrar la ventana de InvitarMiembro
+            }
+        });
 
+        btnVerMiembros.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ListaMiembros listaMiembros = new ListaMiembros(api); //MODIFICADO X MI
+                listaMiembros.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                listaMiembros.setVisible(true);  
+            }
+        });
+
+        miembrosPanel.add(btnMiembro);
+        miembrosPanel.add(btnVerMiembros);
+        centerPanel1.add(miembrosPanel);
         // Tareas
         JPanel tareasPanel = createPanel("Tareas", null);
         JButton btnTarea = createButton("Tarea +", new Color(138, 102, 204));
@@ -154,7 +174,13 @@ public class VentanaResumen extends JFrame {
         tareasPanel.add(btnTarea);
         tareasPanel.add(btnVerTareas);
         centerPanel1.add(tareasPanel);
-
+        btnVerTareas.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+            String nombreProyecto = unproyecto.getNombre(); // Este método obtiene el nombre del proyecto seleccionado
+            VentanaTareas ventanaTareas = new VentanaTareas(api, nombreProyecto);
+            ventanaTareas.setVisible(true);
+        }
+    });
         // Agregar el panel principal al contentPane
         contentPane.add(centerPanel1, BorderLayout.CENTER);
     }
@@ -163,8 +189,7 @@ public class VentanaResumen extends JFrame {
     private void abrirPanelConfiguracion() {
         // Lógica para mostrar el panel de configuración
         // Puedes implementar esto como desees
-        VentanaConfigurarProyecto ventanaConfig = new VentanaConfigurarProyecto(api,unproyecto);
-        actualizarDatosProyecto();
+        VentanaConfigurarProyecto ventanaConfig = new VentanaConfigurarProyecto();
         ventanaConfig.setVisible(true);
     }
 
@@ -202,13 +227,5 @@ public class VentanaResumen extends JFrame {
         return button;
     }
 
-    public static void main(String[] args) {
-////    	IApi api = new MemoryApi();
-//        VentanaResumen resumen = new VentanaResumen();
-//        resumen.setVisible(true);
-    }
-    
-    private void actualizarDatosProyecto() {
-    	unproyecto = api.obtenerProyecto(getName());
-    }
+
 }

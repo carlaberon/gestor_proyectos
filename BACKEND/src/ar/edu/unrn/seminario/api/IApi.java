@@ -8,8 +8,11 @@ import ar.edu.unrn.seminario.dto.ProyectoDTO;
 import ar.edu.unrn.seminario.dto.RolDTO;
 import ar.edu.unrn.seminario.dto.TareaDTO;
 import ar.edu.unrn.seminario.dto.UsuarioDTO;
+import ar.edu.unrn.seminario.exception.DataEmptyException;
+import ar.edu.unrn.seminario.exception.NotNullException;
 import ar.edu.unrn.seminario.modelo.Evento;
 import ar.edu.unrn.seminario.modelo.Proyecto;
+import ar.edu.unrn.seminario.modelo.Tarea;
 import ar.edu.unrn.seminario.modelo.Usuario;
 
 public interface IApi {
@@ -38,13 +41,14 @@ public interface IApi {
 
 	void desactivarUsuario(String username); // recuperar el objeto Usuario, implementar el comportamiento de estado.
 	
-	void registrarTarea(String name, String project, String priority, String user, boolean estado, String descripcion); //falta inicio, fin
+	void registrarTarea(String name, String project, String priority, Usuario user, boolean estado, String descripcion, LocalDateTime inicio, LocalDateTime fin);
 	
 	List<TareaDTO> obtenerTareas();
 	
 	List<ProyectoDTO> obtenerProyectos();
 	
-	void crearProyecto(String nombre, Usuario usuarioPropietario, String id, boolean estado, String descripcion);
+	void crearProyecto(String nombre, Usuario usuarioPropietario, boolean estado, String descripcion, String prioridad) throws NotNullException, DataEmptyException;
+
 	
 	void crearEvento(LocalDateTime fecha, LocalDateTime inicio, LocalDateTime fin, String descripcion);
 	
@@ -58,8 +62,9 @@ public interface IApi {
 
 	void eliminarProyecto(String nombreProyecto);
 	
-	void modificarProyecto(String nombreProyecto, String nombreNuevo, String nuevoPrioridad, String nuevoDescripcion);
+	void modificarProyecto(String nombreProyecto, ProyectoDTO proyectoModificado);
+
+	List<TareaDTO> obtenerTareasPorProyecto(String nombreProyecto);
 	
-	ProyectoDTO obtenerProyecto(String nombre);
-    
+	void añadirTareaAProyecto(String proyecto, Tarea tarea);
 }

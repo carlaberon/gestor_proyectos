@@ -27,10 +27,7 @@ public class AltaUsuario extends JFrame {
 	private JComboBox rolComboBox;
 
 	private List<RolDTO> roles = new ArrayList<>();
-	//hola
-	/**
-	 * Create the frame.
-	 */
+	
 	public AltaUsuario(IApi api) {
 
 		// Obtengo los roles

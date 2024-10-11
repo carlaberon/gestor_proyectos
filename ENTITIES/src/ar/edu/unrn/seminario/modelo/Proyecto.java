@@ -1,42 +1,44 @@
 package ar.edu.unrn.seminario.modelo;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+
+import ar.edu.unrn.seminario.exception.DataEmptyException;
+import ar.edu.unrn.seminario.exception.NotNullException;
 
 public class Proyecto {
 
     private String nombre;
-    private String id;
     private Usuario usuarioPropietario;
     private boolean estado; // ACTIVO = false, FINALIZADO = true
     private Set<Miembro> miembros = new HashSet<>();
     private String descripcion;
     private String prioridad;
     private Set<Proyecto> proyectos = new HashSet<>();
-    private Set<Tarea> tareas = new HashSet<>();
     private Plan plan;
 
-    public Proyecto(String nombre, Usuario usuarioPropietario, String id) {
+    public Proyecto(String nombre, Usuario usuarioPropietario) {
         this.nombre = nombre; 
         this.usuarioPropietario = usuarioPropietario;
-        this.id = id;
     }
 
-    public Proyecto(String nombre, Usuario usuarioPropietario, String id, boolean estado) {
+    public Proyecto(String nombre, Usuario usuarioPropietario, boolean estado) {
         this.nombre = nombre; 
         this.usuarioPropietario = usuarioPropietario;
         this.estado = estado;
-        this.id = id;
     }
 
-    public Proyecto(String nombre, Usuario usuarioPropietario, String id, boolean estado, String descripcion) {
+
+    public Proyecto(String nombre, Usuario usuarioPropietario, boolean estado, String descripcion, String prioridad) throws NotNullException, DataEmptyException{
         this.nombre = nombre; 
         this.usuarioPropietario = usuarioPropietario;
         this.estado = estado;
         this.descripcion = descripcion;
-        this.id = id;
+        this.prioridad = prioridad;
     }
-    
+
     public Proyecto() {
     	
     }
@@ -76,11 +78,11 @@ public class Proyecto {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
-    public String getPrioridad() {
+    public String getPrioridad1() {
         return prioridad;
     }
 
-    public void setPrioridad(String prioridad) {
+    public void setPrioridad1(String prioridad) {
         this.prioridad = prioridad;
     }
     public Set<Proyecto> getProyectos() {
@@ -91,13 +93,6 @@ public class Proyecto {
         this.proyectos = proyectos;
     }
     
-    public Set<Tarea> getTareas() {
-        return tareas;
-    }
-    
-    public void setTareas(Set<Tarea> tareas) {
-        this.tareas = tareas;
-    }
     
     public boolean getEstado() {
         return estado; // ACTIVO: FALSE, FINALIZADO: TRUE
@@ -132,10 +127,6 @@ public class Proyecto {
 
     public void setPlan(Plan plan) {
         this.plan = plan;
-    }
-    
-    public String getId() {
-    	return id;
     }
 
 	@Override

@@ -6,6 +6,8 @@ import ar.edu.unrn.seminario.api.IApi;
 import ar.edu.unrn.seminario.api.MemoryApi;
 import ar.edu.unrn.seminario.dto.ProyectoDTO;
 import ar.edu.unrn.seminario.dto.UsuarioDTO;
+import ar.edu.unrn.seminario.exception.DataEmptyException;
+import ar.edu.unrn.seminario.exception.NotNullException;
 import ar.edu.unrn.seminario.modelo.Rol;
 import ar.edu.unrn.seminario.modelo.Usuario;
 import ar.edu.unrn.seminario.dto.RolDTO;
@@ -161,14 +163,6 @@ public class Inicio extends JFrame {
         frame.setVisible(true);
     }
 
-    /*private List<Proyecto> crearProyectos() {
-        List<Proyecto> proyectos = new ArrayList<>();
-        proyectos.add(new Proyecto("Gestor proyectos", "Alta"));
-        proyectos.add(new Proyecto("Recuentos votos", "Media"));
-        proyectos.add(new Proyecto("Gestionar tareas", "Zaja"));
-        return proyectos;
-    }*/
-
     private void formatButton(JButton button) {
         button.setForeground(Color.WHITE);
         button.setBackground(new Color(80, 80, 80));
@@ -184,11 +178,11 @@ public class Inicio extends JFrame {
     }
 
     private void abrirVentanaResumen(ProyectoDTO proyecto) {
-        VentanaResumen ventanaResumen = new VentanaResumen(proyecto); // Crear una instancia de VentanaResumen
+        VentanaResumen ventanaResumen = new VentanaResumen(api, proyecto); // Crear una instancia de VentanaResumen
         ventanaResumen.setVisible(true); // Hacer visible la ventana de resumen
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws NotNullException, DataEmptyException {
     	IApi api = new MemoryApi();
     	
     	RolDTO rolDTO = new RolDTO(1, "PROPIETARIO", true);
@@ -198,22 +192,3 @@ public class Inicio extends JFrame {
         new Inicio(api, usuario);
     }
 }
-
-    /*// Clase Proyecto para almacenar información de proyectos
-    class Proyecto {
-        private String nombre;
-        private String prioridad;
-
-        public Proyecto(String nombre, String prioridad) {
-            this.nombre = nombre;
-            this.prioridad = prioridad;
-        }
-
-        public String getNombre() {
-            return nombre;
-        }
-
-        public String getPrioridad() {
-            return prioridad;
-        }
-    }*/

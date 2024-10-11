@@ -1,8 +1,9 @@
+
 package ar.edu.unrn.seminario.modelo;
 
 import ar.edu.unrn.seminario.exception.StateChangeException;
 
-public class Usuario {
+public class Usuario{
 	private String usuario;
 	private String contrasena;
 	private String nombre;
@@ -127,3 +128,4 @@ public class Usuario {
 	}
 
 }
+

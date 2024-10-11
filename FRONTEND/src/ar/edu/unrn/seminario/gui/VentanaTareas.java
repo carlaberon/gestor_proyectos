@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -32,8 +33,12 @@ import javax.swing.table.DefaultTableModel;
 
 import ar.edu.unrn.seminario.api.IApi;
 import ar.edu.unrn.seminario.api.MemoryApi;
+import ar.edu.unrn.seminario.dto.RolDTO;
 import ar.edu.unrn.seminario.dto.TareaDTO;
 import ar.edu.unrn.seminario.dto.UsuarioDTO;
+import ar.edu.unrn.seminario.exception.DataEmptyException;
+import ar.edu.unrn.seminario.exception.NotNullException;
+import ar.edu.unrn.seminario.modelo.Tarea;
 
 public class VentanaTareas extends JFrame {
 
@@ -43,12 +48,13 @@ public class VentanaTareas extends JFrame {
 	IApi api;
 	JButton botonModificar;
 	JButton botonEliminar;
+	
 
-    public VentanaTareas(IApi api) {
+    public VentanaTareas(IApi api,String nombreProyecto) throws RuntimeException{
 
     	this.api = api; 
     	
-    	setTitle("");
+    	setTitle("Tareas");
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         setBounds(100, 100, 900, 600);
         
@@ -61,7 +67,7 @@ public class VentanaTareas extends JFrame {
         menuBar.setBackground(new Color(138, 102, 204));
         menuBar.setPreferredSize(new Dimension(100, 50));
 
-        JMenu menuProyecto = new JMenu("nombreProyecto");
+        JMenu menuProyecto = new JMenu(nombreProyecto);
         menuProyecto.setForeground(Color.WHITE);
         menuProyecto.setFont(new Font("Segoe UI", Font.PLAIN, 18));
 
@@ -163,16 +169,42 @@ public class VentanaTareas extends JFrame {
         table.setShowGrid(true);
 
         // Modelo de la tabla
-		String[] titulos = { "NOMBRE", "PROYECTO", "ESTADO", "ASIGNADO", "PRIORIDAD" };
+		String[] titulos = { "NOMBRE", "PROYECTO", "ESTADO","DESCRIPCION", "ASIGNADO", "PRIORIDAD", "FECHA INICIO", "FECHA FIN" };
 		modelo = new DefaultTableModel(new Object[][] {}, titulos);
-
-		// Obtiene la lista de tareas a mostrar
+		
+		/*// Obtiene la lista de tareas a mostrar
 		List<TareaDTO> tareas = (List<TareaDTO>) api.obtenerTareas();
 		// Agrega las tareas en el model
 		for (TareaDTO t : tareas) {
 			modelo.addRow(new Object[] { t.getName(), t.getProject(),t.isEstado(), t.getUser(), t.getPriority() });
 		}
-
+		*/
+		
+		//BACK -> DTO -> FRONTEND
+		
+		try {
+			
+		List<TareaDTO> tareas = api.obtenerTareasPorProyecto(nombreProyecto); // Filtra las tareas por proyecto
+			
+		modelo.setRowCount(0); // Limpiar el modelo antes de agregar nuevas filas
+		
+		for (TareaDTO t : tareas) {
+		    modelo.addRow(new Object[] {
+		        t.getName(),
+		        t.getProject(),
+		        t.isEstado() ? "FINALIZADA" : "EN CURSO", // Modifica el estado a una cadena legible
+		        t.getDescription(),
+		        t.getUser(),
+		        t.getPriority(), 
+		        t.getInicio(),
+		        t.getFin()
+		    });
+		}
+		}
+		catch (NullPointerException exception) {
+			JOptionPane.showMessageDialog(null, "No hay tareas", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+		}
+		
 		table.setModel(modelo);
 		scrollPane.setViewportView(table);
 		scrollPane.getViewport().setBackground(new Color(45, 44, 50)); // Fondo del scrollPane
@@ -280,24 +312,27 @@ public class VentanaTareas extends JFrame {
 		botonEliminar.setEnabled(b);
 
 	}
-	void actualizarTabla() {
-		// Obtiene el model del table
-		DefaultTableModel modelo = (DefaultTableModel) table.getModel();
-		// Obtiene la lista de usuarios a mostrar
-		List<TareaDTO> tareas = api.obtenerTareas();
-		// Resetea el model
-		modelo.setRowCount(0);
+	void actualizarTabla(){
+	
+	    // Obtiene el model del table
+	    DefaultTableModel modelo = (DefaultTableModel) table.getModel();
+	    // Obtiene la lista de tareas filtradas por proyecto
+	    List<TareaDTO> tareas = api.obtenerTareasPorProyecto(this.getTitle()); // this.getTitle() retorna el nombre del proyecto
+	    // Resetea el modelo
+	    modelo.setRowCount(0);
 
-		// Agrega los usuarios en el model
-		for (TareaDTO t : tareas) {
-			modelo.addRow(new Object[] { t.getName(), t.getProject(),t.isEstado(), t.getUser(), t.getPriority() });
-		}
-
+	    // Agrega las tareas en el modelo
+	    for (TareaDTO t : tareas) {
+	        modelo.addRow(new Object[] { t.getName(), t.getProject(), t.isEstado(), t.getUser(), t.getPriority() });
+	    }
 	}
-
-    public static void main(String[] args) {
+		
+	
+    public static void main(String[] args) throws NotNullException, DataEmptyException {
     	IApi api = new MemoryApi();
-    	VentanaTareas ventanatareas = new VentanaTareas(api);
+    	String proyect = "Proyecto2";
+    	VentanaTareas ventanatareas = new VentanaTareas(api,proyect);
     	ventanatareas.setVisible(true);
+    	
     }
 }
