@@ -5,6 +5,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import ar.edu.unrn.seminario.exception.DataEmptyException;
+import ar.edu.unrn.seminario.exception.NotNullException;
+
 public class Proyecto {
 
     private String nombre;
@@ -27,17 +30,15 @@ public class Proyecto {
         this.estado = estado;
     }
 
-    public Proyecto(String nombre, Usuario usuarioPropietario, boolean estado,String prioridad, String descripcion) {
+
+    public Proyecto(String nombre, Usuario usuarioPropietario, boolean estado, String descripcion, String prioridad) throws NotNullException, DataEmptyException{
         this.nombre = nombre; 
         this.usuarioPropietario = usuarioPropietario;
         this.estado = estado;
-        this.prioridad=prioridad;
         this.descripcion = descripcion;
-   
+        this.prioridad = prioridad;
     }
-    
-   
-    
+
     public Proyecto() {
     	
     }

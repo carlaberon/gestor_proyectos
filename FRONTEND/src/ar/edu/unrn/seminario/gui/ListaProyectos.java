@@ -9,6 +9,8 @@ import javax.swing.table.TableColumn;
 import ar.edu.unrn.seminario.api.IApi;
 import ar.edu.unrn.seminario.api.MemoryApi;
 import ar.edu.unrn.seminario.dto.ProyectoDTO;
+import ar.edu.unrn.seminario.exception.DataEmptyException;
+import ar.edu.unrn.seminario.exception.NotNullException;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -213,7 +215,13 @@ public class ListaProyectos extends JFrame {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-        	IApi api = new MemoryApi();
+        	IApi api = null;
+			try {
+				api = new MemoryApi();
+			} catch (NotNullException | DataEmptyException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
         	ListaProyectos frame = new ListaProyectos(api);
             frame.setVisible(true);
         });
