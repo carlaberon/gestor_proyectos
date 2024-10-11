@@ -15,12 +15,10 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import ar.edu.unrn.seminario.api.IApi;
-import ar.edu.unrn.seminario.api.MemoryApi;
 import ar.edu.unrn.seminario.dto.ProyectoDTO;
-import ar.edu.unrn.seminario.dto.RolDTO;
-import ar.edu.unrn.seminario.dto.UsuarioDTO;
-import ar.edu.unrn.seminario.modelo.Rol;
 import ar.edu.unrn.seminario.modelo.Usuario;
+import ar.edu.unrn.seminario.exception.NotNullException;
+import ar.edu.unrn.seminario.exception.DataEmptyException;
 
 import javax.swing.JTextPane;
 import javax.swing.JTree;
@@ -87,17 +85,19 @@ public class CrearProyecto extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String nombreProyecto = nombreProyectoTextField.getText();
 				String descripcion = descripcionTextField.getText();
-				// Validar que se haya ingresado un nombre
-                if (nombreProyecto.isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "El nombre del proyecto es obligatorio.", "Error", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-                
-                // Crear un nuevo proyecto
-                api.crearProyecto(nombreProyecto, usuarioPropietario, false, descripcion);
-                JOptionPane.showMessageDialog(null, "Proyecto registrado con éxito!", "Info", JOptionPane.INFORMATION_MESSAGE);
-                setVisible(false);
-                dispose();
+				String prioridad = proyectoComboBox.getSelectedItem().toString();
+				
+				try {
+					// Crear un nuevo proyecto
+	                api.crearProyecto(nombreProyecto, usuarioPropietario, false, descripcion, prioridad);
+	                JOptionPane.showMessageDialog(null, "Proyecto registrado con éxito!", "Info", JOptionPane.INFORMATION_MESSAGE);
+	                setVisible(false);
+	                dispose();
+				} catch (NotNullException ex) {
+		            JOptionPane.showMessageDialog(null, "El campo " + ex.getMessage() + " no puede ser nulo.", "Error", JOptionPane.ERROR_MESSAGE);
+		        } catch (DataEmptyException ex) {
+		            JOptionPane.showMessageDialog(null, "El campo " + ex.getMessage() + " no puede estar vacío.", "Error", JOptionPane.ERROR_MESSAGE);
+		        }
 			}
 		});
 
@@ -154,11 +154,11 @@ public class CrearProyecto extends JFrame {
 		lblPrioridad.setBounds(88, 191, 227, 39);
 		contentPane.add(lblPrioridad);
 		
-		JComboBox<Object> proyectoComboBox_1 = new JComboBox<Object>();
-		proyectoComboBox_1.setForeground(new Color(29, 17, 40));
-		proyectoComboBox_1.setFont(new Font("Segoe UI", Font.PLAIN, 10));
-		proyectoComboBox_1.setBounds(325, 205, 390, 25);
-		contentPane.add(proyectoComboBox_1);
+		JComboBox<Object> prioridadComboBox = new JComboBox<Object>();
+		prioridadComboBox.setForeground(new Color(29, 17, 40));
+		prioridadComboBox.setFont(new Font("Segoe UI", Font.PLAIN, 10));
+		prioridadComboBox.setBounds(325, 205, 390, 25);
+		contentPane.add(prioridadComboBox);
 
 		/*
 		for (ProyectoDTO proyect : this.proyectos) {

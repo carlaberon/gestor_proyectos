@@ -3,6 +3,9 @@ package ar.edu.unrn.seminario.modelo;
 import java.util.HashSet;
 import java.util.Set;
 
+import ar.edu.unrn.seminario.exception.DataEmptyException;
+import ar.edu.unrn.seminario.exception.NotNullException;
+
 public class Proyecto {
 
     private String nombre;
@@ -31,6 +34,14 @@ public class Proyecto {
         this.usuarioPropietario = usuarioPropietario;
         this.estado = estado;
         this.descripcion = descripcion;
+    }
+    
+    public Proyecto(String nombre, Usuario usuarioPropietario, boolean estado, String descripcion, String prioridad) throws NotNullException, DataEmptyException{
+        this.nombre = nombre; 
+        this.usuarioPropietario = usuarioPropietario;
+        this.estado = estado;
+        this.descripcion = descripcion;
+        this.prioridad = prioridad;
     }
     
     public Proyecto() {

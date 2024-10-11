@@ -13,6 +13,8 @@ import ar.edu.unrn.seminario.dto.ProyectoDTO;
 import ar.edu.unrn.seminario.dto.RolDTO;
 import ar.edu.unrn.seminario.dto.TareaDTO;
 import ar.edu.unrn.seminario.dto.UsuarioDTO;
+import ar.edu.unrn.seminario.exception.DataEmptyException;
+import ar.edu.unrn.seminario.exception.NotNullException;
 import ar.edu.unrn.seminario.modelo.Evento;
 import ar.edu.unrn.seminario.modelo.Miembro;
 import ar.edu.unrn.seminario.modelo.Plan;
@@ -31,7 +33,7 @@ public class MemoryApi implements IApi {
 	//private Set<Plan> planeSet = new HashSet<>();
 	
 
-	public MemoryApi() {
+	public MemoryApi() throws NotNullException, DataEmptyException {
 		//Set<Proyecto> proyectos
 		// datos iniciales
 		this.roles.add(new Rol(1, "PROPIETARIO"));
@@ -43,9 +45,9 @@ public class MemoryApi implements IApi {
 		
 	}
 	
-	private void inicializarProyecto() {
+	private void inicializarProyecto() throws NotNullException, DataEmptyException {
 		Usuario user =new Usuario("Usuario","123","name","gmail",new Rol());
-		crearProyecto("TareasSL", user ,false,"Proyecto para la gestion de tareas");
+		crearProyecto("TareasSL", user ,false,"Proyecto para la gestion de tareas", "Alta");
 	}
 
 	private void inicializarUsuarios() {
@@ -249,9 +251,30 @@ public class MemoryApi implements IApi {
 	}
 
 	@Override
-	public void crearProyecto(String nombre, Usuario usuarioPropietario, boolean estado, String descripcion) {
+	public void crearProyecto(String nombre, Usuario usuarioPropietario, boolean estado, String descripcion, String prioridad) throws NotNullException, DataEmptyException {
+	    // Validar que los campos no sean nulos
+	    if (esDatoNulo(nombre)) {
+	        throw new NotNullException("nombre");
+	    }
+	    if (esDatoNulo(descripcion)) {
+	        throw new NotNullException("descripcion");
+	    }
+	    if (esDatoNulo(prioridad)) {
+	        throw new NotNullException("prioridad");
+	    }
+
+	    // Validar que los campos no estén vacíos
+	    if (esDatoVacio(nombre)) {
+	        throw new DataEmptyException("nombre");
+	    }
+	    if (esDatoVacio(descripcion)) {
+	        throw new DataEmptyException("descripcion");
+	    }
+	    if (esDatoVacio(prioridad)) {
+	        throw new DataEmptyException("prioridad");
+	    }
 		// Crear un nuevo proyecto con los parámetros recibidos
-	    Proyecto nuevoProyecto = new Proyecto(nombre, usuarioPropietario, estado, descripcion);
+	    Proyecto nuevoProyecto = new Proyecto(nombre, usuarioPropietario, estado, descripcion, prioridad);
 	    
 	    // Agregar el proyecto a la colección de proyectos
 	    
@@ -313,6 +336,13 @@ public class MemoryApi implements IApi {
 	    }
 	    return null; // Si no se encuentra, retorna null
 	}
+	
+	   private boolean esDatoVacio(String dato) {
+			return dato.equals("");
+		}
 
+		private boolean esDatoNulo(String dato) {
+			return dato == null;
+		}
     
 }
