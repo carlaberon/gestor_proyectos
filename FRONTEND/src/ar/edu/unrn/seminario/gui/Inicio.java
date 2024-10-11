@@ -117,6 +117,7 @@ public class Inicio extends JFrame {
         JPanel proyectosListPanel = new JPanel();
         proyectosListPanel.setLayout(new BoxLayout(proyectosListPanel, BoxLayout.Y_AXIS));
         proyectosListPanel.setBackground(new Color(30, 30, 30));
+        
         //BACK -> DTO -> FRONT
         List<ProyectoDTO> proyectos = api.obtenerProyectos();
 

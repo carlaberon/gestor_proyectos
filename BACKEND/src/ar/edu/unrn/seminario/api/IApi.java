@@ -39,7 +39,7 @@ public interface IApi {
 
 	void desactivarUsuario(String username); // recuperar el objeto Usuario, implementar el comportamiento de estado.
 	
-	void registrarTarea(String name, String project, String priority, String user, boolean estado, String descripcion); //falta inicio, fin
+	void registrarTarea(String name, String project, String priority, Usuario user, boolean estado, String descripcion, LocalDateTime inicio, LocalDateTime fin);
 	
 	List<TareaDTO> obtenerTareas();
 	
@@ -61,6 +61,7 @@ public interface IApi {
 	
 	void modificarProyecto(String nombreProyecto, ProyectoDTO proyectoModificado);
 
-	List<Tarea> obtenerTareasPorProyecto(String nombreProyecto);
-    
+	List<TareaDTO> obtenerTareasPorProyecto(String nombreProyecto);
+	
+	void añadirTareaAProyecto(String proyecto, Tarea tarea);
 }
