@@ -12,7 +12,7 @@ public class ProyectoDTO {
 
     private String nombre;
     private String id;
-    private Usuario usuarioPropietario;
+    private UsuarioDTO usuarioPropietario;
     private String prioridad;
     private boolean estado; //ACTIVO= false; FINALIZADO = true
     private Set<String> miembros = new HashSet<>();
@@ -20,7 +20,7 @@ public class ProyectoDTO {
     private Set<String> proyectos = new HashSet<>();
     private Set<String> tareas = new HashSet<>();
     
-    public ProyectoDTO(String nombreProyecto, Usuario usuarioPropietario, String id, boolean estado, String prioridad, String descripcion) {
+    public ProyectoDTO(String nombreProyecto, UsuarioDTO usuarioPropietario, boolean estado, String prioridad, String descripcion) {
         this.nombre = nombreProyecto;
         this.usuarioPropietario = usuarioPropietario;
         this.prioridad = prioridad;
@@ -41,11 +41,11 @@ public class ProyectoDTO {
     	this.nombre = nombre;
     }
     
-    public Usuario getUsuarioPropietario() {
+    public UsuarioDTO getUsuarioPropietario() {
         return usuarioPropietario;
     }
 
-    public void setUsuarioPropietario(Usuario usuarioPropietario) {
+    public void setUsuarioPropietario(UsuarioDTO usuarioPropietario) {
         this.usuarioPropietario = usuarioPropietario;
     }
 

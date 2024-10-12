@@ -265,7 +265,7 @@ public class MemoryApi implements IApi {
     public List<ProyectoDTO> obtenerProyectos() {
         List<ProyectoDTO> dtos = new ArrayList<>();
         for (Proyecto p : this.proyectos) {
-            dtos.add(new ProyectoDTO(p.getNombre(), p.getUsuarioPropietario().getNombre(), p.getEstado(), p.getPrioridad1(), p.getDescripcion()));
+            dtos.add(new ProyectoDTO(p.getNombre(), obtenerUsuario(p.getUsuarioPropietario().getNombre()), p.getEstado(), p.getPrioridad1(), p.getDescripcion()));
         }
         return dtos;
     }
@@ -348,24 +348,24 @@ public class MemoryApi implements IApi {
 	    }	 
 	}
 
-	@Override
-	public void modificarProyecto(String nombreProyecto, ProyectoDTO proyectoModificado) {
-	    Proyecto proyectoExistente = buscarProyectoPorNombre(nombreProyecto);
-	    
-	    // Modificar los campos del proyecto existente
-	    proyectoExistente.setNombre(proyectoModificado.getNombre());
-	    Usuario usuarioPropietario = buscarUsuarioPorNombre(proyectoModificado.getUsuarioPropietario());
-	    if (usuarioPropietario != null) {
-	        proyectoExistente.setUsuarioPropietario(usuarioPropietario);
-	    } else {
-	        throw new IllegalArgumentException("No se encontró el usuario propietario con nombre: " + proyectoModificado.getUsuarioPropietario());
-	    }
-	   
-	    proyectoExistente.setPrioridad1(proyectoModificado.getPrioridad());
-	    //proyectoExistente.setEstado(proyectoModificado.isEstado()); //ver para sacarlo
-	    proyectoExistente.setDescripcion(proyectoModificado.getDescripcion());
-
-	}
+//	@Override
+//	public void modificarProyecto(String nombreProyecto, ProyectoDTO proyectoModificado) {
+//	    Proyecto proyectoExistente = buscarProyectoPorNombre(nombreProyecto);
+//	    
+//	    // Modificar los campos del proyecto existente
+//	    proyectoExistente.setNombre(proyectoModificado.getNombre());
+//	    Usuario usuarioPropietario = buscarUsuarioPorNombre(proyectoModificado.getUsuarioPropietario());
+//	    if (usuarioPropietario != null) {
+//	        proyectoExistente.setUsuarioPropietario(usuarioPropietario);
+//	    } else {
+//	        throw new IllegalArgumentException("No se encontró el usuario propietario con nombre: " + proyectoModificado.getUsuarioPropietario());
+//	    }
+//	   
+//	    proyectoExistente.setPrioridad1(proyectoModificado.getPrioridad());
+//	    //proyectoExistente.setEstado(proyectoModificado.isEstado()); //ver para sacarlo
+//	    proyectoExistente.setDescripcion(proyectoModificado.getDescripcion());
+//
+//	}
 	
 	private Proyecto buscarProyectoPorNombre(String nombreProyecto) {
 	    for (Proyecto proyecto : this.proyectos) {

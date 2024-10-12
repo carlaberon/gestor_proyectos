@@ -23,7 +23,7 @@ public class Inicio extends JFrame {
     private JFrame frame;
     private IApi api;
     private Usuario usuarioActual;
-
+    private JPanel proyectosListPanel;
     public Inicio(IApi api, Usuario usuarioActual) {
     	this.api = api;
     	this.usuarioActual = usuarioActual;
@@ -103,7 +103,7 @@ public class Inicio extends JFrame {
         proyectosLabel.setForeground(Color.GRAY);
         proyectosLabel.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 
-        JPanel proyectosListPanel = new JPanel();
+        proyectosListPanel = new JPanel();
         proyectosListPanel.setLayout(new BoxLayout(proyectosListPanel, BoxLayout.Y_AXIS));
         proyectosListPanel.setBackground(new Color(30, 30, 30));
 
@@ -139,7 +139,7 @@ public class Inicio extends JFrame {
         JButton btnNuevoProyecto = new JButton("Proyecto +");
         btnNuevoProyecto.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		CrearProyecto crearProyecto = new CrearProyecto(api, usuarioActual);
+        		CrearProyecto crearProyecto = new CrearProyecto(api, usuarioActual, Inicio.this);
         		crearProyecto.setVisible(true);
         	}
         });
@@ -191,4 +191,25 @@ public class Inicio extends JFrame {
         Usuario usuario = new Usuario("admin", "1234", "Admin", "admin@unrn.edu.ar", rol, true); // Crear el usuario
         new Inicio(api, usuario);
     }
+    
+    public void actualizarProyectos() {
+        proyectosListPanel.removeAll(); // Limpiar el panel actual
+        
+        List<ProyectoDTO> proyectos = api.obtenerProyectos(); // Obtener los proyectos actualizados
+        proyectos.sort((p1, p2) -> p1.getPrioridad().compareTo(p2.getPrioridad()));
+
+        for (ProyectoDTO proyecto : proyectos) {
+            JButton proyectoButton = new JButton(proyecto.getNombre());
+            proyectoButton.setForeground(Color.GRAY);
+            proyectoButton.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+            
+            proyectoButton.addActionListener(e -> abrirVentanaResumen(proyecto));
+            
+            proyectosListPanel.add(proyectoButton);
+        }
+
+        proyectosListPanel.revalidate(); // Actualizar el panel
+        proyectosListPanel.repaint();    // Repintar el panel
+    }
+
 }

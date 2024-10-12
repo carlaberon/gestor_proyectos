@@ -45,14 +45,16 @@ public class CrearProyecto extends JFrame {
 	private List<ProyectoDTO> proyectos; //crear el proyectoDTO, crear el proyecto
 	private Usuario usuarioPropietario;
 	private JTextField descripcionTextField;
+	private Inicio ventanaInicio;
 	
 	/**
 	 * Create the frame.
 	 */
-	public CrearProyecto(IApi api, Usuario usuarioPropietario) {
+	public CrearProyecto(IApi api, Usuario usuarioPropietario, Inicio ventanaInicio) {
 		this.api = api;
 		this.usuarioPropietario = usuarioPropietario;
 		this.proyectos = api.obtenerProyectos(); // Se obtienen los proyectos existentes
+		this.ventanaInicio = ventanaInicio;
 		
 		setTitle("Crear proyecto");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -122,6 +124,7 @@ public class CrearProyecto extends JFrame {
 					// Crear un nuevo proyecto
 	                api.crearProyecto(nombreProyecto, usuarioPropietario, false, descripcion, prioridadValor.toString());
 	                JOptionPane.showMessageDialog(null, "Proyecto registrado con éxito!", "Info", JOptionPane.INFORMATION_MESSAGE);
+	                ventanaInicio.actualizarProyectos();
 	                setVisible(false);
 	                dispose();
 				} catch (NotNullException ex) {
