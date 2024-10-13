@@ -5,6 +5,7 @@ import javax.swing.border.EmptyBorder;
 
 import ar.edu.unrn.seminario.api.IApi;
 import ar.edu.unrn.seminario.dto.ProyectoDTO;
+import ar.edu.unrn.seminario.modelo.Usuario;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -14,13 +15,15 @@ import ar.edu.unrn.seminario.api.MemoryApi;
 public class VentanaResumen extends JFrame {
 
     private JPanel contentPane;
+    private Usuario usuarioActual;
     
     private ProyectoDTO unproyecto;
     IApi api;
-    public VentanaResumen(IApi api, ProyectoDTO proyecto) {
+    public VentanaResumen(IApi api, ProyectoDTO proyecto, Usuario usuarioActual) {
 
     	this.unproyecto = proyecto; 
     	this.api = api;
+    	this.usuarioActual = usuarioActual;
         
         setTitle("");
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
@@ -57,7 +60,7 @@ public class VentanaResumen extends JFrame {
         centerPanel.add(appName);
         menuBar.add(centerPanel);
 
-        JMenu accountMenu = new JMenu("nombreCuenta");
+        JMenu accountMenu = new JMenu(usuarioActual.getNombre());
         accountMenu.setForeground(Color.WHITE);
         accountMenu.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 
@@ -177,7 +180,7 @@ public class VentanaResumen extends JFrame {
         btnVerTareas.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
             String nombreProyecto = unproyecto.getNombre(); // Este método obtiene el nombre del proyecto seleccionado
-            VentanaTareas ventanaTareas = new VentanaTareas(api, nombreProyecto);
+            VentanaTareas ventanaTareas = new VentanaTareas(api, nombreProyecto, usuarioActual);
             ventanaTareas.setVisible(true);
         }
     });
