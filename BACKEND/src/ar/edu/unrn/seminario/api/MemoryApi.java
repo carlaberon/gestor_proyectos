@@ -265,7 +265,7 @@ public class MemoryApi implements IApi {
     public List<ProyectoDTO> obtenerProyectos() {
         List<ProyectoDTO> dtos = new ArrayList<>();
         for (Proyecto p : this.proyectos) {
-            dtos.add(new ProyectoDTO(p.getNombre(), obtenerUsuario(p.getUsuarioPropietario().getNombre()), p.getEstado(), p.getPrioridad1(), p.getDescripcion()));
+            dtos.add(new ProyectoDTO(p.getNombre(), new UsuarioDTO(p.getUsuarioPropietario().getUsuario(), p.getUsuarioPropietario().getContrasena(), p.getUsuarioPropietario().getNombre(), p.getUsuarioPropietario().getEmail(), p.getUsuarioPropietario().getRol(), p.getUsuarioPropietario().isActivo()), p.getEstado(), p.getPrioridad1(), p.getDescripcion()));
         }
         return dtos;
     }
