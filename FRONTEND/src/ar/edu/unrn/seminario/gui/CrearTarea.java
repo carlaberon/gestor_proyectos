@@ -50,12 +50,7 @@ public class CrearTarea extends JFrame {
         this.ventanaTareas = (VentanaTareas) ventanaTareas;
         this.usuarios = api.obtenerUsuarios();
 
-        // Inicializar proyectos y usuarios
-        /*proyectos.add(new ProyectoDTO("Parciales", "UsuarioPropietario", false, "alta", "false"));
-        proyectos.add(new ProyectoDTO("Aplicación de votos", "UsuarioPropietario", false, "alta", "false"));*/
         this.proyectos = api.obtenerProyectos();// con esto le envio directamente los proyectos creados
-        usuarios.add(new UsuarioDTO("usuario1", "password", "nombre", "email", new Rol(), true));
-        usuarios.add(new UsuarioDTO("usuario2", "password", "nombre", "email", new Rol(), true));
 
         setTitle("Crear Tarea");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

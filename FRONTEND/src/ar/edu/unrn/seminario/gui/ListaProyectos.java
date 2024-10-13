@@ -187,18 +187,4 @@ public class ListaProyectos extends JFrame {
             return this;
         }
     }
-
-//    public static void main(String[] args) {
-//        SwingUtilities.invokeLater(() -> {
-//        	IApi api = null;
-//			try {
-//				api = new MemoryApi();
-//			} catch (NotNullException | DataEmptyException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//        	ListaProyectos frame = new ListaProyectos(api);
-//            frame.setVisible(true);
-//        });
-//    }
 }

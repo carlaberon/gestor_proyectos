@@ -238,12 +238,6 @@ public class MemoryApi implements IApi {
 		return tareasPorProyecto.getOrDefault(nombreProyecto, new ArrayList<>());
     }
     
-	/*public List<TareaDTO> obtenerTareasPorProyecto(String nombreProyecto) {
-		
-	    return tareas.stream()
-	        .filter(t -> t.getProyecto() != null && t.getProyecto().equals(nombreProyecto))
-	        .collect(Collectors.toList());
-	}*/
 	@Override
 	public void crearEvento(LocalDateTime fecha, LocalDateTime inicio, LocalDateTime fin, String descripcion) {
 		// TODO Auto-generated method stub
@@ -334,7 +328,6 @@ public class MemoryApi implements IApi {
 
 	    
 	    // Agregar el proyecto a la colección de proyectos
-	    
 	    this.proyectos.add(nuevoProyecto);
 	}
     
@@ -372,35 +365,15 @@ public class MemoryApi implements IApi {
 			    proyectoExistente.setDescripcion(nuevaDescripcion);
 			}
 		}
-	    
 	}
-	
-	private Proyecto buscarProyectoPorNombre(String nombreProyecto) {
-	    for (Proyecto proyecto : this.proyectos) {
-	        if (proyecto.getNombre().equals(nombreProyecto)) {
-	            return proyecto; // Retorna el proyecto si coincide el nombre
-	        }
-	    }
-	    return null; // Si no se encuentra, retorna null
-	}
-	
-	private Usuario buscarUsuarioPorNombre(String nombreUsuario) {
-	    for (Usuario usuario : this.usuarios) {
-	        if (usuario.getNombre().equals(nombreUsuario)) {
-	            return usuario; // Retorna el usuario si coincide el nombre
-	        }
-	    }
-	    return null; // Si no se encuentra, retorna null
+		
+	private boolean esDatoVacio(String dato) {
+		return dato.equals("");
 	}
 
-	
-	   private boolean esDatoVacio(String dato) {
-			return dato.equals("");
-		}
-
-		private boolean esDatoNulo(String dato) {
-			return dato == null;
-		}
+	private boolean esDatoNulo(String dato) {
+		return dato == null;
+	}
 
 }
 
