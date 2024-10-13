@@ -177,7 +177,7 @@ public class Inicio extends JFrame {
     }
 
     private void abrirVentanaResumen(ProyectoDTO proyecto) {
-        VentanaResumen ventanaResumen = new VentanaResumen(api, proyecto); // Crear una instancia de VentanaResumen
+        VentanaResumen ventanaResumen = new VentanaResumen(api, proyecto, usuarioActual); // Crear una instancia de VentanaResumen
         ventanaResumen.setVisible(true); // Hacer visible la ventana de resumen
     }
 
