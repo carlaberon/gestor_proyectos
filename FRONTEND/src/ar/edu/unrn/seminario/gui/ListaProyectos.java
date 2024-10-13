@@ -26,7 +26,7 @@ public class ListaProyectos extends JFrame {
     	this.api = api;
         // Configuración básica de la ventana
         setTitle("Proyectos Activos");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setBounds(100, 100, 800, 400);
         getContentPane().setLayout(new BorderLayout());
 
@@ -47,7 +47,12 @@ public class ListaProyectos extends JFrame {
         List<ProyectoDTO> proyectos = api.obtenerProyectos();
         
         for (ProyectoDTO p : proyectos) {
-			modelo.addRow(new Object[] {p.getNombre(), p.getDescripcion(), p.isEstado(), p.getPrioridad(), p.getUsuarioPropietario().getUsername()});
+			modelo.addRow(new Object[] {
+					p.getNombre(), 
+					p.getDescripcion(), 
+					p.isEstado() ? "FINALIZADO" : "EN CURSO",
+					p.getPrioridad(), 
+					p.getUsuarioPropietario().getUsername()});
 		}
 
      // Configurar render de la tabla

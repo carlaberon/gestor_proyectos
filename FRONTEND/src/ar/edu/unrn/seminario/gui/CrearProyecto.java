@@ -57,7 +57,7 @@ public class CrearProyecto extends JFrame {
 		this.ventanaInicio = ventanaInicio;
 		
 		setTitle("Crear proyecto");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 800, 650);
 		setSize(900,600);
 		getContentPane().setLayout(null);
