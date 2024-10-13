@@ -2,10 +2,13 @@ package ar.edu.unrn.seminario.modelo;
 
 import java.time.LocalDateTime;
 
+import ar.edu.unrn.seminario.exception.DataEmptyException;
+import ar.edu.unrn.seminario.exception.NotNullException;
+
 public class Tarea {
 
     private String nombre;
-    private String proyecto;  // Mantenemos como String
+    private String proyecto;  
     private String prioridad;
     private String usuario;
     private boolean estado; // FINALIZADO: TRUE, NOFINALIZADO: FALSE
@@ -13,8 +16,32 @@ public class Tarea {
     private LocalDateTime inicio; 
     private LocalDateTime fin;
 
-    public Tarea(String nombretarea, String proyecto, String prioridad, String user1, boolean estado, String descripcion, LocalDateTime inicio, LocalDateTime fin) {
-        this.nombre = nombretarea;
+    public Tarea(String nombretarea, String proyecto, String prioridad, String user1, boolean estado, String descripcion, LocalDateTime inicio, LocalDateTime fin) throws DataEmptyException, NotNullException {
+        
+    	if (esDatoNulo(nombretarea))
+			throw new NotNullException("nombre");
+    	if (esDatoNulo(proyecto))
+			throw new NotNullException("nombre de proyecto");
+    	if (esDatoNulo(prioridad))
+			throw new NotNullException("prioridad");
+    	if (esDatoNulo(user1))
+			throw new NotNullException("usuario asignado");
+    	if (esDatoNulo(descripcion))
+			throw new NotNullException("descripcion");
+    	
+		if (esDatoVacio(nombretarea))
+			throw new DataEmptyException("nombre");
+		if (esDatoVacio(proyecto))
+			throw new DataEmptyException("nombre de proyecto");
+		if (esDatoVacio(prioridad))
+			throw new DataEmptyException("prioridad");
+		if (esDatoVacio(user1))
+			throw new DataEmptyException("usuario asignado");
+		if (esDatoVacio(descripcion))
+			throw new DataEmptyException("descripcion");
+
+    	
+    	this.nombre = nombretarea;
         this.proyecto = proyecto;
         this.prioridad = prioridad;
         this.usuario = user1;
@@ -123,6 +150,14 @@ public class Tarea {
 
 	public Object getProjecto() {
 		return null;
+	}
+	
+	private boolean esDatoVacio(String dato) {
+		return dato.equals("");
+	}
+
+	private boolean esDatoNulo(String dato) {
+		return dato == null;
 	}
 
     // Eliminar o corregir getProject()

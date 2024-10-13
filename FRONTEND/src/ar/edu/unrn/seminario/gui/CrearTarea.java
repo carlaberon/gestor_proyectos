@@ -20,6 +20,8 @@ import ar.edu.unrn.seminario.api.IApi;
 import ar.edu.unrn.seminario.dto.ProyectoDTO;
 import ar.edu.unrn.seminario.dto.TareaDTO;
 import ar.edu.unrn.seminario.dto.UsuarioDTO;
+import ar.edu.unrn.seminario.exception.DataEmptyException;
+import ar.edu.unrn.seminario.exception.NotNullException;
 import ar.edu.unrn.seminario.modelo.Rol;
 import ar.edu.unrn.seminario.modelo.Tarea;
 import ar.edu.unrn.seminario.modelo.Usuario;
@@ -78,9 +80,12 @@ public class CrearTarea extends JFrame {
 
         proyectoTareaComboBox = new JComboBox<>();
         proyectoTareaComboBox.setBounds(190, 60, 160, 22);
-        for (ProyectoDTO proyecto : this.proyectos) {
-            proyectoTareaComboBox.addItem(proyecto.getNombre());
+        if (! this.proyectos.isEmpty() ) {
+        	for (ProyectoDTO proyecto : this.proyectos) {
+                proyectoTareaComboBox.addItem(proyecto.getNombre());
+            }
         }
+        
         contentPane.add(proyectoTareaComboBox);
 
         JLabel asignarUsuarioLabel = new JLabel("Asignar Usuario:");
@@ -89,9 +94,13 @@ public class CrearTarea extends JFrame {
 
         asignarUsuarioComboBox = new JComboBox<>();
         asignarUsuarioComboBox.setBounds(190, 100, 160, 22);
-        for (UsuarioDTO usuario : this.usuarios) {
-            asignarUsuarioComboBox.addItem(usuario.getUsername());
+        
+        if ( ! this.usuarios.isEmpty()) {
+        	 for (UsuarioDTO usuario : this.usuarios) {
+                 asignarUsuarioComboBox.addItem(usuario.getUsername());
+             }
         }
+       
         contentPane.add(asignarUsuarioComboBox);
 
         JLabel prioridadTareaLabel = new JLabel("Prioridad:");
@@ -135,69 +144,68 @@ public class CrearTarea extends JFrame {
         dateChooserFin.setBounds(190, 232, 70, 19);
         contentPane.add(dateChooserFin);
 
-        aceptarButton.addActionListener(new ActionListener() { //RESOLVER CON EXCEPTIONS
+
+        
+        aceptarButton.addActionListener(new ActionListener() { 
             public void actionPerformed(ActionEvent arg0) {
-                // Validaciones de campos
-                if (nombreTareaTextField.getText().isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "Por favor, ingrese el nombre de la tarea", "Error", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
+             
+            	try {
+                    int selectedUserIndex = asignarUsuarioComboBox.getSelectedIndex();
+                    String nombreTarea = nombreTareaTextField.getText();
+                    String proyectoSeleccionado = (String) proyectoTareaComboBox.getSelectedItem();
+                    String prioridadTarea = prioridadTareaTextField.getText();
+                    UsuarioDTO usuario = usuarios.get(selectedUserIndex);
+                    String descripcionTarea = textAreaDescription.getText();
+                    Date fechaInicioDate = dateChooserInicio.getDate();
+                    Date fechaFinDate = dateChooserFin.getDate();
+                    
+                		//Convertir Date a Localdatetime, si no cargo una fecha lanza un nullpointer
+                        LocalDateTime fechaInicioLocalDateTime = fechaInicioDate.toInstant()
+                                .atZone(ZoneId.systemDefault())
+                                .toLocalDateTime();
 
-                if (proyectoTareaComboBox.getSelectedItem() == null) {
-                    JOptionPane.showMessageDialog(null, "Por favor, seleccione un proyecto", "Error", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-
-                if (prioridadTareaTextField.getText().isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "Por favor, ingrese la prioridad de la tarea", "Error", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-
-                int selectedUserIndex = asignarUsuarioComboBox.getSelectedIndex();
-                if (selectedUserIndex == -1) {
-                    JOptionPane.showMessageDialog(null, "Por favor, seleccione un usuario", "Error", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-
-                
-                String nombreTarea = nombreTareaTextField.getText();
-                String proyectoSeleccionado = (String) proyectoTareaComboBox.getSelectedItem();
-                String prioridadTarea = prioridadTareaTextField.getText();
-                UsuarioDTO usuario = usuarios.get(selectedUserIndex);
-                String descripcionTarea = textAreaDescription.getText();
-                Date fechaInicioDate = dateChooserInicio.getDate();
-                Date fechaFinDate = dateChooserFin.getDate();
-               
-                //Convertir Date a Localdatetime
-                LocalDateTime fechaInicioLocalDateTime = fechaInicioDate.toInstant()
-                        .atZone(ZoneId.systemDefault())
-                        .toLocalDateTime();
-
-                LocalDateTime fechaFinLocalDateTime = fechaFinDate.toInstant()
-                        .atZone(ZoneId.systemDefault())
-                        .toLocalDateTime();
-                
-                // Crear una nueva tarea
-                Tarea tarea = new Tarea(
-                        nombreTarea, 
-                        proyectoSeleccionado, 
-                        prioridadTarea, 
-                        usuario.getNombre(),  // Usuario seleccionado
-                        false,    // Estado por defecto (puede ser false o true dependiendo de tu lógica)
-                        descripcionTarea, 
-                        fechaInicioLocalDateTime, 
-                        fechaFinLocalDateTime
-                    );
-                
+                        LocalDateTime fechaFinLocalDateTime = fechaFinDate.toInstant()
+                                .atZone(ZoneId.systemDefault())
+                                .toLocalDateTime();
+                        
+                     // Crear una nueva tarea
+                        Tarea tarea = new Tarea(
+                                nombreTarea, 
+                                proyectoSeleccionado, 
+                                prioridadTarea, 
+                                usuario.getNombre(),  
+                                false,   
+                                descripcionTarea, 
+                                fechaInicioLocalDateTime, 
+                                fechaFinLocalDateTime
+                            );
+                		
+                        api.añadirTareaAProyecto(proyectoSeleccionado, tarea);
+                		
+                        ((VentanaTareas) ventanaTareas).actualizarTabla();
+                        
+                        JOptionPane.showMessageDialog(null, "Tarea creada con éxito!", "Info", JOptionPane.INFORMATION_MESSAGE);
+                        setVisible(false);
+                        dispose();
+                       
+                	
+                	} catch (DataEmptyException e) {
        
-               api.añadirTareaAProyecto(proyectoSeleccionado, tarea); 
-                
+                	
+                		JOptionPane.showMessageDialog(null, "El campo " + e.getMessage() + " no puede estar vacío.", "Error", JOptionPane.ERROR_MESSAGE);
+			
+					} catch (NotNullException e) {
+						
+						JOptionPane.showMessageDialog(null, "El campo " + e.getMessage() + " no puede ser nulo.", "Error", JOptionPane.ERROR_MESSAGE);
+					}
+                	catch (NullPointerException excepcion) {
+                		
+                		JOptionPane.showMessageDialog(null,"Completar los campos de fecha", "Error", JOptionPane.ERROR_MESSAGE);
+                	}
+                	
      
-                ((VentanaTareas) ventanaTareas).actualizarTabla();
 
-                JOptionPane.showMessageDialog(null, "Tarea creada con éxito!", "Info", JOptionPane.INFORMATION_MESSAGE);
-                setVisible(false);
-                dispose();
+        
             }
         });
 
