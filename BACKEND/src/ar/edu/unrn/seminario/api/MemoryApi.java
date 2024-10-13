@@ -355,8 +355,11 @@ public class MemoryApi implements IApi {
 	    for (Proyecto p : proyectos) {
 			if(nombreProyecto == p.getNombre()) {
 				proyectoExistente = p;
+				if(nuevoNombre != null) 
 				proyectoExistente.setNombre(nuevoNombre);
+				if(nuevaPrioridad != null)
 			    proyectoExistente.setPrioridad1(nuevaPrioridad);
+				if(nuevaDescripcion != null)
 			    proyectoExistente.setDescripcion(nuevaDescripcion);
 			}
 		}

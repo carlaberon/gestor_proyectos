@@ -38,18 +38,6 @@ public class ListaProyectos extends JFrame {
 
         getContentPane().setBackground(fondoColor);
         
-        // Crear la tabla
-        /*JTable tabla = new JTable(new DefaultTableModel(
-                new Object[][]{
-                        {"Gestionar evento", "Activo", "La gestion de diferentes", "\u2714", "31/03/2024", "Carla", "A1987", "16/08/2023", "\u2B07", "alta"},
-                        {"Recuento de votos", "Finalizado", "Informacion sobre los votos", "\u2718", "28/03/2024", "Gabriel", "A2987", "28/03/2023", "\u2B07", "Media"},
-                        {"Gestionar tarea", "Activo", "Tareas necesarias sobre la", "\u2714", "14/04/2024", "Hernan", "A3987", "11/01/2023", "\u2B07", "Baja"},
-                        {"Parciales", "Inactivo", "Informacion sobre como completar la informacion de los parciales de la carrera", "\u2718", "31/11/2023", "Tomas", "A4987", "28/03/2023", "\u2B07", "Alta"},
-                },
-                new String[]{
-                        "Nombre del proyecto", "Estado", "Descripcion del estado", "Público", "Fecha de vencimiento", "Propietario del proyecto", "ID del proyecto", "Creado el", "Expandir", "Prioridad"
-                }
-        ));*/
         JTable tabla = new JTable();
         String[] proyectosTabla = {"Nombre", "Descripcion", "Estado", "Prioridad", "Propietario"};
         
@@ -72,17 +60,6 @@ public class ListaProyectos extends JFrame {
             }
         });
 
-        // Personalizar la columna "Público" con un JCheckBox centrado
-        /*tabla.getColumnModel().getColumn(3).setCellRenderer(new DefaultTableCellRenderer() {
-            @Override
-            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-                JCheckBox checkBox = new JCheckBox();
-                checkBox.setHorizontalAlignment(SwingConstants.CENTER); // Centrar el checkbox
-                checkBox.setSelected("\u2714".equals(value)); // Marca el checkbox si el valor es el caracter ✔
-                return checkBox;
-            }
-        });*/
-
         // Establecer fuente y color de encabezados
         tabla.setFont(fuente);
         tabla.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 11));
@@ -91,17 +68,10 @@ public class ListaProyectos extends JFrame {
         tabla.setBackground(fondoColor);
         tabla.setRowHeight(30);
 
-        /*// Ajustar ancho de columnas
-        tabla.getColumnModel().getColumn(3).setPreferredWidth(50); // Público
-        tabla.getColumnModel().getColumn(8).setPreferredWidth(50); // Expandir
-        tabla.getColumnModel().getColumn(9).setPreferredWidth(50); // Prioridad*/
 
         // Hacer que la columna de descripción permita texto multilínea
         tabla.getColumnModel().getColumn(2).setCellRenderer(new JTextAreaRenderer());
 
-        /*// Crear botones de expandir
-        tabla.getColumn("Expandir").setCellRenderer(new ButtonRenderer());
-        tabla.getColumn("Expandir").setCellEditor(new ButtonEditor(new JCheckBox(), tabla));*/
 
      // ComboBox para prioridad
         String[] prioridades = {"Alta", "Media", "Baja"};
