@@ -75,7 +75,7 @@ public class MemoryApi implements IApi {
 	    Tarea tarea_ = new Tarea("Ordenar eventos","Gestion de eventos","alta", user1.getNombre(), false, "Ordenar eventos por prioridad", inicio2, inicio3);
 	    añadirTareaAProyecto("Gestion de eventos", tarea_);
 	    
-	    
+	  
 	    crearProyecto("Parciales", user1, false,"media", "Informacion sobre como completar la informacion de los parciales de la carrera");
 	    LocalDateTime inicio4 = LocalDateTime.now();
 	    Tarea tarea_1 = new Tarea("Denifir plan de estudio","Parciales","alta", user1.getNombre(), false, "Definir plan de estudio", inicio2, inicio4);

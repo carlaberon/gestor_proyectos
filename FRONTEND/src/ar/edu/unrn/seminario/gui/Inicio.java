@@ -16,10 +16,17 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Inicio extends JFrame {
-
+	public static final Map<String, Integer> PRIORIDAD_MAP = new HashMap<>();
+    static {
+        PRIORIDAD_MAP.put("alta", 1);
+        PRIORIDAD_MAP.put("media", 2);
+        PRIORIDAD_MAP.put("baja", 3);
+    }
     private JFrame frame;
     private IApi api;
     private Usuario usuarioActual;
@@ -173,6 +180,7 @@ public class Inicio extends JFrame {
     private void abrirListaProyectos() {
         ListaProyectos listaProyectos = new ListaProyectos(api); // Crear una instancia de ListaProyectos
         listaProyectos.setVisible(true); // Hacer visible la ventana de proyectos
+        listaProyectos.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         //frame.dispose(); // Cerrar la ventana actual
         
     }

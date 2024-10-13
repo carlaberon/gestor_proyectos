@@ -189,19 +189,16 @@ public class CrearTarea extends JFrame {
                         dispose();
                        
                 	
-                	} catch (DataEmptyException e) {
-       
-                	
-                		JOptionPane.showMessageDialog(null, "El campo " + e.getMessage() + " no puede estar vacío.", "Error", JOptionPane.ERROR_MESSAGE);
-			
-					} catch (NotNullException e) {
-						
-						JOptionPane.showMessageDialog(null, "El campo " + e.getMessage() + " no puede ser nulo.", "Error", JOptionPane.ERROR_MESSAGE);
-					}
-                	catch (NullPointerException excepcion) {
+                	} catch (NullPointerException excepcion) {
                 		
                 		JOptionPane.showMessageDialog(null,"Completar los campos de fecha", "Error", JOptionPane.ERROR_MESSAGE);
-                	}
+                	} catch (DataEmptyException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (NotNullException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
                 	
      
 
