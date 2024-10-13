@@ -203,11 +203,19 @@ public class Inicio extends JFrame {
             proyectoButton.setForeground(Color.GRAY);
             proyectoButton.setFont(new Font("Segoe UI", Font.PLAIN, 14));
             
-            proyectoButton.addActionListener(e -> abrirVentanaResumen(proyecto));
+            proyectoButton.addActionListener( new ActionListener () {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					abrirVentanaResumen(proyecto);
+				}
+            	
+            });
             
             proyectosListPanel.add(proyectoButton);
         }
-
+        
         proyectosListPanel.revalidate(); // Actualizar el panel
         proyectosListPanel.repaint();    // Repintar el panel
     }

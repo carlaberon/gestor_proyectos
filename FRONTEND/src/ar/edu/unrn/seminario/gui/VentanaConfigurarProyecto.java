@@ -22,10 +22,10 @@ public class VentanaConfigurarProyecto extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_2;
+	private JTextField textField_Nombre;
+	private JTextField textField_Prioridad;
 	private JLabel lblNewLabel_1_2;
-	private JTextField textField_3;
+	private JTextField textField_Descripcion;
 	private JButton aceptar;
 	private JButton cancelar;
 	private JLabel lblNewLabel_1_5;
@@ -74,10 +74,10 @@ public class VentanaConfigurarProyecto extends JFrame {
 		lblNewLabel_1.setBounds(83, 119, 93, 44);
 		contentPane.add(lblNewLabel_1);
 		
-		textField = new JTextField();
-		textField.setBounds(216, 134, 451, 26);
-		contentPane.add(textField);
-		textField.setColumns(10);
+		textField_Nombre = new JTextField();
+		textField_Nombre.setBounds(216, 134, 451, 26);
+		contentPane.add(textField_Nombre);
+		textField_Nombre.setColumns(10);
 		
 		JLabel lblNewLabel_1_1_1 = new JLabel("Prioridad:");
 		lblNewLabel_1_1_1.setForeground(Color.WHITE);
@@ -85,10 +85,10 @@ public class VentanaConfigurarProyecto extends JFrame {
 		lblNewLabel_1_1_1.setBounds(83, 174, 93, 44);
 		contentPane.add(lblNewLabel_1_1_1);
 		
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
-		textField_2.setBounds(216, 188, 451, 26);
-		contentPane.add(textField_2);
+		textField_Prioridad = new JTextField();
+		textField_Prioridad.setColumns(10);
+		textField_Prioridad.setBounds(216, 188, 451, 26);
+		contentPane.add(textField_Prioridad);
 		
 		lblNewLabel_1_2 = new JLabel("Descripcion:");
 		lblNewLabel_1_2.setForeground(Color.WHITE);
@@ -96,10 +96,10 @@ public class VentanaConfigurarProyecto extends JFrame {
 		lblNewLabel_1_2.setBounds(83, 229, 106, 44);
 		contentPane.add(lblNewLabel_1_2);
 		
-		textField_3 = new JTextField();
-		textField_3.setColumns(10);
-		textField_3.setBounds(216, 243, 451, 26);
-		contentPane.add(textField_3);
+		textField_Descripcion = new JTextField();
+		textField_Descripcion.setColumns(10);
+		textField_Descripcion.setBounds(216, 243, 451, 26);
+		contentPane.add(textField_Descripcion);
 		
 		aceptar = new JButton("Aceptar");
 		aceptar.setFont(new Font("Segoe UI", Font.BOLD, 14));
@@ -110,13 +110,14 @@ public class VentanaConfigurarProyecto extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				api.modificarProyecto(proyecto.getId(), textField.getText(), textField_2.getText(), textField_3.getText());
+				api.modificarProyecto(proyecto.getId(), textField_Nombre.getText(), textField_Prioridad.getText(), textField_Descripcion.getText());
 				
 				int opcionSeleccionada = JOptionPane.showConfirmDialog(null,
 						"Estas seguro que queres modificar el proyecto?", "Confirmar cambio de estado.",
 						JOptionPane.YES_NO_OPTION);
 				if (opcionSeleccionada == JOptionPane.YES_OPTION) {
 					JOptionPane.showMessageDialog(null, "Modificacion realizada con exito!", "Info", JOptionPane.INFORMATION_MESSAGE);
+					
 				}
 				
 				setVisible(false);

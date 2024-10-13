@@ -59,7 +59,7 @@ public class ListaProyectos extends JFrame {
         List<ProyectoDTO> proyectos = api.obtenerProyectos();
         
         for (ProyectoDTO p : proyectos) {
-			modelo.addRow(new Object[] {p.getNombre(), p.getDescripcion(), p.isEstado(), p.getPrioridad(), p.getUsuarioPropietario()});
+			modelo.addRow(new Object[] {p.getNombre(), p.getDescripcion(), p.isEstado(), p.getPrioridad(), p.getUsuarioPropietario().getUsername()});
 		}
 
      // Configurar render de la tabla
