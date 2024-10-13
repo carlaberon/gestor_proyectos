@@ -11,7 +11,8 @@ import ar.edu.unrn.seminario.modelo.Usuario;
 public class ProyectoDTO {
 
     private String nombre;
-    private String usuarioPropietario;
+    private String id;
+    private UsuarioDTO usuarioPropietario;
     private String prioridad;
     private boolean estado; //ACTIVO= false; FINALIZADO = true
     private Set<String> miembros = new HashSet<>();
@@ -19,12 +20,13 @@ public class ProyectoDTO {
     private Set<String> proyectos = new HashSet<>();
     private Set<String> tareas = new HashSet<>();
     
-    public ProyectoDTO(String nombreProyecto, String usuarioPropietario, boolean estado, String prioridad, String descripcion) {
+    public ProyectoDTO(String nombreProyecto, UsuarioDTO usuarioPropietario, boolean estado, String prioridad, String descripcion) {
         this.nombre = nombreProyecto;
         this.usuarioPropietario = usuarioPropietario;
         this.prioridad = prioridad;
         this.estado = estado;
         this.descripcion = descripcion;
+        this.id = id;
     }
     
     public ProyectoDTO(String nombre2, String descripcion2) {
@@ -35,11 +37,15 @@ public class ProyectoDTO {
         return this.nombre;
     }
     
-    public String getUsuarioPropietario() {
+    public void setNombre(String nombre) {
+    	this.nombre = nombre;
+    }
+    
+    public UsuarioDTO getUsuarioPropietario() {
         return usuarioPropietario;
     }
 
-    public void setUsuarioPropietario(String usuarioPropietario) {
+    public void setUsuarioPropietario(UsuarioDTO usuarioPropietario) {
         this.usuarioPropietario = usuarioPropietario;
     }
 
@@ -89,6 +95,10 @@ public class ProyectoDTO {
 
     public void setTareas(Set<String> tareas) {
         this.tareas = tareas;
+    }
+    
+    public String getId() {
+    	return id;
     }
     
     @Override
