@@ -60,18 +60,29 @@ public class MemoryApi implements IApi {
 
 	    // Crear proyectos con diferentes prioridades, usuarios asignados * y una lista de tareas
 	
-	    crearProyecto("Sistema de Gestión de Tareas", user1, true,"Sistema para gestionar tareas en equipo.", "media");
+
+	    crearProyecto("Sistema de Gestión de Tareas", user1, true,"Sistema para gestionar tareas en equipo.","media");
+
 	    LocalDateTime inicio = LocalDateTime.now();
-	    Tarea unaTarea = new Tarea("tarea1","Sistema de Gestión de Tareas","alta", user1.getNombre(), false, "descripcion", inicio, inicio); 
+	    Tarea unaTarea = new Tarea("Ordenar tareas","Sistema de Gestión de Tareas","alta", user1.getNombre(), false, "descripcion", inicio, inicio); 
 	    añadirTareaAProyecto("Sistema de Gestión de Tareas", unaTarea);
 	    
-	  
-	    //CREAR LISTA DE TAREAS
-	    crearProyecto("Aplicación de votos", user2, false,"Aplicación para contar los votos de la municipalidad", "alta");
-	  //CREAR LISTA DE TAREAS
-	    crearProyecto("La gestion de eventos", user3, true,"Proyecto para desarrollar gestion de los eventos de ", "baja");
-	  //CREAR LISTA DE TAREAS
-	    crearProyecto("Parciales", user1, false,"Informacion sobre como completar la informacion de los parciales de la carrera", "media");
+	    crearProyecto("Aplicación de votos", user2, false, "Aplicación para contar los votos de la municipalidad","alta");
+	    LocalDateTime inicio2 = LocalDateTime.now();
+	    Tarea otraTarea = new Tarea("Contar votos","Aplicación de votos","alta", user1.getNombre(), false, "Contar los votos disponibles", inicio2, inicio2);
+	    añadirTareaAProyecto("Aplicación de votos", otraTarea);
+	    
+	    crearProyecto("Gestion de eventos", user3, true, "Proyecto para desarrollar gestion de los eventos de ","baja");
+	    LocalDateTime inicio3 = LocalDateTime.now();
+	    Tarea tarea_ = new Tarea("Ordenar eventos","Gestion de eventos","alta", user1.getNombre(), false, "Ordenar eventos por prioridad", inicio2, inicio3);
+	    añadirTareaAProyecto("Gestion de eventos", tarea_);
+	    
+	    
+	    crearProyecto("Parciales", user1, false, "Informacion sobre como completar la informacion de los parciales de la carrera","media");
+	    LocalDateTime inicio4 = LocalDateTime.now();
+	    Tarea tarea_1 = new Tarea("Denifir plan de estudio","Parciales","alta", user1.getNombre(), false, "Definir plan de estudio", inicio2, inicio4);
+	    añadirTareaAProyecto("Parciales", tarea_1);
+	    
 
 	}
 
@@ -195,7 +206,7 @@ public class MemoryApi implements IApi {
 		return null;
 	}
 
-	public void registrarTarea(String name, String project, String priority, Usuario user, boolean estado, String descripcion, LocalDateTime inicio, LocalDateTime fin) {
+	public void registrarTarea(String name, String project, String priority, Usuario user, boolean estado, String descripcion, LocalDateTime inicio, LocalDateTime fin) throws DataEmptyException, NotNullException {
 	    Tarea tarea = new Tarea(name, project, priority, user.getNombre(), estado, descripcion, inicio, fin);
 	    this.tareas.add(tarea); // Agrega la tarea a la lista de tareas
 	}

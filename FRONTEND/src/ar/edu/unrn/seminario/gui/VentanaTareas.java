@@ -54,7 +54,7 @@ public class VentanaTareas extends JFrame {
 
     	this.api = api; 
     	
-    	setTitle("Tareas");
+    	setTitle(nombreProyecto);
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         setBounds(100, 100, 900, 600);
         
@@ -322,9 +322,18 @@ public class VentanaTareas extends JFrame {
 	    modelo.setRowCount(0);
 
 	    // Agrega las tareas en el modelo
-	    for (TareaDTO t : tareas) {
-	        modelo.addRow(new Object[] { t.getName(), t.getProject(), t.isEstado(), t.getUser(), t.getPriority() });
-	    }
+		for (TareaDTO t : tareas) {
+		    modelo.addRow(new Object[] {
+		        t.getName(),
+		        t.getProject(),
+		        t.isEstado() ? "FINALIZADA" : "EN CURSO", // Modifica el estado a una cadena legible
+		        t.getDescription(),
+		        t.getUser(),
+		        t.getPriority(), 
+		        t.getInicio(),
+		        t.getFin()
+		    });
+		}
 	}
 		
 	
