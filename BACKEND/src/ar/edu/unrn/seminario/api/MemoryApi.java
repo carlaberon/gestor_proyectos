@@ -54,33 +54,34 @@ public class MemoryApi implements IApi {
 
 	private void inicializarProyecto() throws NotNullException, DataEmptyException{
 	    // Crear algunos usuarios para asignar a los proyectos
-	    Usuario user1 = new Usuario("HernanPro", "12", "eze@gmail.com", "Hernan", this.buscarRol(2)); // Observador
-	    Usuario user2 = new Usuario("bjgorosito", "1234", "bjgorosito@unrn.edu.ar", "Bruno", this.buscarRol(3)); // Colaborador
-	    Usuario user3 = new Usuario("Tomas", "12345", "admin@unrn.edu.ar", "Admin", this.buscarRol(1)); // Propietario
+	    Usuario user1 = new Usuario("HernanPro", "12", "Hernan", "eze@gmail.com", this.buscarRol(2)); // Observador
+	    Usuario user2 = new Usuario("bjgorosito", "1234", "Bruno", "bjgorosito@unrn.edu.ar", this.buscarRol(3)); // Colaborador
+	    Usuario user3 = new Usuario("Tomas", "12345", "Pepe", "admin@unrn.edu.ar", this.buscarRol(1)); // Propietario
 
 	    // Crear proyectos con diferentes prioridades, usuarios asignados * y una lista de tareas
 	
-	    crearProyecto("Sistema de Gestión de Tareas", user1, true,"media", "Sistema para gestionar tareas en equipo.");
+	    crearProyecto("Sistema de Gestión de Tareas", user1, true,"Sistema para gestionar tareas en equipo.", "media");
 	    LocalDateTime inicio = LocalDateTime.now();
 	    Tarea unaTarea = new Tarea("Ordenar tareas","Sistema de Gestión de Tareas","alta", user1.getNombre(), false, "descripcion", inicio, inicio); 
 	    añadirTareaAProyecto("Sistema de Gestión de Tareas", unaTarea);
 	    
-	    crearProyecto("Aplicación de votos", user2, false,"alta", "Aplicación para contar los votos de la municipalidad");
+
+	    crearProyecto("Aplicación de votos", user2, false, "Aplicación para contar los votos de la municipalidad","alta");
 	    LocalDateTime inicio2 = LocalDateTime.now();
 	    Tarea otraTarea = new Tarea("Contar votos","Aplicación de votos","alta", user1.getNombre(), false, "Contar los votos disponibles", inicio2, inicio2);
 	    añadirTareaAProyecto("Aplicación de votos", otraTarea);
 	    
-	    crearProyecto("Gestion de eventos", user3, true,"baja", "Proyecto para desarrollar gestion de los eventos de ");
+	    crearProyecto("Gestion de eventos", user3, true, "Proyecto para desarrollar gestion de los eventos de ","baja");
 	    LocalDateTime inicio3 = LocalDateTime.now();
 	    Tarea tarea_ = new Tarea("Ordenar eventos","Gestion de eventos","alta", user1.getNombre(), false, "Ordenar eventos por prioridad", inicio2, inicio3);
 	    añadirTareaAProyecto("Gestion de eventos", tarea_);
 	    
-	  
-	    crearProyecto("Parciales", user1, false,"media", "Informacion sobre como completar la informacion de los parciales de la carrera");
+	    
+	    crearProyecto("Parciales", user1, false, "Informacion sobre como completar la informacion de los parciales de la carrera","media");
 	    LocalDateTime inicio4 = LocalDateTime.now();
 	    Tarea tarea_1 = new Tarea("Denifir plan de estudio","Parciales","alta", user1.getNombre(), false, "Definir plan de estudio", inicio2, inicio4);
 	    añadirTareaAProyecto("Parciales", tarea_1);
-	    
+
 	}
 
 
@@ -273,7 +274,7 @@ public class MemoryApi implements IApi {
     public List<ProyectoDTO> obtenerProyectos() {
         List<ProyectoDTO> dtos = new ArrayList<>();
         for (Proyecto p : this.proyectos) {
-            dtos.add(new ProyectoDTO(p.getNombre(), p.getUsuarioPropietario().getNombre(), p.getEstado(), p.getPrioridad1(), p.getDescripcion()));
+            dtos.add(new ProyectoDTO(p.getNombre(), new UsuarioDTO(p.getUsuarioPropietario().getUsuario(), p.getUsuarioPropietario().getContrasena(), p.getUsuarioPropietario().getNombre(), p.getUsuarioPropietario().getEmail(), p.getUsuarioPropietario().getRol(), p.getUsuarioPropietario().isActivo()), p.getEstado(), p.getPrioridad1(), p.getDescripcion()));
         }
         return dtos;
     }
@@ -357,22 +358,21 @@ public class MemoryApi implements IApi {
 	}
 
 	@Override
-	public void modificarProyecto(String nombreProyecto, ProyectoDTO proyectoModificado) {
-	    Proyecto proyectoExistente = buscarProyectoPorNombre(nombreProyecto);
+	public void modificarProyecto(String nombreProyecto, String nuevoNombre, String nuevaPrioridad, String nuevaDescripcion) {
+	    Proyecto proyectoExistente;
 	    
-	    // Modificar los campos del proyecto existente
-	    proyectoExistente.setNombre(proyectoModificado.getNombre());
-	    Usuario usuarioPropietario = buscarUsuarioPorNombre(proyectoModificado.getUsuarioPropietario());
-	    if (usuarioPropietario != null) {
-	        proyectoExistente.setUsuarioPropietario(usuarioPropietario);
-	    } else {
-	        throw new IllegalArgumentException("No se encontró el usuario propietario con nombre: " + proyectoModificado.getUsuarioPropietario());
-	    }
-	   
-	    proyectoExistente.setPrioridad1(proyectoModificado.getPrioridad());
-	    //proyectoExistente.setEstado(proyectoModificado.isEstado()); //ver para sacarlo
-	    proyectoExistente.setDescripcion(proyectoModificado.getDescripcion());
-
+	    for (Proyecto p : proyectos) {
+			if(nombreProyecto == p.getNombre()) {
+				proyectoExistente = p;
+				if(nuevoNombre != null) 
+				proyectoExistente.setNombre(nuevoNombre);
+				if(nuevaPrioridad != null)
+			    proyectoExistente.setPrioridad1(nuevaPrioridad);
+				if(nuevaDescripcion != null)
+			    proyectoExistente.setDescripcion(nuevaDescripcion);
+			}
+		}
+	    
 	}
 	
 	private Proyecto buscarProyectoPorNombre(String nombreProyecto) {
@@ -400,13 +400,6 @@ public class MemoryApi implements IApi {
 
 		private boolean esDatoNulo(String dato) {
 			return dato == null;
-		}
-
-
-		@Override
-		public void crearProyecto(String nombreProyecto, Usuario usuarioPropietario, boolean b, String string) {
-			// TODO Auto-generated method stub
-			
 		}
 
 }

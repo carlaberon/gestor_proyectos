@@ -189,7 +189,7 @@ public class VentanaResumen extends JFrame {
     private void abrirPanelConfiguracion() {
         // Lógica para mostrar el panel de configuración
         // Puedes implementar esto como desees
-        VentanaConfigurarProyecto ventanaConfig = new VentanaConfigurarProyecto();
+        VentanaConfigurarProyecto ventanaConfig = new VentanaConfigurarProyecto(api,unproyecto);
         ventanaConfig.setVisible(true);
     }
 

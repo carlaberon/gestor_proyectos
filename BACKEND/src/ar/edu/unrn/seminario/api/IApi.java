@@ -62,7 +62,7 @@ public interface IApi {
 
 	void eliminarProyecto(String nombreProyecto);
 	
-	void modificarProyecto(String nombreProyecto, ProyectoDTO proyectoModificado);
+	void modificarProyecto(String nombreProyecto, String nuevoNombre, String nuevaPrioridad, String nuevaDescripcion);
 
 	List<TareaDTO> obtenerTareasPorProyecto(String nombreProyecto);
 	

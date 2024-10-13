@@ -16,25 +16,17 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 public class ListaProyectos extends JFrame {
 	private IApi api;
-	public static final Map<String, Integer> PRIORIDAD_MAP = new HashMap<>();
-    static {
-        PRIORIDAD_MAP.put("alta", 1);
-        PRIORIDAD_MAP.put("media", 2);
-        PRIORIDAD_MAP.put("baja", 3);
-    }
+	
     public ListaProyectos(IApi api) {
     	this.api = api;
         // Configuración básica de la ventana
         setTitle("Proyectos Activos");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setBounds(100, 100, 800, 400);
         getContentPane().setLayout(new BorderLayout());
 
@@ -45,6 +37,7 @@ public class ListaProyectos extends JFrame {
         Font fuente = new Font("Segoe UI", Font.PLAIN, 11);
 
         getContentPane().setBackground(fondoColor);
+        
         JTable tabla = new JTable();
         String[] proyectosTabla = {"Nombre", "Descripcion", "Estado", "Prioridad", "Propietario"};
         
@@ -52,9 +45,14 @@ public class ListaProyectos extends JFrame {
         tabla.setModel(modelo);
         
         List<ProyectoDTO> proyectos = api.obtenerProyectos();
-        //proyectos.sort(Comparator.comparingInt(p -> PRIORIDAD_MAP.get(p.getPrioridad())));
+        
         for (ProyectoDTO p : proyectos) {
-			modelo.addRow(new Object[] {p.getNombre(), p.getDescripcion(), p.isEstado(), p.getPrioridad(), p.getUsuarioPropietario()});
+			modelo.addRow(new Object[] {
+					p.getNombre(), 
+					p.getDescripcion(), 
+					p.isEstado() ? "FINALIZADO" : "EN CURSO",
+					p.getPrioridad(), 
+					p.getUsuarioPropietario().getUsername()});
 		}
 
      // Configurar render de la tabla
@@ -67,17 +65,6 @@ public class ListaProyectos extends JFrame {
             }
         });
 
-        // Personalizar la columna "Público" con un JCheckBox centrado
-        /*tabla.getColumnModel().getColumn(3).setCellRenderer(new DefaultTableCellRenderer() {
-            @Override
-            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-                JCheckBox checkBox = new JCheckBox();
-                checkBox.setHorizontalAlignment(SwingConstants.CENTER); // Centrar el checkbox
-                checkBox.setSelected("\u2714".equals(value)); // Marca el checkbox si el valor es el caracter ✔
-                return checkBox;
-            }
-        });*/
-
         // Establecer fuente y color de encabezados
         tabla.setFont(fuente);
         tabla.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 11));
@@ -86,17 +73,10 @@ public class ListaProyectos extends JFrame {
         tabla.setBackground(fondoColor);
         tabla.setRowHeight(30);
 
-        /*// Ajustar ancho de columnas
-        tabla.getColumnModel().getColumn(3).setPreferredWidth(50); // Público
-        tabla.getColumnModel().getColumn(8).setPreferredWidth(50); // Expandir
-        tabla.getColumnModel().getColumn(9).setPreferredWidth(50); // Prioridad*/
 
         // Hacer que la columna de descripción permita texto multilínea
         tabla.getColumnModel().getColumn(2).setCellRenderer(new JTextAreaRenderer());
 
-        /*// Crear botones de expandir
-        tabla.getColumn("Expandir").setCellRenderer(new ButtonRenderer());
-        tabla.getColumn("Expandir").setCellEditor(new ButtonEditor(new JCheckBox(), tabla));*/
 
      // ComboBox para prioridad
         String[] prioridades = {"Alta", "Media", "Baja"};
@@ -208,17 +188,17 @@ public class ListaProyectos extends JFrame {
         }
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-        	IApi api = null;
-			try {
-				api = new MemoryApi();
-			} catch (NotNullException | DataEmptyException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-        	ListaProyectos frame = new ListaProyectos(api);
-            frame.setVisible(true);
-        });
-    }
+//    public static void main(String[] args) {
+//        SwingUtilities.invokeLater(() -> {
+//        	IApi api = null;
+//			try {
+//				api = new MemoryApi();
+//			} catch (NotNullException | DataEmptyException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//        	ListaProyectos frame = new ListaProyectos(api);
+//            frame.setVisible(true);
+//        });
+//    }
 }
