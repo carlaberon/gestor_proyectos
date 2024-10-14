@@ -16,6 +16,8 @@ import ar.edu.unrn.seminario.exception.NotNullException;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -24,6 +26,7 @@ public class ListaProyectos extends JFrame {
 	private IApi api;
 	private JTable tabla;
 	private Inicio ventanaInicio;
+	private JButton eliminarProyecto;
 	
     public ListaProyectos(IApi api, Inicio inicio) {
     	this.api = api;
@@ -80,6 +83,15 @@ public class ListaProyectos extends JFrame {
 
         // Hacer que la columna de descripción permita texto multilínea
         tabla.getColumnModel().getColumn(2).setCellRenderer(new JTextAreaRenderer());
+        
+        tabla.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				// Habilitar botones
+				habilitarBotones(true);
+
+			}
+		});
 
 
      // ComboBox para prioridad
@@ -99,7 +111,9 @@ public class ListaProyectos extends JFrame {
         JPanel panelCentro = new JPanel(new BorderLayout());
         JPanel panelEliminar = new JPanel();
         panelEliminar.setLayout(new FlowLayout(FlowLayout.CENTER));
-        JButton eliminarProyecto = new JButton("Eliminar");
+        
+        eliminarProyecto = createButton("Eliminar", new Color(138, 102, 204));
+        habilitarBotones(false);
         eliminarProyecto.addActionListener(new ActionListener() {
 			
 			@Override
@@ -235,7 +249,23 @@ public class ListaProyectos extends JFrame {
     			}
 
     }
+ // Método para crear botones con estilo
+    private JButton createButton(String text, Color backgroundColor) {
+        JButton button = new JButton(text);
+        button.setForeground(Color.WHITE);
+        button.setBackground(backgroundColor);
+        button.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        button.setBorderPainted(false);
+        button.setFocusPainted(false);
+        button.setPreferredSize(new Dimension(120, 40));
+        return button;
+    }
+    
+	private void habilitarBotones(boolean b) {
+		eliminarProyecto.setEnabled(b);
 
+
+	}
     
 
 //    public static void main(String[] args) {
