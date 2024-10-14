@@ -43,11 +43,6 @@ public class ListaMiembros extends JFrame {
         for (UsuarioDTO u : usuarios) {
         	model.addRow(new Object[] {u.getUsername(), u.getEmail(), u.isActivo(), u.getRol()});
 		}
-        // Agregar 4 filas como ejemplo
-        /*model.addRow(new Object[]{"Carla", "carlita@gmail.com", "Activo", "Propietario", "Proyecto 1"});
-        model.addRow(new Object[]{"Gabriel", "elmaster@gmail.com", "Inactivo", "Colaborador", "Proyecto 1"});
-        model.addRow(new Object[]{"Thomas", "bocayoteamo@gmail.com", "Activo", "Observador", "Proyecto 1"});
-        model.addRow(new Object[]{"Hernan", "eze@gmail.com", "Inactivo", "Colaborador", "SubProyecto 1.A"});*/
         
         // Crear tabla
         JTable tabla = new JTable(model);

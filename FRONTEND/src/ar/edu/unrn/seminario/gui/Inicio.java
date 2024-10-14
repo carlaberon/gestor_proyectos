@@ -60,7 +60,7 @@ public class Inicio extends JFrame {
         verTodosProyectosMenuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                abrirListaProyectos(); // Abrir la ventana de proyectos desde el menú
+                abrirListaProyectos(Inicio.this); // Abrir la ventana de proyectos desde el menú
                 
             }
         });
@@ -147,7 +147,7 @@ public class Inicio extends JFrame {
         formatButton(btnNuevoProyecto);
         formatButton(btnVerProyectos);
 
-        btnVerProyectos.addActionListener(e -> abrirListaProyectos()); // Acción para el botón
+        btnVerProyectos.addActionListener(e -> abrirListaProyectos(Inicio.this)); // Acción para el botón
         proyectosButtonsPanel.add(btnNuevoProyecto);
         proyectosButtonsPanel.add(btnVerProyectos);
 
@@ -170,10 +170,9 @@ public class Inicio extends JFrame {
         button.setFont(new Font("Segoe UI", Font.PLAIN, 14));
     }
 
-    private void abrirListaProyectos() {
-        ListaProyectos listaProyectos = new ListaProyectos(api); // Crear una instancia de ListaProyectos
+    private void abrirListaProyectos(Inicio inicio) {
+        ListaProyectos listaProyectos = new ListaProyectos(api,inicio); // Crear una instancia de ListaProyectos
         listaProyectos.setVisible(true); // Hacer visible la ventana de proyectos
-        //frame.dispose(); // Cerrar la ventana actual
         
     }
 

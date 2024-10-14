@@ -108,7 +108,6 @@ public class CrearProyecto extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String nombreProyecto = nombreProyectoTextField.getText();
 				String descripcion = descripcionTextField.getText();
-				//String prioridad = proyectoComboBox.getSelectedItem().toString();
                 String prioridadSeleccionada = (String) prioridadComboBox.getSelectedItem();
                 
 
@@ -186,13 +185,6 @@ public class CrearProyecto extends JFrame {
 		lblPrioridad.setForeground(UIManager.getColor("Button.background"));
 		lblPrioridad.setFont(new Font("Segoe UI", Font.PLAIN, 20));
 		lblPrioridad.setBounds(88, 191, 227, 39);
-		contentPane.add(lblPrioridad);
-		
-		/*
-		for (ProyectoDTO proyect : this.proyectos) {
-			proyectoComboBox.addItem(proyect.getNombre());
-		} */
-
-		
+		contentPane.add(lblPrioridad);		
 	}
 }

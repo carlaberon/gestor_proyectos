@@ -11,7 +11,6 @@ import ar.edu.unrn.seminario.modelo.Usuario;
 public class ProyectoDTO {
 
     private String nombre;
-    private String id;
     private UsuarioDTO usuarioPropietario;
     private String prioridad;
     private boolean estado; //ACTIVO= false; FINALIZADO = true
@@ -26,7 +25,6 @@ public class ProyectoDTO {
         this.prioridad = prioridad;
         this.estado = estado;
         this.descripcion = descripcion;
-        this.id = id;
     }
     
     public ProyectoDTO(String nombre2, String descripcion2) {
@@ -95,10 +93,6 @@ public class ProyectoDTO {
 
     public void setTareas(Set<String> tareas) {
         this.tareas = tareas;
-    }
-    
-    public String getId() {
-    	return id;
     }
     
     @Override
