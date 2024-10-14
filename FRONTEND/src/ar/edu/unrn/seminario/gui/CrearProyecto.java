@@ -32,13 +32,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JCheckBox;
 
 public class CrearProyecto extends JFrame {
-	public static final Map<String, Integer> PRIORIDAD_MAP = new HashMap<>();
-    static {
-        PRIORIDAD_MAP.put("alta", 1);
-        PRIORIDAD_MAP.put("media", 2);
-        PRIORIDAD_MAP.put("baja", 3);
-    }
-    List<String> prioridades = Arrays.asList("Alta", "Media", "Baja");
+    List<String> prioridades = Arrays.asList("alta", "media", "baja");
 	private JPanel contentPane;
 	private JTextField nombreProyectoTextField;
 	private JComboBox<String> proyectoComboBox;
@@ -118,8 +112,7 @@ public class CrearProyecto extends JFrame {
 		            if (prioridadSeleccionada == null || prioridadSeleccionada.isEmpty()) {
 		                throw new DataEmptyException("prioridad");
 		            }
-					// Obtener el valor de la prioridad del mapa
-                    Integer prioridadValor = PRIORIDAD_MAP.get(prioridadSeleccionada);
+			
 					
 					// Crear un nuevo proyecto
 	                api.crearProyecto(nombreProyecto, usuarioPropietario, false, descripcion, prioridadSeleccionada);

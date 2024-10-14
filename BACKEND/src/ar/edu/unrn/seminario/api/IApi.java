@@ -65,7 +65,7 @@ public interface IApi {
 	void modificarProyecto(String nombreProyecto, String nuevoNombre, String nuevaPrioridad, String nuevaDescripcion);
 
 	List<TareaDTO> obtenerTareasPorProyecto(String nombreProyecto);
-	
+	public int obtenerValorPrioridad(String prioridad);
 	void añadirTareaAProyecto(String proyecto, Tarea tarea);
 	void crearProyecto(String nombreProyecto, Usuario usuarioPropietario, boolean b, String string);
 }

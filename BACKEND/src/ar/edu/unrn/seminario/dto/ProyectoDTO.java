@@ -111,7 +111,7 @@ public class ProyectoDTO implements Comparable<ProyectoDTO>{
 		
 	}
 	
-	private int obtenerValorPrioridad(String prioridad) {
+	public int obtenerValorPrioridad(String prioridad) {
         switch (prioridad.toLowerCase()) {
             case "alta":
                 return 3;

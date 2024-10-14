@@ -381,6 +381,17 @@ public class MemoryApi implements IApi {
 		// TODO Auto-generated method stub
 		
 	}
-
+	public int obtenerValorPrioridad(String prioridad) {
+	    switch (prioridad.toLowerCase()) {
+	        case "alta":
+	            return 1;
+	        case "media":
+	            return 2;
+	        case "baja":
+	            return 3;
+	        default:
+	            return 0; // En caso de prioridad desconocida
+	    }
+	}
 }
 

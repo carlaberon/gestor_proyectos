@@ -195,7 +195,8 @@ public class Inicio extends JFrame {
         proyectosListPanel.removeAll(); // Limpiar el panel actual
         
         List<ProyectoDTO> proyectos = api.obtenerProyectos(); // Obtener los proyectos actualizados
-        proyectos.sort((p1, p2) -> p1.getPrioridad().compareTo(p2.getPrioridad()));
+        
+        proyectos.sort((p1, p2) -> Integer.compare(api.obtenerValorPrioridad(p1.getPrioridad()), api.obtenerValorPrioridad(p2.getPrioridad())));
 
         for (ProyectoDTO proyecto : proyectos) {
             JButton proyectoButton = new JButton(proyecto.getNombre());
@@ -218,5 +219,7 @@ public class Inicio extends JFrame {
         proyectosListPanel.revalidate(); // Actualizar el panel
         proyectosListPanel.repaint();    // Repintar el panel
     }
+
+
 
 }
