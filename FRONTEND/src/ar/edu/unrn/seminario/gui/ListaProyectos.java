@@ -9,21 +9,29 @@ import javax.swing.table.TableColumn;
 import ar.edu.unrn.seminario.api.IApi;
 import ar.edu.unrn.seminario.api.MemoryApi;
 import ar.edu.unrn.seminario.dto.ProyectoDTO;
+import ar.edu.unrn.seminario.dto.UsuarioDTO;
 import ar.edu.unrn.seminario.exception.DataEmptyException;
 import ar.edu.unrn.seminario.exception.NotNullException;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
 public class ListaProyectos extends JFrame {
 	private IApi api;
+	private JTable tabla;
+	private Inicio ventanaInicio;
+	private JButton eliminarProyecto;
 	
-    public ListaProyectos(IApi api) {
+    public ListaProyectos(IApi api, Inicio inicio) {
     	this.api = api;
+    	this.ventanaInicio = inicio;
         // Configuración básica de la ventana
         setTitle("Proyectos Activos");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -38,14 +46,15 @@ public class ListaProyectos extends JFrame {
 
         getContentPane().setBackground(fondoColor);
         
-        JTable tabla = new JTable();
+        tabla = new JTable();
         String[] proyectosTabla = {"Nombre", "Descripcion", "Estado", "Prioridad", "Propietario"};
         
         DefaultTableModel modelo = new DefaultTableModel(new Object[][] {}, proyectosTabla);
         tabla.setModel(modelo);
         
         List<ProyectoDTO> proyectos = api.obtenerProyectos();
-        proyectos.sort((p1, p2) -> p1.getPrioridad().compareTo(p2.getPrioridad()));
+        Collections.sort(proyectos);
+        
         for (ProyectoDTO p : proyectos) {
 			modelo.addRow(new Object[] {
 					p.getNombre(), 
@@ -72,8 +81,19 @@ public class ListaProyectos extends JFrame {
         tabla.getTableHeader().setForeground(Color.WHITE);
         tabla.setBackground(fondoColor);
         tabla.setRowHeight(30);
+
+
         // Hacer que la columna de descripción permita texto multilínea
         tabla.getColumnModel().getColumn(2).setCellRenderer(new JTextAreaRenderer());
+        
+        tabla.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				// Habilitar botones
+				habilitarBotones(true);
+
+			}
+		});
 
 
      // ComboBox para prioridad
@@ -90,9 +110,36 @@ public class ListaProyectos extends JFrame {
         panelInferior.add(labelInferior);
 
         // Añadir la tabla y el panel inferior al JFrame
+        JPanel panelCentro = new JPanel(new BorderLayout());
+        JPanel panelEliminar = new JPanel();
+        panelEliminar.setLayout(new FlowLayout(FlowLayout.CENTER));
+        
+        eliminarProyecto = createButton("Eliminar", new Color(138, 102, 204));
+        habilitarBotones(false);
+        eliminarProyecto.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int opcionSeleccionada = JOptionPane.showConfirmDialog(null,
+						"Estas seguro que queres eliminar el proyecto?", "Confirmar cambio de estado.",
+						JOptionPane.YES_NO_OPTION);
+				if (opcionSeleccionada == JOptionPane.YES_OPTION) {
+					String projectName = (String) tabla.getModel().getValueAt(tabla.getSelectedRow(), 0);
+
+					api.eliminarProyecto(projectName);
+					actualizarTabla();
+					ventanaInicio.actualizarProyectos();
+				}
+				
+			}
+		});
+        panelEliminar.add(eliminarProyecto);
         JScrollPane scrollPane = new JScrollPane(tabla);
         scrollPane.getViewport().setBackground(fondoColor); // Establecer el fondo del viewport
-        getContentPane().add(scrollPane, BorderLayout.CENTER);
+        panelCentro.add(scrollPane, BorderLayout.CENTER);
+        panelEliminar.setBackground(fondoColor);
+        panelCentro.add(panelEliminar,BorderLayout.SOUTH);
+        getContentPane().add(panelCentro, BorderLayout.CENTER);
         getContentPane().add(panelInferior, BorderLayout.SOUTH); // Añadir el panel inferior
     }
 
@@ -185,4 +232,56 @@ public class ListaProyectos extends JFrame {
             return this;
         }
     }
+    
+    public void actualizarTabla(){
+    	// Obtiene el model del table
+    			DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+    			// Obtiene la lista de usuarios a mostrar
+    			List<ProyectoDTO> proyectos = api.obtenerProyectos();
+    			Collections.sort(proyectos);
+    			// Resetea el model
+    			modelo.setRowCount(0);
+    	        
+    	        for (ProyectoDTO p : proyectos) {
+    				modelo.addRow(new Object[] {
+    						p.getNombre(), 
+    						p.getDescripcion(), 
+    						p.isEstado() ? "FINALIZADO" : "EN CURSO",
+    						p.getPrioridad(), 
+    						p.getUsuarioPropietario().getUsername()});
+    			}
+
+    }
+ // Método para crear botones con estilo
+    private JButton createButton(String text, Color backgroundColor) {
+        JButton button = new JButton(text);
+        button.setForeground(Color.WHITE);
+        button.setBackground(backgroundColor);
+        button.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        button.setBorderPainted(false);
+        button.setFocusPainted(false);
+        button.setPreferredSize(new Dimension(120, 40));
+        return button;
+    }
+    
+	private void habilitarBotones(boolean b) {
+		eliminarProyecto.setEnabled(b);
+
+
+	}
+  
+
+//    public static void main(String[] args) {
+//        SwingUtilities.invokeLater(() -> {
+//        	IApi api = null;
+//			try {
+//				api = new MemoryApi();
+//			} catch (NotNullException | DataEmptyException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//        	ListaProyectos frame = new ListaProyectos(api);
+//            frame.setVisible(true);
+//        });
+//    }
 }

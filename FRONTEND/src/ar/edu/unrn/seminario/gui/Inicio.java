@@ -5,6 +5,7 @@ import javax.swing.*;
 import ar.edu.unrn.seminario.api.IApi;
 import ar.edu.unrn.seminario.api.MemoryApi;
 import ar.edu.unrn.seminario.dto.ProyectoDTO;
+import ar.edu.unrn.seminario.dto.UsuarioDTO;
 import ar.edu.unrn.seminario.exception.DataEmptyException;
 import ar.edu.unrn.seminario.exception.NotNullException;
 import ar.edu.unrn.seminario.modelo.Rol;
@@ -15,12 +16,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class Inicio extends JFrame {
-	
+
     private JFrame frame;
     private IApi api;
     private Usuario usuarioActual;
@@ -61,7 +60,7 @@ public class Inicio extends JFrame {
         verTodosProyectosMenuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                abrirListaProyectos(); // Abrir la ventana de proyectos desde el menú
+                abrirListaProyectos(Inicio.this); // Abrir la ventana de proyectos desde el menú
                 
             }
         });
@@ -148,7 +147,7 @@ public class Inicio extends JFrame {
         formatButton(btnNuevoProyecto);
         formatButton(btnVerProyectos);
 
-        btnVerProyectos.addActionListener(e -> abrirListaProyectos()); // Acción para el botón
+        btnVerProyectos.addActionListener(e -> abrirListaProyectos(Inicio.this)); // Acción para el botón
         proyectosButtonsPanel.add(btnNuevoProyecto);
         proyectosButtonsPanel.add(btnVerProyectos);
 
@@ -171,16 +170,14 @@ public class Inicio extends JFrame {
         button.setFont(new Font("Segoe UI", Font.PLAIN, 14));
     }
 
-    private void abrirListaProyectos() {
-        ListaProyectos listaProyectos = new ListaProyectos(api); // Crear una instancia de ListaProyectos
+    private void abrirListaProyectos(Inicio inicio) {
+        ListaProyectos listaProyectos = new ListaProyectos(api,inicio); // Crear una instancia de ListaProyectos
         listaProyectos.setVisible(true); // Hacer visible la ventana de proyectos
-        listaProyectos.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        //frame.dispose(); // Cerrar la ventana actual
         
     }
 
     private void abrirVentanaResumen(ProyectoDTO proyecto) {
-        VentanaResumen ventanaResumen = new VentanaResumen(api, proyecto); // Crear una instancia de VentanaResumen
+        VentanaResumen ventanaResumen = new VentanaResumen(api, proyecto, usuarioActual); // Crear una instancia de VentanaResumen
         ventanaResumen.setVisible(true); // Hacer visible la ventana de resumen
     }
 

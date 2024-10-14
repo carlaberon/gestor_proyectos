@@ -39,6 +39,7 @@ import ar.edu.unrn.seminario.dto.UsuarioDTO;
 import ar.edu.unrn.seminario.exception.DataEmptyException;
 import ar.edu.unrn.seminario.exception.NotNullException;
 import ar.edu.unrn.seminario.modelo.Tarea;
+import ar.edu.unrn.seminario.modelo.Usuario;
 
 public class VentanaTareas extends JFrame {
 
@@ -48,12 +49,13 @@ public class VentanaTareas extends JFrame {
 	IApi api;
 	JButton botonModificar;
 	JButton botonEliminar;
+	private Usuario usuarioActual;
 	
 
-    public VentanaTareas(IApi api,String nombreProyecto) throws RuntimeException{
+    public VentanaTareas(IApi api,String nombreProyecto, Usuario usuarioActual) throws RuntimeException{
 
     	this.api = api; 
-    	
+    	this.usuarioActual = usuarioActual;
     	setTitle(nombreProyecto);
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         setBounds(100, 100, 900, 600);
@@ -89,7 +91,7 @@ public class VentanaTareas extends JFrame {
         centerPanel.add(appName);
         menuBar.add(centerPanel);
 
-        JMenu accountMenu = new JMenu("nombreCuenta");
+        JMenu accountMenu = new JMenu(usuarioActual.getNombre());
         accountMenu.setForeground(Color.WHITE);
         accountMenu.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 
@@ -337,11 +339,5 @@ public class VentanaTareas extends JFrame {
 	}
 		
 	
-    public static void main(String[] args) throws NotNullException, DataEmptyException {
-    	IApi api = new MemoryApi();
-    	String proyect = "Proyecto2";
-    	VentanaTareas ventanatareas = new VentanaTareas(api,proyect);
-    	ventanatareas.setVisible(true);
-    	
-    }
+
 }

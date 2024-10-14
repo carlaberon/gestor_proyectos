@@ -60,27 +60,29 @@ public class MemoryApi implements IApi {
 
 	    // Crear proyectos con diferentes prioridades, usuarios asignados * y una lista de tareas
 	
-	    crearProyecto("Sistema de Gestión de Tareas", user1, true,"Sistema para gestionar tareas en equipo.", "Media");
+
+	    crearProyecto("Sistema de Gestión de Tareas", user1, true,"Sistema para gestionar tareas en equipo.", "media");
+
 	    LocalDateTime inicio = LocalDateTime.now();
 	    Tarea unaTarea = new Tarea("Ordenar tareas","Sistema de Gestión de Tareas","alta", user1.getNombre(), false, "descripcion", inicio, inicio); 
 	    añadirTareaAProyecto("Sistema de Gestión de Tareas", unaTarea);
 	    
-
-	    crearProyecto("Aplicación de votos", user2, false, "Aplicación para contar los votos de la municipalidad","Alta");
+	    crearProyecto("Aplicación de votos", user2, false, "Aplicación para contar los votos de la municipalidad","alta");
 	    LocalDateTime inicio2 = LocalDateTime.now();
 	    Tarea otraTarea = new Tarea("Contar votos","Aplicación de votos","alta", user1.getNombre(), false, "Contar los votos disponibles", inicio2, inicio2);
 	    añadirTareaAProyecto("Aplicación de votos", otraTarea);
 	    
-	    crearProyecto("Gestion de eventos", user3, true, "Proyecto para desarrollar gestion de los eventos de ","Baja");
+	    crearProyecto("Gestion de eventos", user3, true, "Proyecto para desarrollar gestion de los eventos de ","baja");
 	    LocalDateTime inicio3 = LocalDateTime.now();
 	    Tarea tarea_ = new Tarea("Ordenar eventos","Gestion de eventos","alta", user1.getNombre(), false, "Ordenar eventos por prioridad", inicio2, inicio3);
 	    añadirTareaAProyecto("Gestion de eventos", tarea_);
 	    
 	    
-	    crearProyecto("Parciales", user1, false, "Informacion sobre como completar la informacion de los parciales de la carrera","Media");
+	    crearProyecto("Parciales", user1, false, "Informacion sobre como completar la informacion de los parciales de la carrera","media");
 	    LocalDateTime inicio4 = LocalDateTime.now();
 	    Tarea tarea_1 = new Tarea("Denifir plan de estudio","Parciales","alta", user1.getNombre(), false, "Definir plan de estudio", inicio2, inicio4);
 	    añadirTareaAProyecto("Parciales", tarea_1);
+
 
 	}
 
@@ -238,12 +240,6 @@ public class MemoryApi implements IApi {
 		return tareasPorProyecto.getOrDefault(nombreProyecto, new ArrayList<>());
     }
     
-	/*public List<TareaDTO> obtenerTareasPorProyecto(String nombreProyecto) {
-		
-	    return tareas.stream()
-	        .filter(t -> t.getProyecto() != null && t.getProyecto().equals(nombreProyecto))
-	        .collect(Collectors.toList());
-	}*/
 	@Override
 	public void crearEvento(LocalDateTime fecha, LocalDateTime inicio, LocalDateTime fin, String descripcion) {
 		// TODO Auto-generated method stub
@@ -334,7 +330,6 @@ public class MemoryApi implements IApi {
 
 	    
 	    // Agregar el proyecto a la colección de proyectos
-	    
 	    this.proyectos.add(nuevoProyecto);
 	}
     
@@ -370,44 +365,18 @@ public class MemoryApi implements IApi {
 			    proyectoExistente.setPrioridad1(nuevaPrioridad);
 				if(nuevaDescripcion != null)
 			    proyectoExistente.setDescripcion(nuevaDescripcion);
+				break;
 			}
 		}
-	    
 	}
-	
-	private Proyecto buscarProyectoPorNombre(String nombreProyecto) {
-	    for (Proyecto proyecto : this.proyectos) {
-	        if (proyecto.getNombre().equals(nombreProyecto)) {
-	            return proyecto; // Retorna el proyecto si coincide el nombre
-	        }
-	    }
-	    return null; // Si no se encuentra, retorna null
-	}
-	
-	private Usuario buscarUsuarioPorNombre(String nombreUsuario) {
-	    for (Usuario usuario : this.usuarios) {
-	        if (usuario.getNombre().equals(nombreUsuario)) {
-	            return usuario; // Retorna el usuario si coincide el nombre
-	        }
-	    }
-	    return null; // Si no se encuentra, retorna null
+		
+	private boolean esDatoVacio(String dato) {
+		return dato.equals("");
 	}
 
-	
-	   private boolean esDatoVacio(String dato) {
-			return dato.equals("");
-		}
-
-		private boolean esDatoNulo(String dato) {
-			return dato == null;
-		}
-
-
-		@Override
-		public void crearProyecto(String nombreProyecto, Usuario usuarioPropietario, boolean b, String string) {
-			// TODO Auto-generated method stub
-			
-		}
+	private boolean esDatoNulo(String dato) {
+		return dato == null;
+	}
 
 }
 
