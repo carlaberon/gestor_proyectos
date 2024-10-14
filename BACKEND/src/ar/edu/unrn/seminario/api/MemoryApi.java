@@ -60,12 +60,13 @@ public class MemoryApi implements IApi {
 
 	    // Crear proyectos con diferentes prioridades, usuarios asignados * y una lista de tareas
 	
+
 	    crearProyecto("Sistema de Gestión de Tareas", user1, true,"Sistema para gestionar tareas en equipo.", "media");
+
 	    LocalDateTime inicio = LocalDateTime.now();
 	    Tarea unaTarea = new Tarea("Ordenar tareas","Sistema de Gestión de Tareas","alta", user1.getNombre(), false, "descripcion", inicio, inicio); 
 	    añadirTareaAProyecto("Sistema de Gestión de Tareas", unaTarea);
 	    
-
 	    crearProyecto("Aplicación de votos", user2, false, "Aplicación para contar los votos de la municipalidad","alta");
 	    LocalDateTime inicio2 = LocalDateTime.now();
 	    Tarea otraTarea = new Tarea("Contar votos","Aplicación de votos","alta", user1.getNombre(), false, "Contar los votos disponibles", inicio2, inicio2);
@@ -81,6 +82,7 @@ public class MemoryApi implements IApi {
 	    LocalDateTime inicio4 = LocalDateTime.now();
 	    Tarea tarea_1 = new Tarea("Denifir plan de estudio","Parciales","alta", user1.getNombre(), false, "Definir plan de estudio", inicio2, inicio4);
 	    añadirTareaAProyecto("Parciales", tarea_1);
+
 
 	}
 
