@@ -46,7 +46,7 @@ public class VentanaTareas extends JFrame {
     private JPanel contentPane;
     private JTable table;
 	DefaultTableModel modelo;
-	IApi api;
+	private IApi api;
 	JButton botonModificar;
 	JButton botonEliminar;
 	private Usuario usuarioActual;
