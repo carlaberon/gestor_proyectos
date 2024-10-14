@@ -19,6 +19,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -52,6 +53,7 @@ public class ListaProyectos extends JFrame {
         tabla.setModel(modelo);
         
         List<ProyectoDTO> proyectos = api.obtenerProyectos();
+        Collections.sort(proyectos);
         
         for (ProyectoDTO p : proyectos) {
 			modelo.addRow(new Object[] {
@@ -236,6 +238,7 @@ public class ListaProyectos extends JFrame {
     			DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
     			// Obtiene la lista de usuarios a mostrar
     			List<ProyectoDTO> proyectos = api.obtenerProyectos();
+    			Collections.sort(proyectos);
     			// Resetea el model
     			modelo.setRowCount(0);
     	        
@@ -266,7 +269,7 @@ public class ListaProyectos extends JFrame {
 
 
 	}
-    
+  
 
 //    public static void main(String[] args) {
 //        SwingUtilities.invokeLater(() -> {

@@ -32,11 +32,11 @@ import javax.swing.JCheckBox;
 
 public class CrearProyecto extends JFrame {
 	public static final Map<String, Integer> PRIORIDAD_MAP = new HashMap<>();
-    static {
-        PRIORIDAD_MAP.put("alta", 1);
-        PRIORIDAD_MAP.put("media", 2);
-        PRIORIDAD_MAP.put("baja", 3);
-    }
+//    static {
+//        PRIORIDAD_MAP.put("alta", 1);
+//        PRIORIDAD_MAP.put("media", 2);
+//        PRIORIDAD_MAP.put("baja", 3);
+//    }
 
 	private JPanel contentPane;
 	private JTextField nombreProyectoTextField;

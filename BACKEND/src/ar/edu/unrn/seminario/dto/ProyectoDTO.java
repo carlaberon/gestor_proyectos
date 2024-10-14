@@ -8,11 +8,11 @@ import ar.edu.unrn.seminario.modelo.Proyecto;
 import ar.edu.unrn.seminario.modelo.Tarea;
 import ar.edu.unrn.seminario.modelo.Usuario;
 
-public class ProyectoDTO {
+public class ProyectoDTO implements Comparable<ProyectoDTO>{
 
     private String nombre;
     private UsuarioDTO usuarioPropietario;
-    private String prioridad;
+    private String prioridad; //Alta, Media, Baja
     private boolean estado; //ACTIVO= false; FINALIZADO = true
     private Set<String> miembros = new HashSet<>();
     private String descripcion; 
@@ -110,4 +110,28 @@ public class ProyectoDTO {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	private int obtenerValorPrioridad(String prioridad) {
+        switch (prioridad.toLowerCase()) {
+            case "alta":
+                return 3;
+            case "media":
+                return 2;
+            case "baja":
+                return 1;
+            default:
+                return 0; // En caso de prioridad desconocida
+        }
+    }
+	
+	@Override
+    public int compareTo(ProyectoDTO otroProyecto) {
+        // Ordenar por prioridad de mayor a menor
+        // Asumimos que las prioridades son "Alta", "Media", "Baja"
+        int prioridadActual = obtenerValorPrioridad(this.prioridad);
+        int prioridadOtro = obtenerValorPrioridad(otroProyecto.getPrioridad());
+
+        // Si prioridadActual > prioridadOtro, el proyecto actual será mayor
+        return Integer.compare(prioridadOtro, prioridadActual); // Mayor a menor
+    }
 }

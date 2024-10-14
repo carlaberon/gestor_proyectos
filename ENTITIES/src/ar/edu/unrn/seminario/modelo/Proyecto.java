@@ -15,7 +15,7 @@ public class Proyecto {
     private boolean estado; // ACTIVO = false, FINALIZADO = true
     private Set<Miembro> miembros = new HashSet<>();
     private String descripcion;
-    private String prioridad;
+    private String prioridad;//Alta, Media, Baja
     private Set<Proyecto> proyectos = new HashSet<>();
     private Plan plan;
 
