@@ -5,7 +5,6 @@ import javax.swing.*;
 import ar.edu.unrn.seminario.api.IApi;
 import ar.edu.unrn.seminario.api.MemoryApi;
 import ar.edu.unrn.seminario.dto.ProyectoDTO;
-import ar.edu.unrn.seminario.dto.UsuarioDTO;
 import ar.edu.unrn.seminario.exception.DataEmptyException;
 import ar.edu.unrn.seminario.exception.NotNullException;
 import ar.edu.unrn.seminario.modelo.Rol;
@@ -21,12 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Inicio extends JFrame {
-	public static final Map<String, Integer> PRIORIDAD_MAP = new HashMap<>();
-    static {
-        PRIORIDAD_MAP.put("alta", 1);
-        PRIORIDAD_MAP.put("media", 2);
-        PRIORIDAD_MAP.put("baja", 3);
-    }
+	
     private JFrame frame;
     private IApi api;
     private Usuario usuarioActual;

@@ -45,7 +45,7 @@ public class ListaProyectos extends JFrame {
         tabla.setModel(modelo);
         
         List<ProyectoDTO> proyectos = api.obtenerProyectos();
-        
+        proyectos.sort((p1, p2) -> p1.getPrioridad().compareTo(p2.getPrioridad()));
         for (ProyectoDTO p : proyectos) {
 			modelo.addRow(new Object[] {
 					p.getNombre(), 
@@ -72,8 +72,6 @@ public class ListaProyectos extends JFrame {
         tabla.getTableHeader().setForeground(Color.WHITE);
         tabla.setBackground(fondoColor);
         tabla.setRowHeight(30);
-
-
         // Hacer que la columna de descripción permita texto multilínea
         tabla.getColumnModel().getColumn(2).setCellRenderer(new JTextAreaRenderer());
 
@@ -187,18 +185,4 @@ public class ListaProyectos extends JFrame {
             return this;
         }
     }
-
-//    public static void main(String[] args) {
-//        SwingUtilities.invokeLater(() -> {
-//        	IApi api = null;
-//			try {
-//				api = new MemoryApi();
-//			} catch (NotNullException | DataEmptyException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//        	ListaProyectos frame = new ListaProyectos(api);
-//            frame.setVisible(true);
-//        });
-//    }
 }
