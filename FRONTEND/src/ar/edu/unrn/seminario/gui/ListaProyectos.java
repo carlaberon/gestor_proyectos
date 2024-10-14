@@ -97,10 +97,10 @@ public class ListaProyectos extends JFrame {
 
 
      // ComboBox para prioridad
-        String[] prioridades = {"Alta", "Media", "Baja"};
-        JComboBox<String> comboBox = new JComboBox<>(prioridades);
-        TableColumn prioridadColumna = tabla.getColumnModel().getColumn(3);
-        prioridadColumna.setCellEditor(new DefaultCellEditor(comboBox));
+        //String[] prioridades = {"Alta", "Media", "Baja"};
+        //JComboBox<String> comboBox = new JComboBox<>(prioridades);
+        //TableColumn prioridadColumna = tabla.getColumnModel().getColumn(3);
+        //prioridadColumna.setCellEditor(new DefaultCellEditor(comboBox));
 
         // Crear un panel inferior con un color específico
         JPanel panelInferior = new JPanel();
@@ -213,26 +213,6 @@ public class ListaProyectos extends JFrame {
             return super.stopCellEditing();
         }
     }
-
-    class ButtonRenderer extends JButton implements TableCellRenderer {
-        public ButtonRenderer() {
-            setOpaque(true);
-            setText("↓");
-        }
-
-        @Override
-        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-            if (isSelected) {
-                setBackground(table.getSelectionBackground());
-                setForeground(table.getSelectionForeground());
-            } else {
-                setBackground(new Color(48, 48, 48)); // Fondo oscuro
-                setForeground(Color.WHITE); // Texto en blanco
-            }
-            return this;
-        }
-    }
-    
     public void actualizarTabla(){
     	// Obtiene el model del table
     			DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
@@ -241,7 +221,7 @@ public class ListaProyectos extends JFrame {
     			Collections.sort(proyectos);
     			// Resetea el model
     			modelo.setRowCount(0);
-    	        
+    			proyectos.sort((p1, p2) -> p1.getPrioridad().compareTo(p2.getPrioridad()));
     	        for (ProyectoDTO p : proyectos) {
     				modelo.addRow(new Object[] {
     						p.getNombre(), 
@@ -266,22 +246,5 @@ public class ListaProyectos extends JFrame {
     
 	private void habilitarBotones(boolean b) {
 		eliminarProyecto.setEnabled(b);
-
-
 	}
-  
-
-//    public static void main(String[] args) {
-//        SwingUtilities.invokeLater(() -> {
-//        	IApi api = null;
-//			try {
-//				api = new MemoryApi();
-//			} catch (NotNullException | DataEmptyException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//        	ListaProyectos frame = new ListaProyectos(api);
-//            frame.setVisible(true);
-//        });
-//    }
 }

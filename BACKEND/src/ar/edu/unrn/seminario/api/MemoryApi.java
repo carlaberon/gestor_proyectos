@@ -58,9 +58,6 @@ public class MemoryApi implements IApi {
 	    Usuario user2 = new Usuario("bjgorosito", "1234", "Bruno", "bjgorosito@unrn.edu.ar", this.buscarRol(3)); // Colaborador
 	    Usuario user3 = new Usuario("Tomas", "12345", "Pepe", "admin@unrn.edu.ar", this.buscarRol(1)); // Propietario
 
-	    // Crear proyectos con diferentes prioridades, usuarios asignados * y una lista de tareas
-	
-
 	    crearProyecto("Sistema de Gestión de Tareas", user1, true,"Sistema para gestionar tareas en equipo.", "media");
 
 	    LocalDateTime inicio = LocalDateTime.now();
@@ -376,6 +373,13 @@ public class MemoryApi implements IApi {
 
 	private boolean esDatoNulo(String dato) {
 		return dato == null;
+	}
+
+
+	@Override
+	public void crearProyecto(String nombreProyecto, Usuario usuarioPropietario, boolean b, String string) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

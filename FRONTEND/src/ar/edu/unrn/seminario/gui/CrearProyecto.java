@@ -3,6 +3,7 @@ package ar.edu.unrn.seminario.gui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,12 +33,12 @@ import javax.swing.JCheckBox;
 
 public class CrearProyecto extends JFrame {
 	public static final Map<String, Integer> PRIORIDAD_MAP = new HashMap<>();
-//    static {
-//        PRIORIDAD_MAP.put("alta", 1);
-//        PRIORIDAD_MAP.put("media", 2);
-//        PRIORIDAD_MAP.put("baja", 3);
-//    }
-
+    static {
+        PRIORIDAD_MAP.put("alta", 1);
+        PRIORIDAD_MAP.put("media", 2);
+        PRIORIDAD_MAP.put("baja", 3);
+    }
+    List<String> prioridades = Arrays.asList("Alta", "Media", "Baja");
 	private JPanel contentPane;
 	private JTextField nombreProyectoTextField;
 	private JComboBox<String> proyectoComboBox;
@@ -94,7 +95,7 @@ public class CrearProyecto extends JFrame {
 		prioridadComboBox.addItem("");
 
 		// Llenar el JComboBox con las claves del mapa de prioridad
-        for (String prioridad : PRIORIDAD_MAP.keySet()) {
+        for (String prioridad : prioridades) {
             prioridadComboBox.addItem(prioridad);
         }
 
@@ -121,7 +122,7 @@ public class CrearProyecto extends JFrame {
                     Integer prioridadValor = PRIORIDAD_MAP.get(prioridadSeleccionada);
 					
 					// Crear un nuevo proyecto
-	                api.crearProyecto(nombreProyecto, usuarioPropietario, false, descripcion, prioridadValor.toString());
+	                api.crearProyecto(nombreProyecto, usuarioPropietario, false, descripcion, prioridadSeleccionada);
 	                JOptionPane.showMessageDialog(null, "Proyecto registrado con éxito!", "Info", JOptionPane.INFORMATION_MESSAGE);
 	                ventanaInicio.actualizarProyectos();
 	                setVisible(false);
