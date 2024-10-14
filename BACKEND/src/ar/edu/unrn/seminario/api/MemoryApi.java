@@ -382,7 +382,7 @@ public class MemoryApi implements IApi {
 		
 	}
 	public int obtenerValorPrioridad(String prioridad) {
-	    switch (prioridad.toLowerCase()) {
+	    switch (prioridad) {
 	        case "alta":
 	            return 1;
 	        case "media":
