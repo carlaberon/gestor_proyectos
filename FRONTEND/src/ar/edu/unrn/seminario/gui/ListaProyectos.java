@@ -119,7 +119,7 @@ public class ListaProyectos extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int opcionSeleccionada = JOptionPane.showConfirmDialog(null,
-						"Estas seguro que queres cambiar el estado del Usuario?", "Confirmar cambio de estado.",
+						"Estas seguro que queres eliminar el proyecto?", "Confirmar cambio de estado.",
 						JOptionPane.YES_NO_OPTION);
 				if (opcionSeleccionada == JOptionPane.YES_OPTION) {
 					String projectName = (String) tabla.getModel().getValueAt(tabla.getSelectedRow(), 0);
