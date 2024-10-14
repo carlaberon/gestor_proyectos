@@ -372,6 +372,7 @@ public class MemoryApi implements IApi {
 			    proyectoExistente.setPrioridad1(nuevaPrioridad);
 				if(nuevaDescripcion != null)
 			    proyectoExistente.setDescripcion(nuevaDescripcion);
+				break;
 			}
 		}
 	    
